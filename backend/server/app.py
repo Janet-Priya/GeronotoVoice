@@ -27,13 +27,30 @@ from database.db import GerontoVoiceDatabase, User, Session
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# Lifespan event handler (replaces deprecated on_event)
+from contextlib import asynccontextmanager
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    logger.info("Starting GerontoVoice Backend API")
+    logger.info("Services initialized:")
+    logger.info("- AI Agent (Ollama)")
+    logger.info("- Dialogue Manager (Rasa)")
+    logger.info("- Skill Analyzer (scikit-learn)")
+    logger.info("- Database (SQLite)")
+    yield
+    # Shutdown
+    logger.info("Shutting down GerontoVoice Backend API")
+
 # Initialize FastAPI app
 app = FastAPI(
     title="GerontoVoice Backend API",
     description="AI-powered caregiver training platform backend",
     version="1.0.0",
     docs_url="/docs",
-    redoc_url="/redoc"
+    redoc_url="/redoc",
+    lifespan=lifespan
 )
 
 # CORS middleware for frontend integration
@@ -457,23 +474,6 @@ async def internal_error_handler(request, exc):
         content={"error": "Internal server error", "detail": "An unexpected error occurred"}
     )
 
-# Startup event
-@app.on_event("startup")
-async def startup_event():
-    """Initialize services on startup"""
-    logger.info("Starting GerontoVoice Backend API")
-    logger.info("Services initialized:")
-    logger.info("- AI Agent (Ollama)")
-    logger.info("- Dialogue Manager (Rasa)")
-    logger.info("- Skill Analyzer (scikit-learn)")
-    logger.info("- Database (SQLite)")
-
-# Shutdown event
-@app.on_event("shutdown")
-async def shutdown_event():
-    """Cleanup on shutdown"""
-    logger.info("Shutting down GerontoVoice Backend API")
-
 # Root endpoint
 @app.get("/")
 async def root():
@@ -499,7 +499,7 @@ if __name__ == "__main__":
     uvicorn.run(
         "app:app",
         host="0.0.0.0",
-        port=8000,
+        port=8001,
         reload=True,
         log_level="info"
     )

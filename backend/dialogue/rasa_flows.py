@@ -1,6 +1,6 @@
 """
-Rasa NLU Integration for GerontoVoice Conversational Flows
-Handles user intent recognition and generates empathetic responses
+Simplified Dialogue Manager for GerontoVoice Conversational Flows
+Handles user intent recognition and generates empathetic responses without Rasa dependency
 """
 
 import json
@@ -8,9 +8,7 @@ import logging
 from typing import Dict, List, Optional, Tuple
 from dataclasses import dataclass
 from datetime import datetime
-import asyncio
-import subprocess
-import os
+import random
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -36,15 +34,13 @@ class DialogueResponse:
 
 class RasaDialogueManager:
     """
-    Manages Rasa NLU for caregiver training conversations
-    Handles intent recognition and empathetic response generation
+    Simplified dialogue manager for caregiver training conversations
+    Handles intent recognition and empathetic response generation without Rasa dependency
     """
     
-    def __init__(self, rasa_project_path: str = "./rasa_project"):
-        self.rasa_project_path = rasa_project_path
+    def __init__(self):
         self.intents = self._define_caregiver_intents()
         self.response_templates = self._create_response_templates()
-        self._ensure_rasa_project()
     
     def _define_caregiver_intents(self) -> Dict[str, Dict]:
         """Define caregiver-specific intents and training examples"""
@@ -272,83 +268,10 @@ class RasaDialogueManager:
             }
         }
     
-    def _ensure_rasa_project(self):
-        """Ensure Rasa project structure exists"""
-        if not os.path.exists(self.rasa_project_path):
-            os.makedirs(self.rasa_project_path, exist_ok=True)
-            self._create_rasa_config()
-            self._create_nlu_training_data()
-            self._create_domain_config()
-    
-    def _create_rasa_config(self):
-        """Create Rasa configuration file"""
-        config = {
-            "version": "3.1",
-            "recipe": "default.v1",
-            "assistant_id": "geronto_voice_assistant",
-            "language": "en",
-            "pipeline": [
-                {"name": "WhitespaceTokenizer"},
-                {"name": "RegexFeaturizer"},
-                {"name": "LexicalSyntacticFeaturizer"},
-                {"name": "CountVectorsFeaturizer"},
-                {"name": "CountVectorsFeaturizer", "analyzer": "char_wb", "min_ngram": 1, "max_ngram": 4},
-                {"name": "DIETClassifier", "epochs": 100},
-                {"name": "EntitySynonymMapper"},
-                {"name": "ResponseSelector", "epochs": 100},
-                {"name": "FallbackClassifier", "threshold": 0.3},
-                {"name": "MemoizationPolicy"},
-                {"name": "RulePolicy"}
-            ],
-            "policies": [
-                {"name": "MemoizationPolicy"},
-                {"name": "RulePolicy"},
-                {"name": "UnexpecTEDIntentPolicy", "max_history": 5, "epochs": 100},
-                {"name": "TEDPolicy", "max_history": 5, "epochs": 100}
-            ]
-        }
-        
-        with open(f"{self.rasa_project_path}/config.yml", "w") as f:
-            import yaml
-            yaml.dump(config, f, default_flow_style=False)
-    
-    def _create_nlu_training_data(self):
-        """Create NLU training data for caregiver intents"""
-        nlu_data = {
-            "version": "3.1",
-            "nlu": []
-        }
-        
-        for intent, data in self.intents.items():
-            for example in data["examples"]:
-                nlu_data["nlu"].append({
-                    "intent": intent,
-                    "examples": f"- {example}"
-                })
-        
-        with open(f"{self.rasa_project_path}/data/nlu.yml", "w") as f:
-            import yaml
-            yaml.dump(nlu_data, f, default_flow_style=False)
-    
-    def _create_domain_config(self):
-        """Create domain configuration"""
-        domain = {
-            "version": "3.1",
-            "intents": list(self.intents.keys()),
-            "entities": [],
-            "slots": {},
-            "responses": {},
-            "actions": [],
-            "forms": {}
-        }
-        
-        with open(f"{self.rasa_project_path}/domain.yml", "w") as f:
-            import yaml
-            yaml.dump(domain, f, default_flow_style=False)
     
     async def recognize_intent(self, text: str) -> IntentResult:
         """
-        Recognize user intent using Rasa NLU
+        Recognize user intent using keyword matching
         
         Args:
             text: User input text
@@ -357,8 +280,7 @@ class RasaDialogueManager:
             IntentResult with recognized intent and confidence
         """
         try:
-            # For now, use simple keyword matching
-            # In production, this would use trained Rasa model
+            # Use simple keyword matching
             intent, confidence = self._simple_intent_matching(text)
             
             return IntentResult(
@@ -429,8 +351,7 @@ class RasaDialogueManager:
             if not emotion_responses:
                 emotion_responses = templates.get("neutral", ["I understand. How can I help you?"])
             
-            # Select response (in production, this could be more sophisticated)
-            import random
+            # Select response randomly from available options
             response_text = random.choice(emotion_responses)
             
             # Generate follow-up suggestions
@@ -502,36 +423,36 @@ class RasaDialogueManager:
         return suggestions_map.get(intent, ["How can I help you?", "What's on your mind?"])
     
     def train_model(self):
-        """Train Rasa model (placeholder for production implementation)"""
-        try:
-            # In production, this would run: rasa train
-            logger.info("Rasa model training would be implemented here")
-            return True
-        except Exception as e:
-            logger.error(f"Error training Rasa model: {e}")
-            return False
+        """Placeholder for model training (not needed for simplified version)"""
+        logger.info("Simplified dialogue manager - no training required")
+        return True
 
 # Example usage and testing
 if __name__ == "__main__":
-    dialogue_manager = RasaDialogueManager()
+    import asyncio
     
-    # Test intent recognition
-    test_inputs = [
-        "Have you taken your medication today?",
-        "How are you feeling?",
-        "Can I help you with that?",
-        "I understand how you feel"
-    ]
-    
-    for text in test_inputs:
-        intent_result = await dialogue_manager.recognize_intent(text)
-        response = dialogue_manager.generate_empathetic_response(
-            intent_result.intent, 
-            "empathetic"
-        )
+    async def test_dialogue_manager():
+        dialogue_manager = RasaDialogueManager()
         
-        print(f"Input: {text}")
-        print(f"Intent: {intent_result.intent} (confidence: {intent_result.confidence})")
-        print(f"Response: {response.text}")
-        print(f"Emotion: {response.emotion}")
-        print("---")
+        # Test intent recognition
+        test_inputs = [
+            "Have you taken your medication today?",
+            "How are you feeling?",
+            "Can I help you with that?",
+            "I understand how you feel"
+        ]
+        
+        for text in test_inputs:
+            intent_result = await dialogue_manager.recognize_intent(text)
+            response = dialogue_manager.generate_empathetic_response(
+                intent_result.intent, 
+                "empathetic"
+            )
+            
+            print(f"Input: {text}")
+            print(f"Intent: {intent_result.intent} (confidence: {intent_result.confidence})")
+            print(f"Response: {response.text}")
+            print(f"Emotion: {response.emotion}")
+            print("---")
+    
+    asyncio.run(test_dialogue_manager())

@@ -36,11 +36,11 @@ class AIResponse:
 
 class GerontoVoiceAgent:
     """
-    AI Agent using Ollama Mistral for elderly persona simulations
+    AI Agent using Ollama Llama2 for elderly persona simulations
     Includes hallucination resistance via NIH symptom anchoring
     """
     
-    def __init__(self, model_name: str = "mistral"):
+    def __init__(self, model_name: str = "llama2"):
         self.model_name = model_name
         self.personas = self._initialize_personas()
         self.nih_symptoms = self._load_nih_symptoms()
