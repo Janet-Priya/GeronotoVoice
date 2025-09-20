@@ -159,6 +159,52 @@ async def health_check():
         }
     }
 
+# RAG status endpoint
+@app.get("/rag-status")
+async def rag_status():
+    """Check RAG system status and chunk count"""
+    try:
+        rag_status = {
+            "rag_enabled": ai_agent.use_rag,
+            "rag_system_initialized": ai_agent.rag_system is not None,
+            "timestamp": datetime.now().isoformat()
+        }
+        
+        if ai_agent.rag_system and ai_agent.rag_system.vectorstore:
+            try:
+                # Get chunk count from vectorstore
+                chunk_count = ai_agent.rag_system.vectorstore.index.ntotal
+                rag_status.update({
+                    "chunk_count": chunk_count,
+                    "vectorstore_ready": True,
+                    "embeddings_model": ai_agent.rag_system.model_name
+                })
+            except Exception as e:
+                rag_status.update({
+                    "chunk_count": 0,
+                    "vectorstore_ready": False,
+                    "error": str(e)
+                })
+        else:
+            rag_status.update({
+                "chunk_count": 0,
+                "vectorstore_ready": False,
+                "error": "RAG system not initialized"
+            })
+        
+        return rag_status
+        
+    except Exception as e:
+        logger.error(f"RAG status check failed: {e}")
+        return {
+            "rag_enabled": False,
+            "rag_system_initialized": False,
+            "chunk_count": 0,
+            "vectorstore_ready": False,
+            "error": str(e),
+            "timestamp": datetime.now().isoformat()
+        }
+
 # Offline mode endpoint
 @app.get("/offline")
 async def offline_mode():

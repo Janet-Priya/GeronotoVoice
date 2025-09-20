@@ -112,7 +112,7 @@ const getDefaultPersonas = (): Persona[] => [
   }
 ];
 
-// Simulate conversation with AI
+// Simulate conversation with AI (RAG-enhanced)
 export const simulateConversation = async (
     personaId: string,
     userInput: string,
@@ -121,9 +121,11 @@ export const simulateConversation = async (
   const result = await apiCall<ConversationEntry>('/simulate', {
     method: 'POST',
     body: JSON.stringify({
+      user_id: 'demo_user', // Add user_id for RAG
       persona_id: personaId,
       user_input: userInput,
       conversation_history: conversationHistory,
+      difficulty_level: 'Beginner'
     }),
   });
 
@@ -133,6 +135,23 @@ export const simulateConversation = async (
 
   // Fallback to mock response
   return generateMockResponse(personaId, userInput);
+};
+
+// Check RAG system status
+export const checkRAGStatus = async (): Promise<any> => {
+  const result = await apiCall('/rag-status');
+  
+  if (result.success && result.data) {
+    return result.data;
+  }
+
+  return {
+    rag_enabled: false,
+    rag_system_initialized: false,
+    chunk_count: 0,
+    vectorstore_ready: false,
+    error: 'RAG status check failed'
+  };
 };
 
 // Generate mock AI response for offline mode

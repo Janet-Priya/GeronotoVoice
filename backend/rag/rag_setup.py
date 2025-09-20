@@ -250,11 +250,14 @@ class GerontoRAGSystem:
     def setup_qa_chain(self, vectorstore: FAISS):
         """Setup RetrievalQA chain with Ollama"""
         try:
-            # Initialize Ollama LLM
+            # Initialize Ollama LLM with better parameters for variety
             self.ollama_llm = Ollama(
                 model="llama2",
-                temperature=0.6,
-                base_url="http://127.0.0.1:11434"
+                temperature=0.7,  # Increased for more variety
+                base_url="http://127.0.0.1:11434",
+                top_p=0.9,  # Add top_p for better sampling
+                top_k=40,   # Add top_k for diversity
+                repeat_penalty=1.1  # Reduce repetition
             )
             
             # Setup memory
@@ -354,7 +357,7 @@ class GerontoRAGSystem:
                                  persona_id: str,
                                  user_input: str,
                                  conversation_history: List[Dict] = None) -> Dict[str, Any]:
-        """Generate grounded response using RAG"""
+        """Generate grounded response using RAG with anti-repetition measures"""
         try:
             if self.qa_chain is None:
                 logger.warning("QA chain not initialized")
@@ -363,12 +366,28 @@ class GerontoRAGSystem:
             # Retrieve relevant chunks
             relevant_chunks = self.retrieve_relevant_chunks(query, persona_id)
             
-            # Create enhanced query with persona context
+            # Add conversation history context to prevent repetition
+            history_context = ""
+            if conversation_history:
+                recent_messages = conversation_history[-3:]  # Last 3 messages
+                history_context = "\n".join([
+                    f"{msg.get('speaker', 'user')}: {msg.get('text', '')}" 
+                    for msg in recent_messages
+                ])
+            
+            # Create enhanced query with persona context and anti-repetition
             persona_context = self.ai_agent._get_persona_context(persona_id)
             enhanced_query = f"""
             Persona: {persona_id} ({persona_context.get('condition', 'elderly person')})
             User Input: {user_input}
-            Context: Based on the retrieved conversation examples, respond as this persona would.
+            Recent Conversation:
+            {history_context}
+            
+            Instructions: 
+            - Respond as this persona would, based on the retrieved conversation examples
+            - Avoid repeating recent responses
+            - Be natural and varied in your responses
+            - Show appropriate emotion for the situation
             """
             
             # Generate response using QA chain
@@ -377,6 +396,9 @@ class GerontoRAGSystem:
             # Extract response and sources
             response_text = result.get("answer", "I'm not sure how to respond to that.")
             source_docs = result.get("source_documents", [])
+            
+            # Post-process to ensure variety
+            response_text = self._ensure_response_variety(response_text, conversation_history)
             
             # Get emotion detection from AI agent
             detected_emotion = self.ai_agent.detect_user_emotion(user_input)
@@ -394,12 +416,64 @@ class GerontoRAGSystem:
                 'rag_enhanced': True
             }
             
-            logger.info(f"Generated grounded response for {persona_id}")
+            logger.info(f"Generated grounded response for {persona_id} with {len(relevant_chunks)} chunks")
             return response
             
         except Exception as e:
             logger.error(f"Failed to generate grounded response: {e}")
             return self._fallback_response(query, persona_id, user_input)
+    
+    def _ensure_response_variety(self, response_text: str, conversation_history: List[Dict] = None) -> str:
+        """Ensure response variety by checking against recent conversation"""
+        if not conversation_history:
+            return response_text
+        
+        # Check for exact repetition
+        recent_responses = [
+            msg.get('text', '') for msg in conversation_history[-5:] 
+            if msg.get('speaker') == 'ai'
+        ]
+        
+        # If response is too similar to recent ones, add variation
+        for recent_response in recent_responses:
+            if self._calculate_similarity(response_text, recent_response) > 0.8:
+                logger.info("Detected repetitive response, adding variation")
+                response_text = self._add_response_variation(response_text)
+                break
+        
+        return response_text
+    
+    def _calculate_similarity(self, text1: str, text2: str) -> float:
+        """Calculate simple similarity between two texts"""
+        words1 = set(text1.lower().split())
+        words2 = set(text2.lower().split())
+        
+        if not words1 or not words2:
+            return 0.0
+        
+        intersection = words1.intersection(words2)
+        union = words1.union(words2)
+        
+        return len(intersection) / len(union) if union else 0.0
+    
+    def _add_response_variation(self, response_text: str) -> str:
+        """Add variation to repetitive responses"""
+        variations = [
+            "Well, ",
+            "You know, ",
+            "I suppose ",
+            "Actually, ",
+            "I think ",
+            "You see, ",
+            "I mean, "
+        ]
+        
+        # Add a variation prefix if not already present
+        for variation in variations:
+            if not response_text.lower().startswith(variation.lower().strip()):
+                return variation + response_text.lower()
+        
+        return response_text
     
     def _fallback_response(self, query: str, persona_id: str, user_input: str) -> Dict[str, Any]:
         """Fallback response when RAG fails"""

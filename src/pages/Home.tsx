@@ -139,8 +139,12 @@ const Home: React.FC<HomeProps> = ({
           animate={{ scale: 1 }}
           className="text-center"
         >
-          <div className="w-16 h-16 bg-gradient-primary rounded-full mx-auto mb-4 flex items-center justify-center">
-            <Brain className="h-8 w-8 text-white animate-pulse" />
+          <div className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center">
+            <img 
+              src="/logo.svg" 
+              alt="GerontaVoice Logo" 
+              className="w-16 h-16 animate-pulse"
+            />
           </div>
           <p className="text-gray-600">Loading your training environment...</p>
         </motion.div>
@@ -184,7 +188,15 @@ const Home: React.FC<HomeProps> = ({
               transition={{ delay: 0.2, type: 'spring' }}
               className={`w-24 h-24 rounded-full bg-gradient-to-r ${onboardingSteps[currentStep].gradient} mx-auto mb-6 flex items-center justify-center shadow-lg`}
             >
-              {onboardingSteps[currentStep].icon}
+              {currentStep === 0 ? (
+                <img 
+                  src="/logo.svg" 
+                  alt="GerontaVoice Logo" 
+                  className="w-16 h-16"
+                />
+              ) : (
+                onboardingSteps[currentStep].icon
+              )}
             </motion.div>
             
             <motion.h1
@@ -286,13 +298,17 @@ const Home: React.FC<HomeProps> = ({
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.2, type: 'spring' }}
-              className="w-16 h-16 bg-gradient-primary rounded-2xl flex items-center justify-center shadow-lg mr-4"
+              className="w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg mr-4"
             >
-              <Brain className="h-8 w-8 text-white" />
+              <img 
+                src="/logo.svg" 
+                alt="GerontaVoice Logo" 
+                className="w-16 h-16"
+              />
             </motion.div>
             <div>
               <h1 className="text-3xl font-bold text-gray-800">GerontoVoice</h1>
-              <p className="text-blue-600 font-medium">AI Caregiver Training</p>
+              <p className="text-blue-600 font-medium">CARE WITH CLARITY</p>
             </div>
           </div>
           
@@ -646,8 +662,12 @@ const Home: React.FC<HomeProps> = ({
         <div className="mt-16 bg-white/95 backdrop-blur-sm border-t border-gray-200 px-4 py-3 rounded-t-2xl">
           <div className="flex justify-around max-w-md mx-auto">
             <button className="flex flex-col items-center py-2 px-4 text-blue-600">
-              <div className="w-8 h-8 bg-blue-600 rounded-xl flex items-center justify-center mb-1">
-                <Brain className="h-5 w-5 text-white" />
+              <div className="w-8 h-8 rounded-xl flex items-center justify-center mb-1">
+                <img 
+                  src="/logo.svg" 
+                  alt="GerontaVoice Logo" 
+                  className="w-8 h-8"
+                />
               </div>
               <span className="text-sm font-medium">Home</span>
             </button>

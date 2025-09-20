@@ -5,6 +5,8 @@ interface ConversationEntry {
   speaker: 'user' | 'ai';
   text: string;
   timestamp: Date;
+  emotion?: string;
+  confidence?: number;
 }
 
 interface ConversationViewProps {
@@ -24,7 +26,7 @@ export default function ConversationView({ conversation, className = '' }: Conve
   return (
     <div 
       ref={scrollRef}
-      className={`overflow-y-auto space-y-4 ${className}`}
+      className={`overflow-y-auto space-y-4 p-4 ${className}`}
     >
       {conversation.length === 0 ? (
         <div className="text-center py-12">
@@ -62,14 +64,32 @@ export default function ConversationView({ conversation, className = '' }: Conve
               }`}>
                 <p className="text-sm leading-relaxed">{entry.text}</p>
               </div>
-              <p className={`text-xs mt-1 ${
-                entry.speaker === 'user' ? 'text-blue-400' : 'text-gray-500'
+              <div className={`flex items-center mt-1 space-x-2 ${
+                entry.speaker === 'user' ? 'justify-end' : 'justify-start'
               }`}>
-                {entry.timestamp.toLocaleTimeString([], { 
-                  hour: '2-digit', 
-                  minute: '2-digit' 
-                })}
-              </p>
+                <p className={`text-xs ${
+                  entry.speaker === 'user' ? 'text-blue-400' : 'text-gray-500'
+                }`}>
+                  {entry.timestamp.toLocaleTimeString([], { 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
+                  })}
+                </p>
+                {entry.emotion && (
+                  <span className={`text-xs px-2 py-1 rounded-full ${
+                    entry.speaker === 'user' 
+                      ? 'bg-blue-200 text-blue-700' 
+                      : 'bg-gray-200 text-gray-600'
+                  }`}>
+                    {entry.emotion}
+                  </span>
+                )}
+                {entry.confidence && (
+                  <span className="text-xs text-gray-400">
+                    {Math.round(entry.confidence * 100)}%
+                  </span>
+                )}
+              </div>
             </div>
           </div>
         ))

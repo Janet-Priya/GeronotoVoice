@@ -294,18 +294,58 @@ Respond as {persona.name} would in a conversation with a caregiver, considering 
             # Add current user input
             messages.append({"role": "user", "content": user_input})
             
-            # Generate response using Ollama
-            response = ollama.chat(
-                model=self.model_name,
-                messages=messages,
-                options={
-                    "temperature": 0.7,
-                    "top_p": 0.9,
-                    "max_tokens": 150
-                }
-            )
-            
-            ai_text = response['message']['content'].strip()
+            # Try RAG-enhanced response first if available
+            if self.use_rag and self.rag_system:
+                try:
+                    rag_response = self.rag_system.generate_grounded_response(
+                        query=user_input,
+                        persona_id=persona_id,
+                        user_input=user_input,
+                        conversation_history=conversation_history or []
+                    )
+                    
+                    if rag_response and rag_response.get('rag_enhanced', False):
+                        logger.info(f"Using RAG-enhanced response for {persona_id}")
+                        ai_text = rag_response['text']
+                        rag_enhanced = True
+                        relevant_chunks = rag_response.get('relevant_chunks', [])
+                        source_documents = rag_response.get('source_documents', 0)
+                    else:
+                        raise Exception("RAG response not enhanced")
+                except Exception as e:
+                    logger.warning(f"RAG response failed, falling back to direct generation: {e}")
+                    rag_enhanced = False
+                    relevant_chunks = []
+                    source_documents = 0
+                    
+                    # Generate response using Ollama
+                    response = ollama.chat(
+                        model=self.model_name,
+                        messages=messages,
+                        options={
+                            "temperature": 0.7,
+                            "top_p": 0.9,
+                            "max_tokens": 150,
+                            "repeat_penalty": 1.1  # Reduce repetition
+                        }
+                    )
+                    ai_text = response['message']['content'].strip()
+            else:
+                # Generate response using Ollama
+                response = ollama.chat(
+                    model=self.model_name,
+                    messages=messages,
+                    options={
+                        "temperature": 0.7,
+                        "top_p": 0.9,
+                        "max_tokens": 150,
+                        "repeat_penalty": 1.1  # Reduce repetition
+                    }
+                )
+                ai_text = response['message']['content'].strip()
+                rag_enhanced = False
+                relevant_chunks = []
+                source_documents = 0
             
             # Analyze emotion from response
             emotion = self._analyze_emotion(ai_text, persona)
@@ -333,9 +373,9 @@ Respond as {persona.name} would in a conversation with a caregiver, considering 
                 detected_user_emotion=detected_emotion,
                 memory_context=list(self.conversation_memory),
                 difficulty_level=difficulty_level,
-                rag_enhanced=False,
-                relevant_chunks=[],
-                source_documents=0
+                rag_enhanced=rag_enhanced,
+                relevant_chunks=relevant_chunks,
+                source_documents=source_documents
             )
             
         except Exception as e:

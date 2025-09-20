@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Mic, MicOff, Volume2, VolumeX, Loader2 } from 'lucide-react';
 import { ConversationEntry } from '../types';
+import toast from 'react-hot-toast';
 
 interface VoiceButtonProps {
   isListening: boolean;
@@ -29,8 +30,11 @@ const VoiceButton: React.FC<VoiceButtonProps> = ({
 }) => {
   const [isSupported, setIsSupported] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const synthesisRef = useRef<SpeechSynthesis | null>(null);
+  const finalTranscriptRef = useRef<string>('');
+  const interimTranscriptRef = useRef<string>('');
 
   // Check for Web Speech API support
   useEffect(() => {
@@ -58,64 +62,150 @@ const VoiceButton: React.FC<VoiceButtonProps> = ({
     recognitionRef.current = new SpeechRecognition();
     
     if (recognitionRef.current) {
-      recognitionRef.current.continuous = true;
+      recognitionRef.current.continuous = false; // Changed to false to prevent loops
       recognitionRef.current.interimResults = true;
       recognitionRef.current.lang = 'en-US';
+      recognitionRef.current.maxAlternatives = 1;
       
       recognitionRef.current.onstart = () => {
         setError(null);
+        console.log('Speech recognition started');
       };
       
       recognitionRef.current.onerror = (event) => {
+        console.error('Speech recognition error:', event.error);
         setError(`Speech recognition error: ${event.error}`);
+        
+        // Handle specific errors
+        switch (event.error) {
+          case 'not-allowed':
+            toast.error('Microphone permission denied. Please allow microphone access.');
+            break;
+          case 'no-speech':
+            toast.error('No speech detected. Please try again.');
+            break;
+          case 'audio-capture':
+            toast.error('No microphone found. Please check your microphone.');
+            break;
+          case 'network':
+            toast.error('Network error. Please check your connection.');
+            break;
+          default:
+            toast.error(`Speech recognition error: ${event.error}`);
+        }
       };
       
       recognitionRef.current.onresult = (event) => {
-        const transcript = Array.from(event.results)
-          .map(result => result[0])
-          .map(result => result.transcript)
-          .join('');
+        let interimTranscript = '';
+        let finalTranscript = '';
         
-        if (event.results[event.results.length - 1].isFinal) {
-          // Process final transcript
-          console.log('Final transcript:', transcript);
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          const transcript = event.results[i][0].transcript;
+          if (event.results[i].isFinal) {
+            finalTranscript += transcript;
+          } else {
+            interimTranscript += transcript;
+          }
         }
+        
+        interimTranscriptRef.current = interimTranscript;
+        finalTranscriptRef.current = finalTranscript;
+        
+        if (finalTranscript) {
+          console.log('Final transcript:', finalTranscript);
+          // Process final transcript here
+        }
+      };
+      
+      recognitionRef.current.onend = () => {
+        console.log('Speech recognition ended');
+        if (finalTranscriptRef.current) {
+          // Process the final transcript
+          console.log('Processing final transcript:', finalTranscriptRef.current);
+        }
+      };
+      
+      recognitionRef.current.onspeechstart = () => {
+        console.log('Speech started');
+      };
+      
+      recognitionRef.current.onspeechend = () => {
+        console.log('Speech ended');
       };
     }
 
     if ('speechSynthesis' in window) {
       synthesisRef.current = window.speechSynthesis;
     }
+    
+    setIsInitialized(true);
   }, [isSupported]);
 
   const handleClick = () => {
-    if (!isSupported) {
-      setError('Speech features not supported');
+    if (!isSupported || !isInitialized) {
+      setError('Speech features not supported or not initialized');
+      toast.error('Speech features not available');
       return;
     }
 
-    if (isProcessing) return;
+    if (isProcessing) {
+      toast.error('Already processing speech');
+      return;
+    }
 
     if (isListening) {
       onStopListening();
       if (recognitionRef.current) {
-        recognitionRef.current.stop();
+        try {
+          recognitionRef.current.stop();
+        } catch (error) {
+          console.error('Error stopping recognition:', error);
+        }
       }
     } else {
       onStartListening();
       if (recognitionRef.current) {
-        recognitionRef.current.start();
+        try {
+          // Clear previous transcripts
+          finalTranscriptRef.current = '';
+          interimTranscriptRef.current = '';
+          recognitionRef.current.start();
+        } catch (error) {
+          console.error('Error starting recognition:', error);
+          toast.error('Failed to start speech recognition');
+        }
       }
     }
   };
 
   const speakText = (text: string) => {
     if (synthesisRef.current && voiceEnabled) {
+      // Cancel any ongoing speech
+      synthesisRef.current.cancel();
+      
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.rate = 0.8;
       utterance.pitch = 1;
       utterance.volume = 0.8;
+      
+      utterance.onerror = (event) => {
+        console.error('Speech synthesis error:', event.error);
+        toast.error('Speech synthesis failed');
+      };
+      
+      utterance.onend = () => {
+        console.log('Speech synthesis completed');
+      };
+      
       synthesisRef.current.speak(utterance);
+    }
+  };
+
+  // Add text input fallback
+  const handleTextInput = (text: string) => {
+    if (text.trim()) {
+      console.log('Text input fallback:', text);
+      // Process text input here
     }
   };
 
@@ -198,12 +288,19 @@ const VoiceButton: React.FC<VoiceButtonProps> = ({
         )}
         
         {!isSupported && (
-          <p className="text-gray-500 text-sm mb-2">
-            Voice features not supported in this browser
+          <div className="text-gray-500 text-sm mb-2">
+            <p>Voice features not supported in this browser</p>
+            <p className="text-xs mt-1">Please use Chrome or Edge for best experience</p>
+          </div>
+        )}
+        
+        {isSupported && !isInitialized && (
+          <p className="text-yellow-600 text-sm mb-2">
+            Initializing speech recognition...
           </p>
         )}
         
-        {isSupported && (
+        {isSupported && isInitialized && (
           <p className="text-gray-600 text-sm">
             {buttonState === 'processing' && 'Processing...'}
             {buttonState === 'listening' && 'Listening...'}
@@ -216,6 +313,24 @@ const VoiceButton: React.FC<VoiceButtonProps> = ({
           <p className="text-xs text-gray-500 mt-1">
             Confidence: {Math.round(confidence * 100)}%
           </p>
+        )}
+        
+        {/* Text Input Fallback */}
+        {!isSupported && (
+          <div className="mt-4">
+            <input
+              type="text"
+              placeholder="Type your message here..."
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  handleTextInput((e.target as HTMLInputElement).value);
+                  (e.target as HTMLInputElement).value = '';
+                }
+              }}
+            />
+            <p className="text-xs text-gray-400 mt-1">Press Enter to send</p>
+          </div>
         )}
       </div>
 
