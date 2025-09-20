@@ -1,132 +1,611 @@
+/* Import handwritten fonts for cozy elderly-friendly interface */
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower:wght@400;700&family=Comic+Neue:wght@300;400;700&family=Kalam:wght@300;400;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@layer base {
+  :root {
+    /* Warm nature-inspired color palette */
+    --background: 35 70% 96%;
+    --foreground: 25 80% 20%;
 
-* {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    --card: 42 85% 97%;
+    --card-foreground: 25 80% 20%;
+
+    --popover: 42 85% 97%;
+    --popover-foreground: 25 80% 20%;
+
+    /* Rich terracotta primary */
+    --primary: 18 75% 55%;
+    --primary-foreground: 42 85% 97%;
+
+    /* Warm amber secondary */
+    --secondary: 42 85% 88%;
+    --secondary-foreground: 25 80% 25%;
+
+    /* Muted earth tones */
+    --muted: 38 45% 85%;
+    --muted-foreground: 25 50% 45%;
+
+    /* Golden sunset accent */
+    --accent: 42 90% 82%;
+    --accent-foreground: 25 80% 20%;
+
+    /* Warm warning colors */
+    --destructive: 15 85% 65%;
+    --destructive-foreground: 42 85% 97%;
+
+    /* Warm natural borders */
+    --border: 38 45% 75%;
+    --input: 38 45% 75%;
+    --ring: 18 75% 55%;
+
+    /* Cozy radius */
+    --radius: 1.5rem;
+
+    /* Warm sidebar colors */
+    --sidebar-background: 42 85% 95%;
+    --sidebar-foreground: 25 80% 20%;
+    --sidebar-primary: 18 75% 55%;
+    --sidebar-primary-foreground: 42 85% 97%;
+    --sidebar-accent: 42 85% 85%;
+    --sidebar-accent-foreground: 25 80% 25%;
+    --sidebar-border: 38 45% 75%;
+    --sidebar-ring: 18 75% 55%;
+
+    /* Enhanced warm nature colors */
+    --cozy-cream: 42 85% 95%;
+    --cozy-sage: 85 45% 70%;
+    --cozy-forest: 95 55% 40%;
+    --cozy-earth: 35 65% 65%;
+    --cozy-sunset: 25 85% 70%;
+    --cozy-moss: 75 50% 50%;
+    --cozy-bark: 28 45% 45%;
+    --cozy-rust: 18 75% 60%;
+    --cozy-amber: 42 90% 75%;
+    --cozy-terracotta: 12 70% 60%;
+
+    /* Enhanced warm gradients */
+    --gradient-forest: linear-gradient(135deg, hsl(var(--cozy-forest)), hsl(var(--cozy-sage)));
+    --gradient-sunset: linear-gradient(to bottom right, hsl(var(--cozy-sunset)), hsl(var(--cozy-amber)));
+    --gradient-earth: linear-gradient(45deg, hsl(var(--cozy-rust)), hsl(var(--cozy-cream)));
+    --gradient-terracotta: linear-gradient(135deg, hsl(var(--cozy-terracotta)), hsl(var(--cozy-rust)));
+    --gradient-amber: linear-gradient(to right, hsl(var(--cozy-amber)), hsl(var(--cozy-sunset)));
+    
+    /* Organic shadows */
+    --shadow-leaf: 0 8px 32px hsla(var(--cozy-forest), 0.2);
+    --shadow-warm: 0 6px 20px hsla(25, 85%, 70%, 0.3);
+    --shadow-earth: 0 4px 16px hsla(var(--cozy-earth), 0.15);
+    
+    /* Natural transitions */
+    --transition-organic: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  html, body {
+    min-height: 100%;
+    background: hsl(var(--cream));
+    font-family: 'Comic Neue', 'Indie Flower', cursive, sans-serif;
+    color: hsl(var(--brown));
+    letter-spacing: 0.01em;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    background: hsl(var(--cream));
+  }
+
+  .handwritten, h1, h2, h3, .handwritten-large {
+    font-family: 'Kalam', 'Indie Flower', cursive;
+    font-weight: 700;
+    color: #1f2937;
+  }
+
+  .handwritten-large, h1 {
+    font-size: 2.5rem;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    font-size: 1.15rem;
+    color: hsl(var(--brown) / 0.7);
+    margin-bottom: 2rem;
+  }
+
+  .main-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2.5rem 1rem 6rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .practice-section {
+    display: flex;
+    gap: 2.5rem;
+    margin-top: 2rem;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .practice-card, .quickstart-card {
+    background: hsl(var(--cream-dark));
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: 1.5px solid hsl(var(--green-light));
+    padding: 2rem 2.5rem;
+    min-width: 320px;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    position: relative;
+    transition: box-shadow 0.2s;
+  }
+
+  .practice-card {
+    margin-right: 0.5rem;
+  }
+
+  .practice-card-title, .quickstart-title {
+    font-family: 'Indie Flower', cursive;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: hsl(var(--brown));
+  }
+
+  .practice-stats {
+    background: hsl(var(--green-light));
+    border-radius: 1rem;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1rem;
+    color: hsl(var(--brown));
+  }
+
+  .practice-stats:last-child {
+    margin-bottom: 0;
+  }
+
+  .practice-level {
+    font-family: 'Indie Flower', cursive;
+    font-size: 1.2rem;
+    color: hsl(var(--green));
+    margin-left: 0.5rem;
+  }
+
+  .quickstart-btn {
+    margin-top: 0.5rem;
+    background: none;
+    border: 2px solid hsl(var(--green));
+    color: hsl(var(--green));
+    border-radius: 1.25rem;
+    padding: 1.25rem 0;
+    font-size: 1.15rem;
+    font-family: 'Comic Neue', sans-serif;
+    font-weight: 600;
+    width: 100%;
+    opacity: 0.5;
+    cursor: not-allowed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border 0.2s, color 0.2s;
+  }
+
+  .quickstart-btn svg {
+    margin-right: 0.75rem;
+    font-size: 1.3rem;
+  }
+
+  .quickstart-progress {
+    margin-top: 2.5rem;
+    display: flex;
+    align-items: center;
+    color: hsl(var(--brown));
+    font-size: 1.1rem;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+  }
+
+  .quickstart-progress:hover {
+    opacity: 1;
+    text-decoration: underline;
+  }
+
+  .quickstart-progress svg {
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+  }
+
+  /* Bottom Navigation */
+  .bottom-nav {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100vw;
+    background: hsl(var(--cream-dark));
+    border-top: 1.5px solid hsl(var(--green-light));
+    box-shadow: 0 -2px 16px 0 hsla(85, 35%, 40%, 0.04);
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    padding: 0.75rem 0 0.5rem 0;
+    z-index: 100;
+  }
+
+  .nav-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: hsl(var(--brown) / 0.7);
+    font-size: 1.1rem;
+    font-family: 'Comic Neue', sans-serif;
+    font-weight: 500;
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 0.25rem 1.25rem 0.1rem 1.25rem;
+    border-radius: 1rem;
+  }
+
+  .nav-btn.active {
+    background: hsl(var(--green));
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .nav-btn svg {
+    font-size: 1.5rem;
+    margin-bottom: 0.2rem;
+  }
+
+  /* App Bar */
+  .appbar {
+    width: 100vw;
+    background: hsl(var(--cream-dark));
+    border-bottom: 1.5px solid hsl(var(--green-light));
+    box-shadow: 0 2px 16px 0 hsla(85, 35%, 40%, 0.04);
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 2rem;
+    gap: 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+  }
+
+  .appbar-logo {
+    width: 54px;
+    height: 54px;
+    border-radius: 1rem;
+    background: linear-gradient(135deg, hsl(var(--green-light)), hsl(var(--green)));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.1rem;
+    margin-right: 0.5rem;
+    box-shadow: 0 2px 8px 0 hsla(85, 35%, 40%, 0.08);
+  }
+
+  .appbar-title {
+    font-family: 'Indie Flower', cursive;
+    font-size: 2rem;
+    color: hsl(var(--brown));
+    font-weight: 700;
+    margin-bottom: 0.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .appbar-subtitle {
+    font-family: 'Comic Neue', sans-serif;
+    font-size: 1.05rem;
+    color: hsl(var(--brown) / 0.7);
+    margin-top: -0.2rem;
+    margin-left: 0.1rem;
+  }
+}
+
+/* Cozy handwritten design system for elderly users */
+@layer base {
+  :root {
+    /* Warm nature-inspired color palette */
+    --background: 35 70% 96%;
+    --foreground: 25 80% 20%;
+
+    --card: 42 85% 97%;
+    --card-foreground: 25 80% 20%;
+
+    --popover: 42 85% 97%;
+    --popover-foreground: 25 80% 20%;
+
+    /* Rich terracotta primary */
+    --primary: 18 75% 55%;
+    --primary-foreground: 42 85% 97%;
+
+    /* Warm amber secondary */
+    --secondary: 42 85% 88%;
+    --secondary-foreground: 25 80% 25%;
+
+    /* Muted earth tones */
+    --muted: 38 45% 85%;
+    --muted-foreground: 25 50% 45%;
+
+    /* Golden sunset accent */
+    --accent: 42 90% 82%;
+    --accent-foreground: 25 80% 20%;
+
+    /* Warm warning colors */
+    --destructive: 15 85% 65%;
+    --destructive-foreground: 42 85% 97%;
+
+    /* Warm natural borders */
+    --border: 38 45% 75%;
+    --input: 38 45% 75%;
+    --ring: 18 75% 55%;
+
+    /* Cozy radius */
+    --radius: 1.5rem;
+
+    /* Warm sidebar colors */
+    --sidebar-background: 42 85% 95%;
+    --sidebar-foreground: 25 80% 20%;
+    --sidebar-primary: 18 75% 55%;
+    --sidebar-primary-foreground: 42 85% 97%;
+    --sidebar-accent: 42 85% 85%;
+    --sidebar-accent-foreground: 25 80% 25%;
+    --sidebar-border: 38 45% 75%;
+    --sidebar-ring: 18 75% 55%;
+
+    /* Enhanced warm nature colors */
+    --cozy-cream: 42 85% 95%;
+    --cozy-sage: 85 45% 70%;
+    --cozy-forest: 95 55% 40%;
+    --cozy-earth: 35 65% 65%;
+    --cozy-sunset: 25 85% 70%;
+    --cozy-moss: 75 50% 50%;
+    --cozy-bark: 28 45% 45%;
+    --cozy-rust: 18 75% 60%;
+    --cozy-amber: 42 90% 75%;
+    --cozy-terracotta: 12 70% 60%;
+
+    /* Enhanced warm gradients */
+    --gradient-forest: linear-gradient(135deg, hsl(var(--cozy-forest)), hsl(var(--cozy-sage)));
+    --gradient-sunset: linear-gradient(to bottom right, hsl(var(--cozy-sunset)), hsl(var(--cozy-amber)));
+    --gradient-earth: linear-gradient(45deg, hsl(var(--cozy-rust)), hsl(var(--cozy-cream)));
+    --gradient-terracotta: linear-gradient(135deg, hsl(var(--cozy-terracotta)), hsl(var(--cozy-rust)));
+    --gradient-amber: linear-gradient(to right, hsl(var(--cozy-amber)), hsl(var(--cozy-sunset)));
+    
+    /* Organic shadows */
+    --shadow-leaf: 0 8px 32px hsla(var(--cozy-forest), 0.2);
+    --shadow-warm: 0 6px 20px hsla(25, 85%, 70%, 0.3);
+    --shadow-earth: 0 4px 16px hsla(var(--cozy-earth), 0.15);
+    
+    /* Natural transitions */
+    --transition-organic: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
 }
 
 body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  font-family: 'Comic Neue', 'Indie Flower', cursive, sans-serif;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--cozy-cream)) 0%,
+    hsl(var(--cozy-amber)) 25%,
+    hsl(var(--cozy-sunset)) 50%,
+    hsl(var(--cozy-rust)) 100%
+  );
+  background-attachment: fixed;
+  line-height: 1.6;
+  position: relative;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
+/* Nature-inspired background texture */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 30%, hsla(85, 35%, 35%, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, hsla(75, 25%, 85%, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 40% 80%, hsla(25, 85%, 80%, 0.04) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
 }
 
-::-webkit-scrollbar-track {
-  background: #f1f5f9;
-  border-radius: 3px;
+/* Handwritten headings */
+.handwritten {
+  font-family: 'Indie Flower', cursive;
+  font-weight: 700;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 3px;
+.handwritten-large {
+  font-family: 'Indie Flower', cursive;
+  font-weight: 700;
+  font-size: 2.5rem;
+  line-height: 1.2;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+/* Cozy container styles with nature elements */
+.cozy-container {
+  background: linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--cozy-sage)) 100%);
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-leaf);
+  border: 2px solid hsl(var(--border));
+  position: relative;
+  overflow: hidden;
 }
 
-/* Smooth animations */
-* {
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
+.cozy-container::before {
+  content: '🌿';
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  opacity: 0.3;
+  animation: gentle-sway 4s ease-in-out infinite;
 }
 
-/* Custom gradient backgrounds */
-.gradient-bg-primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+.cozy-card {
+  background: linear-gradient(145deg, hsl(var(--cozy-cream)) 0%, hsl(var(--card)) 100%);
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  border: 2px solid hsl(var(--primary) / 0.2);
+  box-shadow: var(--shadow-warm);
+  position: relative;
+  transition: var(--transition-organic);
 }
 
-.gradient-bg-secondary {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-}
-
-.gradient-bg-success {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-}
-
-/* Glassmorphism effect */
-.glass {
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-}
-
-/* Floating animation */
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-}
-
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
-
-/* Pulse glow effect */
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
-  50% { box-shadow: 0 0 30px rgba(59, 130, 246, 0.6); }
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
-}
-
-/* Shimmer effect */
-@keyframes shimmer {
-  0% { background-position: -200px 0; }
-  100% { background-position: calc(200px + 100%) 0; }
-}
-
-.shimmer {
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-  background-size: 200px 100%;
-  animation: shimmer 1.5s infinite;
-}
-
-/* Enhanced focus states */
-.focus-ring:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
-}
-
-/* Custom button hover effects */
-.btn-hover-lift:hover {
+.cozy-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-leaf);
 }
 
-/* Conversation bubble animations */
-.message-enter {
-  opacity: 0;
-  transform: translateY(20px) scale(0.95);
+/* Nature-inspired voice button */
+.voice-button {
+  background: var(--gradient-forest);
+  border-radius: 50%;
+  width: 6rem;
+  height: 6rem;
+  border: 3px solid hsl(var(--primary));
+  cursor: pointer;
+  box-shadow: 0 0 30px hsl(var(--primary) / 0.4), inset 0 2px 8px hsl(var(--cozy-moss) / 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: hsl(var(--primary-foreground));
+  transition: var(--transition-organic);
+  animation: nature-pulse 3s infinite;
+  position: relative;
 }
 
-.message-enter-active {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  transition: all 0.3s ease-out;
+.voice-button::after {
+  content: '🍃';
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  font-size: 1.2rem;
+  animation: leaf-flutter 2s ease-in-out infinite alternate;
 }
 
-/* Voice wave animation */
-@keyframes voice-wave {
-  0%, 100% { height: 4px; }
-  50% { height: 20px; }
+.voice-button:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 40px hsl(var(--primary) / 0.6), inset 0 2px 12px hsl(var(--cozy-moss) / 0.5);
 }
 
-.voice-wave {
-  animation: voice-wave 1s ease-in-out infinite;
+.voice-button:active {
+  transform: scale(0.98);
 }
 
-.voice-wave:nth-child(2) { animation-delay: 0.1s; }
-.voice-wave:nth-child(3) { animation-delay: 0.2s; }
-.voice-wave:nth-child(4) { animation-delay: 0.3s; }
-.voice-wave:nth-child(5) { animation-delay: 0.4s; }
+@keyframes nature-pulse {
+  0%, 100% {
+    box-shadow: 0 0 30px hsl(var(--primary) / 0.4);
+  }
+  50% {
+    box-shadow: 0 0 40px hsl(var(--primary) / 0.6);
+  }
+}
+
+@keyframes leaf-flutter {
+  0% { transform: rotate(-5deg) translateY(0px); }
+  100% { transform: rotate(5deg) translateY(-2px); }
+}
+
+@keyframes gentle-sway {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
+}
+
+/* Nature-inspired buttons for elderly users */
+.elderly-button {
+  font-family: 'Comic Neue', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  padding: 1.25rem 2.5rem;
+  border-radius: var(--radius);
+  border: 2px solid hsl(var(--primary));
+  background: var(--gradient-forest);
+  color: hsl(var(--primary-foreground));
+  cursor: pointer;
+  transition: var(--transition-organic);
+  box-shadow: var(--shadow-warm);
+  position: relative;
+  overflow: hidden;
+}
+
+.elderly-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transition: left 0.5s;
+}
+
+.elderly-button:hover::before {
+  left: 100%;
+}
+
+.elderly-button:hover {
+  background: var(--gradient-sunset);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-leaf);
+}
+
+.elderly-button-secondary {
+  background: var(--gradient-earth);
+  color: hsl(var(--secondary-foreground));
+  border-color: hsl(var(--border));
+}
+
+.elderly-button-secondary:hover {
+  background: hsl(var(--cozy-sage));
+  transform: translateY(-2px);
+}
+
+/* Progress bars with natural styling */
+.cozy-progress {
+  background: linear-gradient(135deg, hsl(var(--muted)), hsl(var(--cozy-sage)));
+  border-radius: calc(var(--radius) / 2);
+  border: 2px solid hsl(var(--border));
+  overflow: hidden;
+  position: relative;
+}
+
+.cozy-progress::after {
+  content: '🌱';
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
+
+.cozy-progress-fill {
+  background: var(--gradient-forest);
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: calc(var(--radius) / 2);
+  box-shadow: inset 0 2px 4px rgba(255,255,255,0.2);
+}
+.cozy-progress-fill.animated {
+  animation: growth-surge 1.5s ease-out;
+}

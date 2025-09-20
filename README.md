@@ -13,6 +13,9 @@ A comprehensive voice-first AI platform designed to help family caregivers pract
 - **Multi-Language Support**: Available in 8 languages including English, Spanish, French, and Chinese
 - **Offline-Ready**: Local storage and progressive web app capabilities
 - **Privacy-Focused**: No data collection, all processing happens locally
+- **Premium UX**: Glassmorphism design, floating animations, confetti celebrations
+- **Gamification**: Achievement system, progress tracking, skill meters with Chart.js
+- **Real-time Feedback**: Voice wave animations, confidence scoring, emotion detection
 
 ### Backend (Python + FastAPI)
 - **Local AI Integration**: Ollama with Mistral model for realistic elderly persona simulations
@@ -63,6 +66,9 @@ GerontoVoice/
    ```bash
    # Install dependencies
    npm install
+   
+   # Install additional dependencies for enhanced features
+   npm install chart.js react-chartjs-2 react-confetti react-audio-analyser framer-motion react-hot-toast
    
    # Start development server
    npm run dev
