@@ -122,6 +122,26 @@ export interface CommunityPost {
   tags: string[];
 }
 
+export interface CommunityMessage {
+  id: string;
+  author: string;
+  avatar: string;
+  content: string;
+  timestamp: Date;
+  reactions: {
+    emoji: string;
+    count: number;
+    users: string[];
+  }[];
+  isOwnMessage?: boolean;
+}
+
+export interface CommunityReaction {
+  emoji: string;
+  count: number;
+  users: string[];
+}
+
 // Language options
 export interface LanguageOption {
   code: string;

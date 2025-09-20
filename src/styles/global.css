@@ -230,6 +230,35 @@ body {
   }
 }
 
+@keyframes hero-float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(5deg);
+  }
+}
+
+@keyframes hero-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+}
+
+@keyframes connection-glow {
+  0%, 100% {
+    stroke-opacity: 0.6;
+  }
+  50% {
+    stroke-opacity: 1;
+  }
+}
+
 /* Animation utility classes */
 @layer utilities {
   .animate-float {
@@ -277,6 +306,18 @@ body {
   
   .animate-confetti {
     animation: confetti-fall 3s linear infinite;
+  }
+  
+  .animate-hero-float {
+    animation: hero-float 4s ease-in-out infinite;
+  }
+  
+  .animate-hero-pulse {
+    animation: hero-pulse 2s ease-in-out infinite;
+  }
+  
+  .animate-connection-glow {
+    animation: connection-glow 3s ease-in-out infinite;
   }
 }
 
