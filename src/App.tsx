@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Simulation from './pages/Simulation';
 import Feedback from './pages/Feedback';
 import Progress from './pages/Progress';
+import Community from './pages/Community';
 import './styles/global.css';
 
 // Main App Component
@@ -296,18 +297,9 @@ function App() {
       )}
 
       {currentPage === 'community' && (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-800 mb-4">Community Page</h1>
-            <p className="text-gray-600 mb-4">Coming soon! Connect with other caregivers here.</p>
-              <button
-              onClick={() => handleNavigate('home')}
-              className="btn-primary"
-            >
-              Return to Home
-              </button>
-            </div>
-          </div>
+        <Community
+          onNavigate={handleNavigate}
+        />
       )}
     </div>
   );

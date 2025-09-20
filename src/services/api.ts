@@ -1,4 +1,4 @@
-import { ConversationEntry, Persona, SkillScore, Session, UserProgress, ApiResponse, OfflineData } from '../types';
+import { ConversationEntry, Persona, SkillScore, Session, UserProgress, ApiResponse, OfflineData, CommunityMessage } from '../types';
 
 const API_BASE_URL = 'http://localhost:8001';
 const OFFLINE_KEY = 'geronto_voice_offline_data';
@@ -25,8 +25,8 @@ const setOfflineData = (data: Partial<OfflineData>): void => {
 
 // Generic API call with error handling
 const apiCall = async <T>(
-  endpoint: string,
-  options: RequestInit = {}
+    endpoint: string, 
+    options: RequestInit = {}
 ): Promise<ApiResponse<T>> => {
   try {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
@@ -36,14 +36,14 @@ const apiCall = async <T>(
       },
       ...options,
     });
-
-    if (!response.ok) {
+      
+      if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-    }
+      }
 
     const data = await response.json();
     return { success: true, data };
-  } catch (error) {
+    } catch (error) {
     console.error(`API call failed for ${endpoint}:`, error);
     return {
       success: false,
@@ -114,9 +114,9 @@ const getDefaultPersonas = (): Persona[] => [
 
 // Simulate conversation with AI
 export const simulateConversation = async (
-  personaId: string,
-  userInput: string,
-  conversationHistory: ConversationEntry[] = []
+    personaId: string,
+    userInput: string,
+    conversationHistory: ConversationEntry[] = []
 ): Promise<ConversationEntry> => {
   const result = await apiCall<ConversationEntry>('/simulate', {
     method: 'POST',
@@ -178,7 +178,7 @@ const generateMockResponse = (personaId: string, userInput: string): Conversatio
 
 // Get skill feedback
 export const getSkillFeedback = async (
-  sessionId: string,
+    sessionId: string,
   conversation: ConversationEntry[]
 ): Promise<SkillScore[]> => {
   const result = await apiCall<SkillScore[]>('/feedback', {
@@ -338,3 +338,91 @@ export const syncOfflineData = async (): Promise<boolean> => {
     return false;
   }
 };
+
+// Get community messages
+export const getCommunityMessages = async (): Promise<CommunityMessage[]> => {
+  const result = await apiCall<CommunityMessage[]>('/community/messages');
+  
+  if (result.success && result.data) {
+    return result.data;
+  }
+
+  // Return mock community messages for demo
+  return getMockCommunityMessages();
+};
+
+// Generate mock community messages
+const getMockCommunityMessages = (): CommunityMessage[] => [
+  {
+    id: 'msg_1',
+    author: 'Sarah Chen',
+    avatar: 'SC',
+    content: 'Just completed my first session with Margaret today. Her gentle confusion about her medication really touched my heart. The AI gave me such helpful tips on how to respond with patience and empathy. This platform is truly a blessing! 💙',
+    timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
+    reactions: [
+      { emoji: '❤️', count: 8, users: ['user1', 'user2', 'user3', 'user4', 'user5', 'user6', 'user7', 'user8'] },
+      { emoji: '👍', count: 5, users: ['user9', 'user10', 'user11', 'user12', 'user13'] },
+      { emoji: '😊', count: 3, users: ['user14', 'user15', 'user16'] }
+    ]
+  },
+  {
+    id: 'msg_2',
+    author: 'Michael Rodriguez',
+    avatar: 'MR',
+    content: 'Has anyone else noticed how much their communication skills have improved? I used to get frustrated when my dad would repeat the same question, but now I understand it\'s part of his condition. The practice sessions really help!',
+    timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000), // 4 hours ago
+    reactions: [
+      { emoji: '👍', count: 12, users: ['user1', 'user2', 'user3', 'user4', 'user5', 'user6', 'user7', 'user8', 'user9', 'user10', 'user11', 'user12'] },
+      { emoji: '💪', count: 7, users: ['user13', 'user14', 'user15', 'user16', 'user17', 'user18', 'user19'] },
+      { emoji: '❤️', count: 4, users: ['user20', 'user21', 'user22', 'user23'] }
+    ]
+  },
+  {
+    id: 'msg_3',
+    author: 'Emma Thompson',
+    avatar: 'ET',
+    content: 'The empathy training with Robert was eye-opening. I learned that sometimes the best response is just to listen and validate their feelings. Thank you to everyone who shared their experiences - it really helps knowing we\'re not alone in this journey.',
+    timestamp: new Date(Date.now() - 6 * 60 * 60 * 1000), // 6 hours ago
+    reactions: [
+      { emoji: '❤️', count: 15, users: ['user1', 'user2', 'user3', 'user4', 'user5', 'user6', 'user7', 'user8', 'user9', 'user10', 'user11', 'user12', 'user13', 'user14', 'user15'] },
+      { emoji: '🤗', count: 9, users: ['user16', 'user17', 'user18', 'user19', 'user20', 'user21', 'user22', 'user23', 'user24'] },
+      { emoji: '💙', count: 6, users: ['user25', 'user26', 'user27', 'user28', 'user29', 'user30'] }
+    ]
+  },
+  {
+    id: 'msg_4',
+    author: 'David Kim',
+    avatar: 'DK',
+    content: 'Pro tip: I found that using Eleanor\'s scenario really helped me practice handling mobility concerns. The key is to maintain their dignity while offering support. The AI feedback was spot on!',
+    timestamp: new Date(Date.now() - 8 * 60 * 60 * 1000), // 8 hours ago
+    reactions: [
+      { emoji: '💡', count: 11, users: ['user1', 'user2', 'user3', 'user4', 'user5', 'user6', 'user7', 'user8', 'user9', 'user10', 'user11'] },
+      { emoji: '👍', count: 8, users: ['user12', 'user13', 'user14', 'user15', 'user16', 'user17', 'user18', 'user19'] },
+      { emoji: '⭐', count: 5, users: ['user20', 'user21', 'user22', 'user23', 'user24'] }
+    ]
+  },
+  {
+    id: 'msg_5',
+    author: 'Lisa Johnson',
+    avatar: 'LJ',
+    content: 'My mom has been so much more responsive since I started using the techniques I learned here. She actually smiled when I used the reflective listening approach. This community is amazing! 🌟',
+    timestamp: new Date(Date.now() - 12 * 60 * 60 * 1000), // 12 hours ago
+    reactions: [
+      { emoji: '🌟', count: 18, users: ['user1', 'user2', 'user3', 'user4', 'user5', 'user6', 'user7', 'user8', 'user9', 'user10', 'user11', 'user12', 'user13', 'user14', 'user15', 'user16', 'user17', 'user18'] },
+      { emoji: '😊', count: 12, users: ['user19', 'user20', 'user21', 'user22', 'user23', 'user24', 'user25', 'user26', 'user27', 'user28', 'user29', 'user30'] },
+      { emoji: '❤️', count: 9, users: ['user31', 'user32', 'user33', 'user34', 'user35', 'user36', 'user37', 'user38', 'user39'] }
+    ]
+  },
+  {
+    id: 'msg_6',
+    author: 'James Wilson',
+    avatar: 'JW',
+    content: 'Just wanted to share that I achieved the "Patience Guru" badge today! It took 3 months of practice, but the feeling when you can stay calm during difficult moments is incredible. Keep practicing, everyone!',
+    timestamp: new Date(Date.now() - 18 * 60 * 60 * 1000), // 18 hours ago
+    reactions: [
+      { emoji: '🏆', count: 22, users: ['user1', 'user2', 'user3', 'user4', 'user5', 'user6', 'user7', 'user8', 'user9', 'user10', 'user11', 'user12', 'user13', 'user14', 'user15', 'user16', 'user17', 'user18', 'user19', 'user20', 'user21', 'user22'] },
+      { emoji: '🎉', count: 16, users: ['user23', 'user24', 'user25', 'user26', 'user27', 'user28', 'user29', 'user30', 'user31', 'user32', 'user33', 'user34', 'user35', 'user36', 'user37', 'user38'] },
+      { emoji: '💪', count: 13, users: ['user39', 'user40', 'user41', 'user42', 'user43', 'user44', 'user45', 'user46', 'user47', 'user48', 'user49', 'user50', 'user51'] }
+    ]
+  }
+];

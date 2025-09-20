@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { 
   Mic, 
   Brain, 
@@ -8,16 +8,13 @@ import {
   ArrowRight, 
   CheckCircle, 
   Globe, 
-  Volume2,
-  VolumeX,
   Sparkles,
-  Star,
-  Award,
-  Trophy
+  Trophy,
+  Users,
+  MessageCircle
 } from 'lucide-react';
 import { Persona, LanguageOption, Achievement } from '../types';
 import { getPersonas } from '../services/api';
-import VoiceButton from '../components/VoiceButton';
 
 interface HomeProps {
   onStartSimulation: (personaId?: string) => void;
@@ -277,7 +274,7 @@ const Home: React.FC<HomeProps> = ({
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
-      <div className="container mx-auto px-4 py-6 pb-24">
+      <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -344,14 +341,185 @@ const Home: React.FC<HomeProps> = ({
           </div>
         </motion.div>
 
-        {/* Main Title */}
+        {/* Hero Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="text-center mb-8"
+          className="relative mb-16 z-10"
         >
-          <h2 className="text-4xl font-bold text-gray-800 mb-4">Ready to Practice?</h2>
+          {/* Hero Content */}
+          <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 rounded-3xl p-8 md:p-12 text-white relative overflow-hidden max-h-[600px]">
+            {/* Background Pattern */}
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute inset-0" style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+              }} />
+            </div>
+            
+            {/* Floating UI Elements */}
+            <motion.div 
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute top-8 right-8 w-16 h-16 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm"
+            >
+              <Brain className="h-8 w-8 text-white" />
+            </motion.div>
+            <motion.div 
+              animate={{ y: [0, -15, 0] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+              className="absolute top-16 right-24 w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm"
+            >
+              <Heart className="h-6 w-6 text-white" />
+            </motion.div>
+            <motion.div 
+              animate={{ y: [0, -8, 0] }}
+              transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+              className="absolute bottom-8 right-12 w-14 h-14 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm"
+            >
+              <MessageCircle className="h-7 w-7 text-white" />
+            </motion.div>
+            
+            <div className="relative z-10">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                {/* Left Content */}
+                <div>
+                  <motion.div
+                    initial={{ opacity: 0, x: -30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.7 }}
+                    className="mb-6"
+                  >
+                    <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">
+                      Master the Art of
+                      <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-300">
+                        Compassionate Care
+                      </span>
+                    </h1>
+                    <p className="text-xl text-blue-100 leading-relaxed mb-6">
+                      Practice empathetic conversations with AI-powered elderly personas. 
+                      Build confidence, develop skills, and make a real difference in caregiving.
+                    </p>
+                  </motion.div>
+                  
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.9 }}
+                    className="flex flex-col sm:flex-row gap-4"
+                  >
+                    <button
+                      onClick={() => handleStartSimulation()}
+                      className="bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-blue-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center"
+                    >
+                      <Mic className="h-5 w-5 mr-2" />
+                      Start Training Now
+                    </button>
+                    <button
+                      onClick={() => onNavigate('community')}
+                      className="border-2 border-white text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-white/10 transition-all duration-300 flex items-center justify-center"
+                    >
+                      <Users className="h-5 w-5 mr-2" />
+                      Join Community
+                    </button>
+                  </motion.div>
+                  
+                  {/* Stats */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1.1 }}
+                    className="grid grid-cols-3 gap-6 mt-8"
+                  >
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-yellow-300">500+</div>
+                      <div className="text-sm text-blue-200">Caregivers Trained</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-yellow-300">95%</div>
+                      <div className="text-sm text-blue-200">Success Rate</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-yellow-300">24/7</div>
+                      <div className="text-sm text-blue-200">Available</div>
+                    </div>
+                  </motion.div>
+                </div>
+                
+                {/* Right Content - Hero Image */}
+                <motion.div
+                  initial={{ opacity: 0, x: 30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.8 }}
+                  className="relative"
+                >
+                  <div className="relative">
+                    {/* Main Hero Image Container */}
+                    <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg">
+                      <div className="text-center">
+                        {/* Hero Image */}
+                        <div className="relative mx-auto w-80 h-80 mb-4 rounded-xl overflow-hidden max-h-80">
+                          <img 
+                            src="/hero-image.png" 
+                            alt="Caregiver illustration showing compassionate care with elderly person and caregivers" 
+                            className="w-full h-full object-cover rounded-xl"
+                          />
+                          
+                          {/* Overlay with floating UI elements */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-blue-600/20 to-transparent rounded-xl">
+                            {/* Floating UI Elements */}
+                            <div className="absolute top-4 right-4 w-8 h-8 bg-white/30 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                              <Mic className="h-4 w-4 text-white" />
+                            </div>
+                            <div className="absolute top-12 right-2 w-6 h-6 bg-white/30 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                              <Heart className="h-3 w-3 text-white" />
+                            </div>
+                            <div className="absolute bottom-4 right-8 w-7 h-7 bg-white/30 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                              <Brain className="h-3 w-3 text-white" />
+                            </div>
+                            <div className="absolute bottom-8 left-4 w-6 h-6 bg-white/30 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                              <MessageCircle className="h-3 w-3 text-white" />
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <h3 className="text-xl font-semibold text-white mb-2">AI-Powered Care Training</h3>
+                        <p className="text-blue-100 text-sm">
+                          Practice with realistic scenarios and receive instant feedback
+                        </p>
+                      </div>
+                    </div>
+                    
+                    {/* Floating Elements */}
+                    <motion.div
+                      animate={{ y: [0, -10, 0] }}
+                      transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                      className="absolute top-2 right-2 w-8 h-8 bg-yellow-300 rounded-full flex items-center justify-center text-lg"
+                    >
+                      ⭐
+                    </motion.div>
+                    <motion.div
+                      animate={{ y: [0, -15, 0] }}
+                      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                      className="absolute bottom-2 left-2 w-6 h-6 bg-pink-300 rounded-full flex items-center justify-center text-sm"
+                    >
+                      ❤️
+                    </motion.div>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Main Title */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.3 }}
+          className="text-center mb-12 relative z-20"
+        >
+          <h2 className="text-3xl font-bold text-gray-800 mb-4">Ready to Practice?</h2>
           <p className="text-gray-600 text-lg">Choose a scenario and start your voice training session.</p>
         </motion.div>
 
@@ -360,7 +528,7 @@ const Home: React.FC<HomeProps> = ({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="mb-8"
+          className="mb-12"
         >
           <button
             onClick={() => handleStartSimulation()}
@@ -382,7 +550,7 @@ const Home: React.FC<HomeProps> = ({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7 }}
-          className="mb-8"
+          className="mb-16"
         >
           <h2 className="text-xl font-bold text-gray-800 mb-4">Choose Your Training Partner</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -426,7 +594,7 @@ const Home: React.FC<HomeProps> = ({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.9 }}
-            className="mb-8"
+            className="mb-16"
           >
             <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
               <Trophy className="h-5 w-5 mr-2 text-yellow-500" />
@@ -475,7 +643,7 @@ const Home: React.FC<HomeProps> = ({
         </motion.div>
 
         {/* Navigation */}
-        <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-t border-gray-200 px-4 py-3">
+        <div className="mt-16 bg-white/95 backdrop-blur-sm border-t border-gray-200 px-4 py-3 rounded-t-2xl">
           <div className="flex justify-around max-w-md mx-auto">
             <button className="flex flex-col items-center py-2 px-4 text-blue-600">
               <div className="w-8 h-8 bg-blue-600 rounded-xl flex items-center justify-center mb-1">
