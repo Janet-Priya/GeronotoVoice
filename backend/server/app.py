@@ -81,6 +81,7 @@ class SimulationRequest(BaseModel):
     persona_id: str = Field(..., description="Persona ID (margaret, robert, eleanor)")
     user_input: str = Field(..., description="User speech input")
     conversation_history: List[ConversationEntry] = Field(default=[], description="Previous conversation")
+    difficulty_level: str = Field(default="Beginner", description="Training difficulty level")
 
 class SimulationResponse(BaseModel):
     session_id: str = Field(..., description="Session identifier")
@@ -88,6 +89,32 @@ class SimulationResponse(BaseModel):
     emotion: str = Field(..., description="Detected emotion")
     confidence: float = Field(..., description="Response confidence")
     intent: Optional[str] = Field(None, description="Recognized user intent")
+    detected_user_emotion: str = Field(..., description="Detected user emotion")
+    difficulty_level: str = Field(..., description="Training difficulty level")
+    memory_context: List[str] = Field(default=[], description="Recent conversation context")
+    timestamp: datetime = Field(default_factory=datetime.now)
+    rag_enhanced: bool = Field(default=False, description="Whether response used RAG")
+    relevant_chunks: List[Dict] = Field(default=[], description="Relevant conversation chunks")
+    source_documents: int = Field(default=0, description="Number of source documents used")
+
+class RAGSimulationRequest(BaseModel):
+    user_id: str = Field(..., description="User identifier")
+    persona_id: str = Field(..., description="Persona identifier (margaret, robert, eleanor)")
+    user_input: str = Field(..., description="User input text")
+    conversation_history: List[Dict] = Field(default=[], description="Previous conversation history")
+    difficulty_level: str = Field(default="Beginner", description="Training difficulty level")
+
+class RAGSimulationResponse(BaseModel):
+    session_id: str = Field(..., description="Session identifier")
+    ai_response: str = Field(..., description="RAG-enhanced AI response")
+    emotion: str = Field(..., description="Detected emotion")
+    confidence: float = Field(..., description="Response confidence")
+    detected_user_emotion: str = Field(..., description="Detected user emotion")
+    difficulty_level: str = Field(..., description="Training difficulty level")
+    memory_context: List[str] = Field(default=[], description="Recent conversation context")
+    rag_enhanced: bool = Field(..., description="Whether response used RAG")
+    relevant_chunks: List[Dict] = Field(default=[], description="Relevant conversation chunks")
+    source_documents: int = Field(default=0, description="Number of source documents used")
     timestamp: datetime = Field(default_factory=datetime.now)
 
 class FeedbackRequest(BaseModel):
@@ -215,9 +242,10 @@ async def simulate_conversation(request: SimulationRequest):
         
         # Check if this is a new conversation
         if not request.conversation_history:
-            # Create new session
-            session = database.create_session(session_id, request.user_id, request.persona_id)
-            logger.info(f"Created new session: {session_id}")
+            # Create new enhanced session
+            session = database.create_session(session_id, request.user_id, request.persona_id, 
+                                             request.difficulty_level)
+            logger.info(f"Created new enhanced session: {session_id} at {request.difficulty_level} level")
         
         # Convert conversation history to format expected by AI agent
         conversation_history = [
@@ -229,11 +257,12 @@ async def simulate_conversation(request: SimulationRequest):
             for entry in request.conversation_history
         ]
         
-        # Generate AI response using Ollama
+        # Generate enhanced AI response using Ollama with emotion detection
         ai_response = ai_agent.generate_response(
             persona_id=request.persona_id,
             user_input=request.user_input,
-            conversation_history=conversation_history
+            conversation_history=conversation_history,
+            difficulty_level=request.difficulty_level
         )
         
         # Recognize user intent using Rasa
@@ -281,11 +310,106 @@ async def simulate_conversation(request: SimulationRequest):
             emotion=ai_response.emotion,
             confidence=ai_response.confidence,
             intent=intent_result.intent,
-            timestamp=datetime.now()
+            detected_user_emotion=ai_response.detected_user_emotion,
+            difficulty_level=ai_response.difficulty_level,
+            memory_context=ai_response.memory_context,
+            timestamp=datetime.now(),
+            rag_enhanced=ai_response.rag_enhanced,
+            relevant_chunks=ai_response.relevant_chunks or [],
+            source_documents=ai_response.source_documents
         )
         
     except Exception as e:
         logger.error(f"Error in simulation: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/rag-simulate", response_model=RAGSimulationResponse)
+async def rag_simulate_conversation(request: RAGSimulationRequest):
+    """
+    RAG-enhanced simulation endpoint - uses conversation data for grounded responses
+    """
+    try:
+        # Update user activity
+        database.update_user_activity(request.user_id)
+        
+        # Create session if it doesn't exist
+        session_id = f"{request.user_id}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        
+        # Check if this is a new conversation
+        if not request.conversation_history:
+            # Create new enhanced session
+            session = database.create_session(session_id, request.user_id, request.persona_id, 
+                                             request.difficulty_level)
+            logger.info(f"Created new RAG session: {session_id} at {request.difficulty_level} level")
+        
+        # Convert conversation history to the format expected by the agent
+        conversation_history = []
+        for entry in request.conversation_history:
+            conversation_history.append({
+                "speaker": entry.get("speaker", "user"),
+                "text": entry.get("text", ""),
+                "timestamp": entry.get("timestamp", datetime.now().isoformat())
+            })
+        
+        # Generate RAG-enhanced AI response
+        ai_response = ai_agent.generate_rag_response(
+            persona_id=request.persona_id,
+            user_input=request.user_input,
+            conversation_history=conversation_history,
+            difficulty_level=request.difficulty_level
+        )
+        
+        # Recognize user intent
+        intent_result = await dialogue_manager.recognize_intent(request.user_input)
+        
+        # Update conversation history
+        updated_conversation = conversation_history + [
+            {
+                "speaker": "user",
+                "text": request.user_input,
+                "timestamp": datetime.now().isoformat()
+            },
+            {
+                "speaker": "ai", 
+                "text": ai_response.text,
+                "emotion": ai_response.emotion,
+                "timestamp": datetime.now().isoformat()
+            }
+        ]
+        
+        # Convert to dict format for database
+        conversation_data = [
+            {
+                "speaker": entry["speaker"],
+                "text": entry["text"],
+                "timestamp": entry["timestamp"],
+                "emotion": entry.get("emotion", "neutral"),
+                "confidence": ai_response.confidence if entry["speaker"] == "ai" else 1.0,
+                "rag_enhanced": ai_response.rag_enhanced if entry["speaker"] == "ai" else False,
+                "relevant_chunks": ai_response.relevant_chunks if entry["speaker"] == "ai" else [],
+                "source_documents": ai_response.source_documents if entry["speaker"] == "ai" else 0
+            }
+            for entry in updated_conversation
+        ]
+        
+        database.update_session_conversation(session_id, conversation_data)
+        
+        return RAGSimulationResponse(
+            session_id=session_id,
+            ai_response=ai_response.text,
+            emotion=ai_response.emotion,
+            confidence=ai_response.confidence,
+            detected_user_emotion=ai_response.detected_user_emotion,
+            difficulty_level=ai_response.difficulty_level,
+            memory_context=ai_response.memory_context,
+            rag_enhanced=ai_response.rag_enhanced,
+            relevant_chunks=ai_response.relevant_chunks or [],
+            source_documents=ai_response.source_documents,
+            timestamp=datetime.now()
+        )
+        
+    except Exception as e:
+        logger.error(f"Error in RAG simulation: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/feedback", response_model=FeedbackResponse)

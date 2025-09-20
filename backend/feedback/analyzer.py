@@ -122,7 +122,31 @@ class CaregiverSkillAnalyzer:
     
     def _load_sample_training_data(self) -> pd.DataFrame:
         """Load sample training data for skill analysis"""
-        # In production, this would load from a real dataset
+        import os
+        
+        # Try to load from conversation CSV first
+        csv_paths = [
+            'data/conversation_text.csv',
+            'backend/data/conversation_text.csv',
+            os.path.join(os.path.dirname(__file__), '..', 'data', 'conversation_text.csv'),
+            os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'conversation_text.csv')
+        ]
+        
+        for csv_path in csv_paths:
+            try:
+                if os.path.exists(csv_path):
+                    df = pd.read_csv(csv_path)
+                    # Filter for user messages only (caregiver responses)
+                    user_messages = df[df['speaker'] == 'user'].copy()
+                    if len(user_messages) > 0:
+                        logger.info(f"Loaded {len(user_messages)} training samples from {csv_path}")
+                        return user_messages
+            except Exception as e:
+                logger.warning(f"Failed to load conversation data from {csv_path}: {e}")
+                continue
+        
+        # Fallback to synthetic data
+        logger.info("Using synthetic training data")
         sample_data = {
             "text": [
                 "I understand how difficult this must be for you. Let me help you with that.",
@@ -344,8 +368,16 @@ class CaregiverSkillAnalyzer:
             feedback = self._generate_skill_feedback(skill_name, predicted_score, text)
             suggestions = self._generate_improvement_suggestions(skill_name, predicted_score)
             
+            # Map skill names to proper titles
+            skill_name_mapping = {
+                'empathy': 'Empathy',
+                'active_listening': 'Active Listening',
+                'clear_communication': 'Clear Communication',
+                'patience': 'Patience'
+            }
+            
             return SkillScore(
-                skill_name=skill_name.replace('_', ' ').title(),
+                skill_name=skill_name_mapping.get(skill_name, skill_name.replace('_', ' ').title()),
                 score=float(predicted_score),
                 confidence=float(confidence),
                 feedback=feedback,
@@ -355,8 +387,15 @@ class CaregiverSkillAnalyzer:
             
         except Exception as e:
             logger.error(f"Error analyzing skill {skill_name}: {e}")
+            # Map skill names to proper titles
+            skill_name_mapping = {
+                'empathy': 'Empathy',
+                'active_listening': 'Active Listening',
+                'clear_communication': 'Clear Communication',
+                'patience': 'Patience'
+            }
             return SkillScore(
-                skill_name=skill_name.replace('_', ' ').title(),
+                skill_name=skill_name_mapping.get(skill_name, skill_name.replace('_', ' ').title()),
                 score=2.0,
                 confidence=0.5,
                 feedback=f"Analysis error for {skill_name}",
@@ -385,8 +424,16 @@ class CaregiverSkillAnalyzer:
         feedback = self._generate_skill_feedback(skill_name, score, text)
         suggestions = self._generate_improvement_suggestions(skill_name, score)
         
+        # Map skill names to proper titles
+        skill_name_mapping = {
+            'empathy': 'Empathy',
+            'active_listening': 'Active Listening',
+            'clear_communication': 'Clear Communication',
+            'patience': 'Patience'
+        }
+        
         return SkillScore(
-            skill_name=skill_name.replace('_', ' ').title(),
+            skill_name=skill_name_mapping.get(skill_name, skill_name.replace('_', ' ').title()),
             score=float(score),
             confidence=0.7,
             feedback=feedback,
@@ -395,31 +442,31 @@ class CaregiverSkillAnalyzer:
         )
     
     def _generate_skill_feedback(self, skill_name: str, score: float, text: str) -> str:
-        """Generate personalized feedback for skill"""
+        """Generate enhanced personalized feedback for skill with specific examples"""
         feedback_templates = {
             "empathy": {
-                4: "Excellent empathy! Your responses show genuine care and understanding.",
-                3: "Good empathy! You're showing care and concern for the elderly person.",
-                2: "Some empathy shown, but try to be more understanding and compassionate.",
-                1: "Limited empathy detected. Focus on acknowledging feelings and showing care."
+                4: "Excellent empathy! Your responses show genuine care and understanding. You're acknowledging feelings and providing emotional support.",
+                3: "Good empathy! You're showing care and concern for the elderly person. Try to acknowledge their emotions more explicitly.",
+                2: "Some empathy shown, but try phrases like 'I understand how you feel' and 'That must be difficult for you'.",
+                1: "Limited empathy detected. Practice acknowledging feelings and avoid dismissive language like 'don't worry about it'."
             },
             "active_listening": {
-                4: "Outstanding active listening! You're fully engaged and responsive.",
-                3: "Good listening skills! You're paying attention and responding appropriately.",
-                2: "Some listening skills shown, but try to ask more follow-up questions.",
-                1: "Limited active listening. Focus on asking questions and reflecting back."
+                4: "Outstanding active listening! You're fully engaged, asking thoughtful questions, and reflecting back what you hear.",
+                3: "Good listening skills! You're paying attention and responding appropriately. Try more 'how' and 'what' questions.",
+                2: "Some listening skills shown, but try open-ended questions like 'Tell me more about that' and 'How do you feel?'",
+                1: "Limited active listening. Focus on asking questions and avoid interrupting or changing subjects."
             },
             "clear_communication": {
-                4: "Excellent communication! You're using clear, simple language.",
-                3: "Good communication! Your language is clear and appropriate.",
-                2: "Communication could be clearer. Try using simpler words and checking understanding.",
-                1: "Communication needs improvement. Use simpler language and check for understanding."
+                4: "Excellent communication! You're using clear, simple language effectively and checking for understanding.",
+                3: "Good communication! Your language is clear and appropriate. Try using even simpler vocabulary when possible.",
+                2: "Communication could be clearer. Break complex information into smaller steps and ask 'Does this make sense?' more often.",
+                1: "Communication needs improvement. Use everyday words instead of medical terms and check understanding frequently."
             },
             "patience": {
-                4: "Excellent patience! You're staying calm and allowing time.",
-                3: "Good patience! You're maintaining composure during the conversation.",
-                2: "Some patience shown, but try to be more calm and allow more time.",
-                1: "Limited patience detected. Focus on staying calm and not rushing."
+                4: "Excellent patience! You're staying calm, allowing adequate time, and using phrases like 'take your time'.",
+                3: "Good patience! You're maintaining composure during the conversation. Try 'There's no rush' more often.",
+                2: "Some patience shown, but try phrases like 'Take your time, there's no rush' and allow longer pauses.",
+                1: "Limited patience detected. Avoid showing frustration and practice staying calm during repetitive questions."
             }
         }
         

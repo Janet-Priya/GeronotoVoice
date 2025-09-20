@@ -1,0 +1,23 @@
+speaker,text,emotion,empathy_score,active_listening_score,clear_communication_score,patience_score
+user,"Hello Margaret, how are you feeling today?",neutral,3,3,4,4
+ai,"I'm doing okay, thank you for asking. Sometimes I get a bit confused though.",neutral,4,4,3,4
+user,"I understand that must be difficult for you. Can you tell me more about what confuses you?",empathy,4,4,4,4
+ai,"Well, I sometimes forget where I put things, and I get worried about my family.",worried,4,4,3,4
+user,"That sounds really challenging. I'm here to help you with that.",empathy,4,3,4,4
+ai,"Thank you, that means a lot to me. You're very kind.",grateful,4,4,3,4
+user,"Have you taken your medication today?",neutral,2,2,3,3
+ai,"I think so, but I'm not sure. I get confused about the timing.",confused,3,3,2,3
+user,"Let me help you check. Can you show me your pill organizer?",helpful,3,3,4,4
+ai,"Oh yes, here it is. I think I took the morning ones.",neutral,3,3,3,3
+user,"Great! I can see you did take them. You're doing well.",encouraging,4,3,4,4
+ai,"Thank you for helping me remember. I feel better when someone helps me.",grateful,4,4,3,4
+user,"I'm here to support you. Is there anything else you'd like to talk about?",supportive,4,4,4,4
+ai,"I'm worried about my daughter. I haven't heard from her in a while.",worried,3,4,3,4
+user,"I understand your concern. Would you like me to help you call her?",helpful,4,4,4,4
+ai,"That would be wonderful! I miss her so much.",happy,4,4,3,4
+user,"Let's take your time and call her together. There's no rush.",patient,4,4,4,4
+ai,"You're so patient with me. I really appreciate that.",grateful,4,4,3,4
+user,"It's my pleasure to help you. You're doing great.",encouraging,4,3,4,4
+ai,"Thank you. You make me feel safe and cared for.",grateful,4,4,3,4
+user,"That's exactly what I want for you. You deserve to feel safe and cared for.",empathy,4,4,4,4
+ai,"You're such a kind person. I'm lucky to have you helping me.",grateful,4,4,3,4

@@ -1,0 +1,13 @@
+condition,symptom,description,severity,intervention
+Mild Dementia,memory_loss,"Difficulty remembering recent events, names, or appointments",mild,"Use memory aids, gentle reminders, maintain routine"
+Mild Dementia,confusion,"Disorientation to time, place, or person",mild,"Provide clear orientation cues, avoid complex instructions"
+Mild Dementia,difficulty_tasks,"Struggling with familiar activities like cooking or managing finances",mild,"Break tasks into steps, provide supervision"
+Mild Dementia,mood_changes,"Depression, anxiety, or irritability",mild,"Maintain social connections, encourage activities"
+Type 2 Diabetes,increased_thirst,"Excessive thirst and frequent urination",moderate,"Monitor blood glucose, ensure adequate hydration"
+Type 2 Diabetes,fatigue,"Persistent tiredness and lack of energy",moderate,"Regular blood sugar monitoring, balanced diet"
+Type 2 Diabetes,blurred_vision,"Vision problems due to high blood sugar",moderate,"Regular eye exams, blood sugar control"
+Type 2 Diabetes,slow_healing,"Wounds that heal slowly or get infected",moderate,"Careful wound care, blood sugar management"
+Mobility Issues,balance_problems,"Difficulty maintaining balance while standing or walking",moderate,"Use assistive devices, remove fall hazards"
+Mobility Issues,muscle_weakness,"Reduced strength in legs or arms",moderate,"Physical therapy, strength exercises"
+Mobility Issues,joint_pain,"Pain and stiffness in joints",moderate,"Pain management, gentle movement"
+Mobility Issues,fear_falling,"Anxiety about falling or losing balance",moderate,"Build confidence gradually, use safety equipment"

@@ -43,7 +43,7 @@ class RasaDialogueManager:
         self.response_templates = self._create_response_templates()
     
     def _define_caregiver_intents(self) -> Dict[str, Dict]:
-        """Define caregiver-specific intents and training examples"""
+        """Define enhanced caregiver-specific intents with difficulty levels"""
         return {
             "ask_medication": {
                 "examples": [
@@ -51,9 +51,16 @@ class RasaDialogueManager:
                     "Did you remember to take your pills?",
                     "It's time for your medicine",
                     "Have you had your diabetes medication?",
-                    "Don't forget your pills"
+                    "Don't forget your pills",
+                    "Let's check your medication schedule",
+                    "Are you taking your prescribed medications?"
                 ],
-                "description": "Asking about medication compliance"
+                "description": "Asking about medication compliance",
+                "difficulty_levels": {
+                    "Beginner": "Simple, direct questions about medication",
+                    "Intermediate": "More detailed medication management",
+                    "Advanced": "Complex medication adherence scenarios"
+                }
             },
             "offer_help": {
                 "examples": [
@@ -123,7 +130,45 @@ class RasaDialogueManager:
                     "Nice to see you",
                     "How's your day going?"
                 ],
-                "description": "General greeting and conversation starter"
+                "description": "General greeting and conversation starter",
+                "difficulty_levels": {
+                    "Beginner": "Simple greetings and basic conversation starters",
+                    "Intermediate": "More personalized greetings and engagement",
+                    "Advanced": "Complex social interaction scenarios"
+                }
+            },
+            "calm_patient": {
+                "examples": [
+                    "It's okay, take your time",
+                    "Don't worry, we'll figure this out together",
+                    "You're doing great, just breathe",
+                    "I'm here with you, you're safe",
+                    "Let's take this one step at a time",
+                    "Everything will be alright",
+                    "You're not alone in this"
+                ],
+                "description": "Calming and reassuring the patient",
+                "difficulty_levels": {
+                    "Beginner": "Basic calming phrases and reassurance",
+                    "Intermediate": "More sophisticated calming techniques",
+                    "Advanced": "Complex emotional support scenarios"
+                }
+            },
+            "redirect_confusion": {
+                "examples": [
+                    "Let's focus on something else",
+                    "How about we talk about your family?",
+                    "What's your favorite memory?",
+                    "Tell me about your garden",
+                    "What did you enjoy doing when you were younger?",
+                    "Let's change the subject to something pleasant"
+                ],
+                "description": "Redirecting from confusion or difficult topics",
+                "difficulty_levels": {
+                    "Beginner": "Simple topic redirection",
+                    "Intermediate": "More nuanced conversation steering",
+                    "Advanced": "Complex emotional redirection techniques"
+                }
             }
         }
     

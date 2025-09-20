@@ -12,3 +12,6 @@ seaborn>=0.13.0
 plotly>=5.17.0
 aiofiles>=23.2.1
 httpx>=0.25.2
+langchain>=0.1.0
+faiss-cpu>=1.7.4
+sentence-transformers>=2.2.2

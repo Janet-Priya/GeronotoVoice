@@ -30,7 +30,7 @@ class User:
 
 @dataclass
 class Session:
-    """Training session data structure"""
+    """Enhanced training session data structure"""
     session_id: str
     user_id: str
     persona_id: str
@@ -40,6 +40,10 @@ class Session:
     skill_scores: Dict[str, float] = None
     total_score: float = 0.0
     status: str = "active"  # active, completed, abandoned
+    difficulty_level: str = "Beginner"  # Beginner, Intermediate, Advanced
+    emotion_data: Dict[str, Any] = None  # Store emotion detection data
+    memory_context: List[str] = None  # Store conversation memory
+    rag_metadata: Dict[str, Any] = None  # Store RAG-related metadata
 
 @dataclass
 class SkillProgress:
@@ -80,7 +84,7 @@ class GerontoVoiceDatabase:
                     )
                 """)
                 
-                # Sessions table
+                # Enhanced Sessions table
                 cursor.execute("""
                     CREATE TABLE IF NOT EXISTS sessions (
                         session_id TEXT PRIMARY KEY,
@@ -92,6 +96,10 @@ class GerontoVoiceDatabase:
                         skill_scores TEXT,       -- JSON string
                         total_score REAL DEFAULT 0.0,
                         status TEXT DEFAULT 'active',
+                        difficulty_level TEXT DEFAULT 'Beginner',
+                        emotion_data TEXT,       -- JSON string for emotion detection data
+                        memory_context TEXT,    -- JSON string for conversation memory
+                        rag_metadata TEXT,      -- JSON string for RAG-related metadata
                         FOREIGN KEY (user_id) REFERENCES users (user_id)
                     )
                 """)
@@ -215,8 +223,9 @@ class GerontoVoiceDatabase:
             logger.error(f"Error updating user activity: {e}")
     
     # Session Management
-    def create_session(self, session_id: str, user_id: str, persona_id: str) -> Session:
-        """Create a new training session"""
+    def create_session(self, session_id: str, user_id: str, persona_id: str, 
+                      difficulty_level: str = "Beginner") -> Session:
+        """Create a new enhanced training session"""
         try:
             session = Session(
                 session_id=session_id,
@@ -225,14 +234,18 @@ class GerontoVoiceDatabase:
                 start_time=datetime.now(),
                 conversation_data=[],
                 skill_scores={},
-                status="active"
+                status="active",
+                difficulty_level=difficulty_level,
+                emotion_data={},
+                memory_context=[]
             )
             
             with self._get_connection() as conn:
                 cursor = conn.cursor()
                 cursor.execute("""
-                    INSERT INTO sessions (session_id, user_id, persona_id, start_time, conversation_data, skill_scores, status)
-                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                    INSERT INTO sessions (session_id, user_id, persona_id, start_time, conversation_data, 
+                                       skill_scores, status, difficulty_level, emotion_data, memory_context)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """, (
                     session.session_id,
                     session.user_id,
@@ -240,11 +253,14 @@ class GerontoVoiceDatabase:
                     session.start_time,
                     json.dumps(session.conversation_data),
                     json.dumps(session.skill_scores),
-                    session.status
+                    session.status,
+                    session.difficulty_level,
+                    json.dumps(session.emotion_data),
+                    json.dumps(session.memory_context)
                 ))
                 conn.commit()
             
-            logger.info(f"Created session: {session_id}")
+            logger.info(f"Created enhanced session: {session_id} at {difficulty_level} level")
             return session
             
         except Exception as e:

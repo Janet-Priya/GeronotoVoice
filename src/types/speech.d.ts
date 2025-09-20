@@ -47,8 +47,14 @@ export interface ConversationEntry {
   speaker: 'user' | 'ai';
   text: string;
   timestamp: string;
-  emotion?: 'neutral' | 'empathetic' | 'concerned' | 'encouraging' | 'confused' | 'agitated' | 'sad';
+  emotion?: 'neutral' | 'empathetic' | 'concerned' | 'encouraging' | 'confused' | 'agitated' | 'sad' | 'happy' | 'frustrated' | 'worried' | 'calm' | 'excited';
   confidence?: number;
+  detected_user_emotion?: string;
+  difficulty_level?: string;
+  memory_context?: string[];
+  rag_enhanced?: boolean;
+  relevant_chunks?: RAGChunk[];
+  source_documents?: number;
 }
 
 export interface SimulationRequest {
@@ -56,6 +62,7 @@ export interface SimulationRequest {
   persona_id: string;
   user_input: string;
   conversation_history: ConversationEntry[];
+  difficulty_level?: 'Beginner' | 'Intermediate' | 'Advanced';
 }
 
 export interface SimulationResponse {
@@ -64,7 +71,13 @@ export interface SimulationResponse {
   emotion: string;
   confidence: number;
   intent?: string;
+  detected_user_emotion: string;
+  difficulty_level: string;
+  memory_context: string[];
   timestamp: string;
+  rag_enhanced?: boolean;
+  relevant_chunks?: RAGChunk[];
+  source_documents?: number;
 }
 
 export interface SkillScore {
@@ -171,6 +184,87 @@ export interface ServiceStatus {
   };
 }
 
+// Enhanced Emotion Detection Types
+export interface EmotionDetection {
+  detected_emotion: 'happy' | 'confused' | 'frustrated' | 'worried' | 'sad' | 'calm' | 'excited' | 'neutral';
+  confidence: number;
+  keywords_found: string[];
+  timestamp: string;
+}
+
+// Difficulty Level Types
+export type DifficultyLevel = 'Beginner' | 'Intermediate' | 'Advanced';
+
+export interface DifficultyConfig {
+  level: DifficultyLevel;
+  description: string;
+  complexity_guidance: string;
+  response_adaptation: string;
+}
+
+// Memory Context Types
+export interface MemoryContext {
+  recent_exchanges: Array<{
+    user_input: string;
+    user_emotion: string;
+    timestamp: string;
+  }>;
+  conversation_topics: string[];
+  persona_state: {
+    mood: string;
+    condition: string;
+    memory_context: string[];
+  };
+}
+
+// NIH Guidelines Types
+export interface NIHGuideline {
+  condition: string;
+  symptom: string;
+  description: string;
+  severity: 'mild' | 'moderate' | 'severe';
+  intervention: string;
+}
+
+// RAG (Retrieval-Augmented Generation) Types
+export interface RAGChunk {
+  chunk_id: number;
+  text: string;
+  metadata: {
+    speaker?: string;
+    topic?: string;
+    condition?: string;
+    persona?: string;
+  };
+  relevance_score: number;
+}
+
+export interface RAGSimulationRequest {
+  user_id: string;
+  persona_id: string;
+  user_input: string;
+  conversation_history: Array<{
+    speaker: string;
+    text: string;
+    timestamp: string;
+  }>;
+  difficulty_level?: 'Beginner' | 'Intermediate' | 'Advanced';
+}
+
+export interface RAGSimulationResponse {
+  session_id: string;
+  ai_response: string;
+  emotion: string;
+  confidence: number;
+  detected_user_emotion: string;
+  difficulty_level: string;
+  memory_context: string[];
+  rag_enhanced: boolean;
+  relevant_chunks: RAGChunk[];
+  source_documents: number;
+  timestamp: string;
+}
+
 // Offline Mode Information
 export interface OfflineModeInfo {
   offline_capable: boolean;
@@ -179,11 +273,17 @@ export interface OfflineModeInfo {
     speech_processing: string;
     data_storage: string;
     skill_analysis: string;
+    emotion_detection: string;
+    conversation_memory: string;
+    rag_enhancement: string;
   };
   requirements: {
     ollama: string;
     browser: string;
     storage: string;
+    langchain: string;
+    faiss: string;
+    sentence_transformers: string;
   };
   setup_instructions: string[];
 }
