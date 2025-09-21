@@ -159,7 +159,7 @@ def test_api_endpoints():
     print("\n🌐 Testing API endpoints...")
     try:
         # Test health endpoint
-        response = requests.get("http://localhost:8000/health", timeout=5)
+        response = requests.get("http://localhost:8001/health", timeout=5)
         if response.status_code == 200:
             print("✅ Backend API responding")
             return True

@@ -46,14 +46,14 @@ interface SpeechRecognitionErrorEvent extends Event {
 export interface ConversationEntry {
   speaker: 'user' | 'ai';
   text: string;
-  timestamp: string;
+  timestamp: string | Date;
   emotion?: 'neutral' | 'empathetic' | 'concerned' | 'encouraging' | 'confused' | 'agitated' | 'sad' | 'happy' | 'frustrated' | 'worried' | 'calm' | 'excited';
   confidence?: number;
   detected_user_emotion?: string;
   difficulty_level?: string;
   memory_context?: string[];
   rag_enhanced?: boolean;
-  relevant_chunks?: RAGChunk[];
+  relevant_chunks?: Array<{content: string; metadata: any}>;
   source_documents?: number;
 }
 

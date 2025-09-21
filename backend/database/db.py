@@ -84,7 +84,7 @@ class GerontoVoiceDatabase:
                     )
                 """)
                 
-                # Enhanced Sessions table
+                # Enhanced Sessions table with voice transcript storage
                 cursor.execute("""
                     CREATE TABLE IF NOT EXISTS sessions (
                         session_id TEXT PRIMARY KEY,
@@ -100,6 +100,41 @@ class GerontoVoiceDatabase:
                         emotion_data TEXT,       -- JSON string for emotion detection data
                         memory_context TEXT,    -- JSON string for conversation memory
                         rag_metadata TEXT,      -- JSON string for RAG-related metadata
+                        voice_transcripts TEXT, -- JSON string for voice transcript storage
+                        FOREIGN KEY (user_id) REFERENCES users (user_id)
+                    )
+                """)
+                
+                # Conversation entries table for detailed conversation tracking
+                cursor.execute("""
+                    CREATE TABLE IF NOT EXISTS conversation_entries (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        session_id TEXT NOT NULL,
+                        user_id TEXT NOT NULL,
+                        speaker TEXT NOT NULL,  -- 'user' or 'ai'
+                        text TEXT NOT NULL,
+                        emotion TEXT,
+                        confidence REAL,
+                        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                        metadata TEXT,  -- JSON string for additional data
+                        voice_transcript_raw TEXT,  -- Raw voice input before processing
+                        voice_confidence REAL,  -- Voice recognition confidence
+                        FOREIGN KEY (session_id) REFERENCES sessions (session_id),
+                        FOREIGN KEY (user_id) REFERENCES users (user_id)
+                    )
+                """)
+                
+                # Feedback analysis table
+                cursor.execute("""
+                    CREATE TABLE IF NOT EXISTS feedback_analysis (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        session_id TEXT NOT NULL,
+                        user_id TEXT NOT NULL,
+                        analysis_data TEXT,  -- JSON string with analysis results
+                        user_rating INTEGER,
+                        notes TEXT,
+                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                        FOREIGN KEY (session_id) REFERENCES sessions (session_id),
                         FOREIGN KEY (user_id) REFERENCES users (user_id)
                     )
                 """)
@@ -136,6 +171,10 @@ class GerontoVoiceDatabase:
                 # Create indexes for better performance
                 cursor.execute("CREATE INDEX IF NOT EXISTS idx_sessions_user_id ON sessions (user_id)")
                 cursor.execute("CREATE INDEX IF NOT EXISTS idx_sessions_start_time ON sessions (start_time)")
+                cursor.execute("CREATE INDEX IF NOT EXISTS idx_conversation_entries_session_id ON conversation_entries (session_id)")
+                cursor.execute("CREATE INDEX IF NOT EXISTS idx_conversation_entries_user_id ON conversation_entries (user_id)")
+                cursor.execute("CREATE INDEX IF NOT EXISTS idx_conversation_entries_timestamp ON conversation_entries (timestamp)")
+                cursor.execute("CREATE INDEX IF NOT EXISTS idx_feedback_analysis_session_id ON feedback_analysis (session_id)")
                 cursor.execute("CREATE INDEX IF NOT EXISTS idx_skill_progress_user_id ON skill_progress (user_id)")
                 cursor.execute("CREATE INDEX IF NOT EXISTS idx_achievements_user_id ON achievements (user_id)")
                 
@@ -208,7 +247,7 @@ class GerontoVoiceDatabase:
             return None
     
     def update_user_activity(self, user_id: str):
-        """Update user's last active timestamp"""
+        """Update users last active timestamp"""
         try:
             with self._get_connection() as conn:
                 cursor = conn.cursor()
@@ -237,15 +276,17 @@ class GerontoVoiceDatabase:
                 status="active",
                 difficulty_level=difficulty_level,
                 emotion_data={},
-                memory_context=[]
+                memory_context=[],
+                rag_metadata={}
             )
             
             with self._get_connection() as conn:
                 cursor = conn.cursor()
                 cursor.execute("""
                     INSERT INTO sessions (session_id, user_id, persona_id, start_time, conversation_data, 
-                                       skill_scores, status, difficulty_level, emotion_data, memory_context)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                                       skill_scores, status, difficulty_level, emotion_data, memory_context,
+                                       rag_metadata)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """, (
                     session.session_id,
                     session.user_id,
@@ -256,7 +297,8 @@ class GerontoVoiceDatabase:
                     session.status,
                     session.difficulty_level,
                     json.dumps(session.emotion_data),
-                    json.dumps(session.memory_context)
+                    json.dumps(session.memory_context),
+                    json.dumps(session.rag_metadata)
                 ))
                 conn.commit()
             
@@ -281,6 +323,117 @@ class GerontoVoiceDatabase:
                 
         except Exception as e:
             logger.error(f"Error updating session conversation: {e}")
+    
+    # Enhanced Conversation Entry Management
+    def add_conversation_entry(self, session_id: str, user_id: str, speaker: str, 
+                              text: str, emotion: str = None, confidence: float = None,
+                              metadata: Dict = None, voice_transcript_raw: str = None,
+                              voice_confidence: float = None):
+        """Add a conversation entry with voice transcript support"""
+        try:
+            with self._get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute("""
+                    INSERT INTO conversation_entries 
+                    (session_id, user_id, speaker, text, emotion, confidence, metadata, 
+                     voice_transcript_raw, voice_confidence)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """, (
+                    session_id, user_id, speaker, text, emotion, confidence,
+                    json.dumps(metadata) if metadata else None,
+                    voice_transcript_raw, voice_confidence
+                ))
+                conn.commit()
+                logger.info(f"Added conversation entry for session {session_id}")
+                
+        except Exception as e:
+            logger.error(f"Error adding conversation entry: {e}")
+            raise
+    
+    def get_conversation_entries(self, session_id: str) -> List[Dict]:
+        """Get all conversation entries for a session"""
+        try:
+            with self._get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute("""
+                    SELECT * FROM conversation_entries 
+                    WHERE session_id = ? 
+                    ORDER BY timestamp ASC
+                """, (session_id,))
+                
+                entries = []
+                for row in cursor.fetchall():
+                    entry = {
+                        'id': row['id'],
+                        'session_id': row['session_id'],
+                        'user_id': row['user_id'],
+                        'speaker': row['speaker'],
+                        'text': row['text'],
+                        'emotion': row['emotion'],
+                        'confidence': row['confidence'],
+                        'timestamp': row['timestamp'],
+                        'metadata': json.loads(row['metadata']) if row['metadata'] else None,
+                        'voice_transcript_raw': row['voice_transcript_raw'],
+                        'voice_confidence': row['voice_confidence']
+                    }
+                    entries.append(entry)
+                
+                return entries
+                
+        except Exception as e:
+            logger.error(f"Error getting conversation entries: {e}")
+            return []
+    
+    # Enhanced Feedback Management
+    def add_feedback(self, session_id: str, user_id: str, analysis: Any, 
+                    user_rating: int = None, notes: str = None):
+        """Add feedback analysis results"""
+        try:
+            with self._get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute("""
+                    INSERT INTO feedback_analysis 
+                    (session_id, user_id, analysis_data, user_rating, notes)
+                    VALUES (?, ?, ?, ?, ?)
+                """, (
+                    session_id, user_id, 
+                    json.dumps(analysis.__dict__ if hasattr(analysis, '__dict__') else str(analysis)),
+                    user_rating, notes
+                ))
+                conn.commit()
+                logger.info(f"Added feedback for session {session_id}")
+                
+        except Exception as e:
+            logger.error(f"Error adding feedback: {e}")
+            raise
+    
+    def get_feedback(self, session_id: str) -> Optional[Dict]:
+        """Get feedback analysis for a session"""
+        try:
+            with self._get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute("""
+                    SELECT * FROM feedback_analysis 
+                    WHERE session_id = ? 
+                    ORDER BY created_at DESC 
+                    LIMIT 1
+                """, (session_id,))
+                
+                row = cursor.fetchone()
+                if row:
+                    return {
+                        'session_id': row['session_id'],
+                        'user_id': row['user_id'],
+                        'analysis_data': json.loads(row['analysis_data']) if row['analysis_data'] else None,
+                        'user_rating': row['user_rating'],
+                        'notes': row['notes'],
+                        'created_at': row['created_at']
+                    }
+                return None
+                
+        except Exception as e:
+            logger.error(f"Error getting feedback: {e}")
+            return None
     
     def complete_session(self, session_id: str, skill_scores: Dict[str, float], total_score: float):
         """Mark session as completed with final scores"""
@@ -320,7 +473,7 @@ class GerontoVoiceDatabase:
             logger.error(f"Error completing session: {e}")
     
     def get_user_sessions(self, user_id: str, limit: int = 50) -> List[Session]:
-        """Get user's training sessions"""
+        """Get users training sessions"""
         try:
             with self._get_connection() as conn:
                 cursor = conn.cursor()
@@ -354,7 +507,7 @@ class GerontoVoiceDatabase:
     
     # Skill Progress Tracking
     def update_skill_progress(self, user_id: str, skill_name: str, new_score: float):
-        """Update user's skill progress"""
+        """Update users skill progress"""
         try:
             with self._get_connection() as conn:
                 cursor = conn.cursor()
@@ -393,7 +546,7 @@ class GerontoVoiceDatabase:
             logger.error(f"Error updating skill progress: {e}")
     
     def get_skill_progress(self, user_id: str) -> List[SkillProgress]:
-        """Get user's skill progress"""
+        """Get users skill progress"""
         try:
             with self._get_connection() as conn:
                 cursor = conn.cursor()
@@ -439,7 +592,7 @@ class GerontoVoiceDatabase:
             logger.error(f"Error unlocking achievement: {e}")
     
     def get_user_achievements(self, user_id: str) -> List[Dict]:
-        """Get user's achievements"""
+        """Get users achievements"""
         try:
             with self._get_connection() as conn:
                 cursor = conn.cursor()
@@ -465,6 +618,113 @@ class GerontoVoiceDatabase:
             logger.error(f"Error getting user achievements: {e}")
             return []
     
+    # Session Management - Additional Methods
+    def get_session(self, session_id: str) -> Optional[Session]:
+        """Get a session by ID"""
+        try:
+            with self._get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute("SELECT * FROM sessions WHERE session_id = ?", (session_id,))
+                row = cursor.fetchone()
+                
+                if not row:
+                    return None
+                
+                # Parse JSON fields
+                conversation_data = json.loads(row['conversation_data']) if row['conversation_data'] else []
+                skill_scores = json.loads(row['skill_scores']) if row['skill_scores'] else {}
+                emotion_data = json.loads(row['emotion_data']) if row['emotion_data'] else {}
+                memory_context = json.loads(row['memory_context']) if row['memory_context'] else []
+                rag_metadata = json.loads(row['rag_metadata']) if row['rag_metadata'] else {}
+                
+                return Session(
+                    session_id=row['session_id'],
+                    user_id=row['user_id'],
+                    persona_id=row['persona_id'],
+                    start_time=datetime.fromisoformat(row['start_time']) if row['start_time'] else None,
+                    end_time=datetime.fromisoformat(row['end_time']) if row['end_time'] else None,
+                    conversation_data=conversation_data,
+                    skill_scores=skill_scores,
+                    total_score=row['total_score'],
+                    status=row['status'],
+                    difficulty_level=row['difficulty_level'],
+                    emotion_data=emotion_data,
+                    memory_context=memory_context,
+                    rag_metadata=rag_metadata
+                )
+                
+        except Exception as e:
+            logger.error(f"Error getting session: {e}")
+            return None
+            
+    def update_rag_metadata(self, session_id: str, rag_metadata: Dict[str, Any]) -> bool:
+        """Update RAG metadata for a specific session"""
+        try:
+            with self._get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute("""
+                    UPDATE sessions 
+                    SET rag_metadata = ? 
+                    WHERE session_id = ?
+                """, (json.dumps(rag_metadata), session_id))
+                conn.commit()
+                
+                rows_affected = cursor.rowcount
+                if rows_affected > 0:
+                    logger.info(f"Updated RAG metadata for session {session_id}")
+                    return True
+                else:
+                    logger.warning(f"No session found with ID {session_id} to update RAG metadata")
+                    return False
+                
+        except Exception as e:
+            logger.error(f"Error updating RAG metadata: {e}")
+            return False
+            
+    def get_rag_metadata(self, session_id: str) -> Optional[Dict[str, Any]]:
+        """Get RAG metadata for a specific session"""
+        try:
+            with self._get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute("SELECT rag_metadata FROM sessions WHERE session_id = ?", (session_id,))
+                row = cursor.fetchone()
+                
+                if not row or not row[0]:
+                    return None
+                
+                return json.loads(row[0])
+                
+        except Exception as e:
+            logger.error(f"Error getting RAG metadata: {e}")
+            return None
+            
+    def store_rag_retrieval(self, session_id: str, query: str, chunks_retrieved: List[str], 
+                           chunks_used: int, response_quality: float = None) -> bool:
+        """Store RAG retrieval information for analytics and improvement"""
+        try:
+            # Get existing metadata
+            rag_metadata = self.get_rag_metadata(session_id) or {}
+            
+            # Initialize retrievals list if it doesn't exist
+            if 'retrievals' not in rag_metadata:
+                rag_metadata['retrievals'] = []
+                
+            # Add new retrieval data
+            rag_metadata['retrievals'].append({
+                'timestamp': datetime.now().isoformat(),
+                'query': query,
+                'chunks_retrieved': chunks_retrieved,
+                'chunks_used': chunks_used,
+                'response_quality': response_quality
+            })
+            
+            # Update session with new metadata
+            return self.update_rag_metadata(session_id, rag_metadata)
+                
+        except Exception as e:
+            logger.error(f"Error storing RAG retrieval data: {e}")
+            return False
+            
     # Data Export
     def export_user_data(self, user_id: str) -> Dict:
         """Export all user data to JSON format"""

@@ -201,6 +201,36 @@ body {
   }
 }
 
+/* Training Session Animations */
+@keyframes feedbackPulse {
+  0% { 
+    background-color: rgb(255, 255, 255); 
+  }
+  50% { 
+    background-color: rgb(220, 252, 231); 
+  }
+  100% { 
+    background-color: rgb(255, 255, 255); 
+  }
+}
+
+@layer components {
+  .card-hover {
+    @apply transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl;
+  }
+  
+  .feedback-pulse {
+    animation: feedbackPulse 1.5s ease-in-out;
+  }
+  
+  /* Responsive grid for training cards */
+  @media (max-width: 768px) {
+    .training-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
 @keyframes bounce-in {
   0% {
     opacity: 0;

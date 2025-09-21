@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Mic, MicOff, Volume2, VolumeX, Loader2 } from 'lucide-react';
+import { Mic, MicOff, Volume2, VolumeX, Loader2, Type } from 'lucide-react';
 import { ConversationEntry } from '../types';
 import toast from 'react-hot-toast';
 
@@ -9,6 +9,7 @@ interface VoiceButtonProps {
   onStartListening: () => void;
   onStopListening: () => void;
   onVoiceToggle: (enabled: boolean) => void;
+  onTextInput?: (text: string) => void;
   voiceEnabled: boolean;
   confidence?: number;
   className?: string;
@@ -22,6 +23,7 @@ const VoiceButton: React.FC<VoiceButtonProps> = ({
   onStartListening,
   onStopListening,
   onVoiceToggle,
+  onTextInput,
   voiceEnabled,
   confidence = 0,
   className = '',
@@ -31,150 +33,360 @@ const VoiceButton: React.FC<VoiceButtonProps> = ({
   const [isSupported, setIsSupported] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
-  const recognitionRef = useRef<SpeechRecognition | null>(null);
-  const synthesisRef = useRef<SpeechSynthesis | null>(null);
+  const [showTextInput, setShowTextInput] = useState(false);
+  const [textInputValue, setTextInputValue] = useState('');
+  const [permissionDenied, setPermissionDenied] = useState(false);
+  const [recognitionAttempts, setRecognitionAttempts] = useState(0);
+  const [micPermissionGranted, setMicPermissionGranted] = useState(false);
+  
+  const recognitionRef = useRef<any | null>(null);
+  const synthesisRef = useRef<typeof window.speechSynthesis | null>(null);
   const finalTranscriptRef = useRef<string>('');
   const interimTranscriptRef = useRef<string>('');
+  const textInputRef = useRef<HTMLInputElement>(null);
 
-  // Check for Web Speech API support
+  // Check for Web Speech API support and request microphone permissions
   useEffect(() => {
-    const checkSupport = () => {
+    const checkSupportAndPermissions = async () => {
       const speechRecognition = 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window;
       const speechSynthesis = 'speechSynthesis' in window;
+      const mediaDevices = 'mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices;
       
-      setIsSupported(speechRecognition && speechSynthesis);
+      console.log('Browser capabilities:', {
+        speechRecognition,
+        speechSynthesis,
+        mediaDevices,
+        userAgent: navigator.userAgent
+      });
       
       if (!speechRecognition) {
+        console.error('Speech recognition not supported in this browser');
         setError('Speech recognition not supported in this browser');
-      } else if (!speechSynthesis) {
+        setShowTextInput(true);
+        toast.error('Voice input not supported. Chrome/Edge recommended. Using text input instead.');
+        return;
+      }
+      
+      if (!speechSynthesis) {
+        console.error('Speech synthesis not supported in this browser');
         setError('Speech synthesis not supported in this browser');
       }
+      
+      // Request microphone permissions early
+      if (mediaDevices) {
+        try {
+          console.log('Requesting microphone permission...');
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          stream.getTracks().forEach(track => track.stop()); // Stop the stream immediately
+          setMicPermissionGranted(true);
+          console.log('Microphone permission granted');
+          toast.success('Microphone access granted!');
+        } catch (permissionError: any) {
+          console.error('Microphone permission denied:', permissionError);
+          setPermissionDenied(true);
+          setShowTextInput(true);
+          
+          if (permissionError.name === 'NotAllowedError') {
+            toast.error('Microphone access denied. Please allow microphone access and refresh.');
+          } else if (permissionError.name === 'NotFoundError') {
+            toast.error('No microphone found. Using text input instead.');
+          } else {
+            toast.error('Microphone error. Using text input instead.');
+          }
+        }
+      } else {
+        console.warn('MediaDevices API not supported');
+        toast.error('Microphone access not supported. Using text input instead.');
+        setShowTextInput(true);
+      }
+      
+      setIsSupported(speechRecognition && speechSynthesis);
     };
 
-    checkSupport();
+    checkSupportAndPermissions();
   }, []);
 
   // Initialize speech recognition
   useEffect(() => {
     if (!isSupported) return;
 
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    recognitionRef.current = new SpeechRecognition();
-    
-    if (recognitionRef.current) {
-      recognitionRef.current.continuous = false; // Changed to false to prevent loops
-      recognitionRef.current.interimResults = true;
-      recognitionRef.current.lang = 'en-US';
-      recognitionRef.current.maxAlternatives = 1;
+    try {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognitionRef.current = new SpeechRecognition();
       
-      recognitionRef.current.onstart = () => {
-        setError(null);
-        console.log('Speech recognition started');
-      };
-      
-      recognitionRef.current.onerror = (event) => {
-        console.error('Speech recognition error:', event.error);
-        setError(`Speech recognition error: ${event.error}`);
+      if (recognitionRef.current) {
+        recognitionRef.current.continuous = false; // Prevent loops
+        recognitionRef.current.interimResults = true;
+        recognitionRef.current.lang = 'en-US';
+        recognitionRef.current.maxAlternatives = 1;
         
-        // Handle specific errors
-        switch (event.error) {
-          case 'not-allowed':
-            toast.error('Microphone permission denied. Please allow microphone access.');
-            break;
-          case 'no-speech':
-            toast.error('No speech detected. Please try again.');
-            break;
-          case 'audio-capture':
-            toast.error('No microphone found. Please check your microphone.');
-            break;
-          case 'network':
-            toast.error('Network error. Please check your connection.');
-            break;
-          default:
-            toast.error(`Speech recognition error: ${event.error}`);
-        }
-      };
-      
-      recognitionRef.current.onresult = (event) => {
-        let interimTranscript = '';
-        let finalTranscript = '';
+        recognitionRef.current.onstart = () => {
+          setError(null);
+          console.log('Speech recognition started');
+          toast.success('Listening...', { duration: 1000 });
+        };
         
-        for (let i = event.resultIndex; i < event.results.length; i++) {
-          const transcript = event.results[i][0].transcript;
-          if (event.results[i].isFinal) {
-            finalTranscript += transcript;
-          } else {
-            interimTranscript += transcript;
+        recognitionRef.current.onerror = (event: { error: string; message?: string }) => {
+          console.error('Speech recognition error:', event.error, event);
+          setError(`Speech recognition error: ${event.error}`);
+          
+          // Handle specific errors with user-friendly messages
+          switch (event.error) {
+            case 'not-allowed':
+              toast.error('Microphone permission denied. Please allow microphone access and try again.');
+              setPermissionDenied(true);
+              setShowTextInput(true);
+              break;
+            case 'no-speech':
+              console.log('No speech detected, will retry if still listening');
+              if (isListening && recognitionAttempts < 2) {
+                toast('No speech detected. Speak clearly into your microphone.', { 
+                  icon: '🎤',
+                  duration: 2000 
+                });
+              } else {
+                toast.error('No speech detected. Try using text input.');
+                setShowTextInput(true);
+              }
+              break;
+            case 'audio-capture':
+              toast.error('No microphone found. Please check your microphone or use text input.');
+              setShowTextInput(true);
+              break;
+            case 'network':
+              toast.error('Network error. Please check your internet connection.');
+              break;
+            case 'service-not-allowed':
+              toast.error('Speech service not allowed. Try using text input.');
+              setShowTextInput(true);
+              break;
+            case 'bad-grammar':
+              toast.error('Speech recognition error. Try speaking more clearly.');
+              break;
+            case 'language-not-supported':
+              toast.error('Language not supported. Using text input instead.');
+              setShowTextInput(true);
+              break;
+            case 'aborted':
+              console.log('Speech recognition aborted');
+              // Don't show error for user-initiated stops
+              break;
+            default:
+              toast.error(`Speech error: ${event.error}. Try using text input.`);
+              setShowTextInput(true);
           }
-        }
+          
+          // Auto-stop listening on critical errors
+          if (['not-allowed', 'audio-capture', 'service-not-allowed', 'language-not-supported'].includes(event.error)) {
+            onStopListening();
+          }
+        };
         
-        interimTranscriptRef.current = interimTranscript;
-        finalTranscriptRef.current = finalTranscript;
+        recognitionRef.current.onresult = (event: any) => {
+          let interimTranscript = '';
+          let finalTranscript = '';
+          
+          for (let i = event.resultIndex; i < event.results.length; i++) {
+            const transcript = event.results[i][0].transcript;
+            if (event.results[i].isFinal) {
+              finalTranscript += transcript;
+              console.log('Final transcript received:', finalTranscript);
+            } else {
+              interimTranscript += transcript;
+              console.log('Interim transcript:', interimTranscript);
+            }
+          }
+          
+          // Update refs with current transcripts
+          interimTranscriptRef.current = interimTranscript;
+          
+          // Only update final transcript when we get a final result
+          if (finalTranscript.trim()) {
+            finalTranscriptRef.current = finalTranscript.trim();
+            console.log('Final transcript stored:', finalTranscriptRef.current);
+          }
+        };
         
-        if (finalTranscript) {
-          console.log('Final transcript:', finalTranscript);
-          // Process final transcript here
-        }
-      };
-      
-      recognitionRef.current.onend = () => {
-        console.log('Speech recognition ended');
-        if (finalTranscriptRef.current) {
-          // Process the final transcript
-          console.log('Processing final transcript:', finalTranscriptRef.current);
-        }
-      };
-      
-      recognitionRef.current.onspeechstart = () => {
-        console.log('Speech started');
-      };
-      
-      recognitionRef.current.onspeechend = () => {
-        console.log('Speech ended');
-      };
-    }
+        recognitionRef.current.onend = () => {
+          console.log('Speech recognition ended');
+          
+          // Process final transcript if available
+          if (finalTranscriptRef.current && finalTranscriptRef.current.trim()) {
+            const transcript = finalTranscriptRef.current.trim();
+            console.log('Processing final transcript:', transcript);
+            
+            // Submit the transcript to the parent component
+            if (onTextInput) {
+              onTextInput(transcript);
+              toast.success(`Heard: "${transcript.substring(0, 30)}${transcript.length > 30 ? '...' : '"'}`);
+            }
+            
+            // Clear transcripts after processing
+            finalTranscriptRef.current = '';
+            interimTranscriptRef.current = '';
+            setRecognitionAttempts(0);
+            
+            // Stop listening after successful transcript
+            onStopListening();
+            
+          } else if (isListening) {
+            // Handle case where no transcript was captured
+            if (recognitionAttempts < 2) {
+              console.log(`No transcript captured, attempt ${recognitionAttempts + 1}/3`);
+              setRecognitionAttempts(prev => prev + 1);
+              
+              // Small delay before restarting to avoid rapid cycling
+              setTimeout(() => {
+                if (isListening && recognitionRef.current) {
+                  try {
+                    console.log('Restarting recognition...');
+                    recognitionRef.current.start();
+                  } catch (error) {
+                    console.error('Error restarting recognition:', error);
+                    toast.error('Voice recognition failed. Try using text input.');
+                    onStopListening();
+                    setShowTextInput(true);
+                  }
+                }
+              }, 500);
+            } else {
+              // After multiple failed attempts, suggest text input
+              console.log('Multiple failed attempts, suggesting text input');
+              toast.error('Having trouble with voice input. Please try text input instead.');
+              setShowTextInput(true);
+              onStopListening();
+              setRecognitionAttempts(0);
+            }
+          }
+        };
+        
+        // Add speech event handlers for better debugging
+        recognitionRef.current.onspeechstart = () => {
+          console.log('Speech detected - user started speaking');
+          toast('Speech detected...', { icon: '😮', duration: 1000 });
+        };
+        
+        recognitionRef.current.onspeechend = () => {
+          console.log('Speech ended - user stopped speaking');
+        };
+        
+        recognitionRef.current.onsoundstart = () => {
+          console.log('Sound detected');
+        };
+        
+        recognitionRef.current.onsoundend = () => {
+          console.log('Sound ended');
+        };
+      }
 
-    if ('speechSynthesis' in window) {
-      synthesisRef.current = window.speechSynthesis;
+      if ('speechSynthesis' in window) {
+        synthesisRef.current = window.speechSynthesis;
+      }
+      
+      setIsInitialized(true);
+    } catch (error) {
+      console.error('Error initializing speech recognition:', error);
+      setError('Failed to initialize speech recognition');
+      setShowTextInput(true);
+      toast.error('Voice recognition setup failed. Using text input instead.');
     }
-    
-    setIsInitialized(true);
-  }, [isSupported]);
+  }, [isSupported, onStopListening, onTextInput]);
+
+  // Reset recognition attempts when listening state changes
+  useEffect(() => {
+    if (!isListening) {
+      setRecognitionAttempts(0);
+      // Clear any pending transcripts when stopping
+      finalTranscriptRef.current = '';
+      interimTranscriptRef.current = '';
+    }
+  }, [isListening]);
+
+  // Focus text input when it becomes visible
+  useEffect(() => {
+    if (showTextInput && textInputRef.current) {
+      setTimeout(() => {
+        textInputRef.current?.focus();
+      }, 100);
+    }
+  }, [showTextInput]);
 
   const handleClick = () => {
     if (!isSupported || !isInitialized) {
+      console.error('Speech features not available');
       setError('Speech features not supported or not initialized');
-      toast.error('Speech features not available');
+      toast.error('Speech features not available. Using text input instead.');
+      setShowTextInput(true);
       return;
     }
 
     if (isProcessing) {
-      toast.error('Already processing speech');
+      toast.error('Already processing speech, please wait');
+      return;
+    }
+
+    if (permissionDenied && !micPermissionGranted) {
+      toast.error('Microphone access denied. Please refresh and allow access, or use text input.');
+      setShowTextInput(true);
       return;
     }
 
     if (isListening) {
+      console.log('Stopping speech recognition');
       onStopListening();
       if (recognitionRef.current) {
         try {
           recognitionRef.current.stop();
+          toast('Stopped listening', { icon: '⏹️', duration: 1000 });
         } catch (error) {
           console.error('Error stopping recognition:', error);
         }
       }
     } else {
+      // Reset for new session
+      console.log('Starting new speech recognition session');
+      finalTranscriptRef.current = '';
+      interimTranscriptRef.current = '';
+      setRecognitionAttempts(0);
+      setError(null);
+      
       onStartListening();
+      
       if (recognitionRef.current) {
         try {
-          // Clear previous transcripts
-          finalTranscriptRef.current = '';
-          interimTranscriptRef.current = '';
           recognitionRef.current.start();
-        } catch (error) {
+          console.log('Speech recognition started successfully');
+        } catch (error: any) {
           console.error('Error starting recognition:', error);
-          toast.error('Failed to start speech recognition');
+          
+          if (error.message && error.message.includes('already started')) {
+            toast.error('Speech recognition already active. Please wait.');
+          } else {
+            toast.error('Failed to start speech recognition. Using text input instead.');
+            setShowTextInput(true);
+          }
+          
+          onStopListening();
         }
       }
+    }
+  };
+
+  const handleTextInputSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (textInputValue.trim() && onTextInput) {
+      onTextInput(textInputValue.trim());
+      setTextInputValue('');
+      setShowTextInput(false);
+    }
+  };
+
+  const toggleTextInput = () => {
+    setShowTextInput(prev => !prev);
+    if (!showTextInput && textInputRef.current) {
+      setTimeout(() => {
+        textInputRef.current?.focus();
+      }, 100);
     }
   };
 
@@ -189,7 +401,7 @@ const VoiceButton: React.FC<VoiceButtonProps> = ({
       utterance.volume = 0.8;
       
       utterance.onerror = (event) => {
-        console.error('Speech synthesis error:', event.error);
+        console.error('Speech synthesis error:', event);
         toast.error('Speech synthesis failed');
       };
       
@@ -201,171 +413,109 @@ const VoiceButton: React.FC<VoiceButtonProps> = ({
     }
   };
 
-  // Add text input fallback
-  const handleTextInput = (text: string) => {
-    if (text.trim()) {
-      console.log('Text input fallback:', text);
-      // Process text input here
-    }
+  const toggleVoice = () => {
+    onVoiceToggle(!voiceEnabled);
   };
 
-  const getSizeClasses = () => {
-    switch (size) {
-      case 'sm':
-        return 'w-16 h-16 text-lg';
-      case 'md':
-        return 'w-20 h-20 text-xl';
-      case 'lg':
-        return 'w-24 h-24 text-2xl';
-      default:
-        return 'w-24 h-24 text-2xl';
-    }
+  // Determine button size classes
+  const sizeClasses = {
+    sm: 'w-8 h-8',
+    md: 'w-12 h-12',
+    lg: 'w-16 h-16'
   };
 
-  const getConfidenceColor = () => {
-    if (confidence >= 0.8) return 'ring-green-400';
-    if (confidence >= 0.6) return 'ring-yellow-400';
-    return 'ring-red-400';
-  };
+  // Determine button color classes
+  const colorClasses = isListening
+    ? 'bg-red-500 hover:bg-red-600 text-white'
+    : 'bg-blue-500 hover:bg-blue-600 text-white';
 
-  const getButtonState = () => {
-    if (!isSupported) return 'disabled';
-    if (isProcessing) return 'processing';
-    if (isListening) return 'listening';
-    return 'idle';
-  };
-
-  const buttonState = getButtonState();
+  // Determine confidence indicator classes
+  const confidenceClasses = `absolute bottom-0 left-0 h-1 bg-green-400 transition-all duration-300 rounded-full`;
+  const confidenceWidth = `${Math.max(0, Math.min(100, confidence * 100))}%`;
 
   return (
-    <div className={`flex flex-col items-center space-y-4 ${className}`}>
-      {/* Main Voice Button */}
-      <button
-        onClick={handleClick}
-        disabled={!isSupported || isProcessing}
-        className={`
-          voice-button ${getSizeClasses()}
-          ${buttonState === 'listening' ? 'voice-button-active' : ''}
-          ${buttonState === 'processing' ? 'opacity-75 cursor-not-allowed' : ''}
-          ${buttonState === 'disabled' ? 'opacity-50 cursor-not-allowed' : ''}
-          ${confidence > 0 ? `ring-4 ${getConfidenceColor()}` : ''}
-          focus:outline-none focus:ring-4 focus:ring-blue-300
-        `}
-        aria-label={buttonState === 'listening' ? 'Stop listening' : 'Start listening'}
-        aria-describedby="voice-status"
-      >
-        {buttonState === 'processing' ? (
-          <Loader2 className="animate-spin" />
-        ) : buttonState === 'listening' ? (
-          <MicOff />
-        ) : (
-          <Mic />
-        )}
-      </button>
-
-      {/* Voice Wave Animation */}
-      {isListening && (
-        <div className="voice-wave">
-          {[...Array(5)].map((_, i) => (
-            <div
-              key={i}
-              className="voice-wave-bar"
-              style={{
-                height: `${20 + Math.random() * 20}px`,
-                animationDelay: `${i * 0.1}s`
-              }}
-            />
-          ))}
-        </div>
-      )}
-
-      {/* Status Text */}
-      <div id="voice-status" className="text-center">
-        {error && (
-          <p className="text-red-500 text-sm mb-2" role="alert">
-            {error}
-          </p>
-        )}
-        
-        {!isSupported && (
-          <div className="text-gray-500 text-sm mb-2">
-            <p>Voice features not supported in this browser</p>
-            <p className="text-xs mt-1">Please use Chrome or Edge for best experience</p>
-          </div>
-        )}
-        
-        {isSupported && !isInitialized && (
-          <p className="text-yellow-600 text-sm mb-2">
-            Initializing speech recognition...
-          </p>
-        )}
-        
-        {isSupported && isInitialized && (
-          <p className="text-gray-600 text-sm">
-            {buttonState === 'processing' && 'Processing...'}
-            {buttonState === 'listening' && 'Listening...'}
-            {buttonState === 'idle' && 'Tap to speak'}
-            {buttonState === 'disabled' && 'Voice not available'}
-          </p>
-        )}
-        
-        {confidence > 0 && (
-          <p className="text-xs text-gray-500 mt-1">
-            Confidence: {Math.round(confidence * 100)}%
-          </p>
-        )}
-        
-        {/* Text Input Fallback */}
-        {!isSupported && (
-          <div className="mt-4">
-            <input
-              type="text"
-              placeholder="Type your message here..."
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              onKeyPress={(e) => {
-                if (e.key === 'Enter') {
-                  handleTextInput((e.target as HTMLInputElement).value);
-                  (e.target as HTMLInputElement).value = '';
-                }
-              }}
-            />
-            <p className="text-xs text-gray-400 mt-1">Press Enter to send</p>
-          </div>
-        )}
-      </div>
-
-      {/* Voice Toggle */}
-      {showToggle && (
+    <div className={`flex flex-col items-center gap-2 ${className}`}>
+      <div className="flex items-center gap-2">
+        {/* Main voice button */}
         <button
-          onClick={() => onVoiceToggle(!voiceEnabled)}
-          className={`
-            flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300
-            ${voiceEnabled 
-              ? 'bg-green-100 text-green-700 hover:bg-green-200' 
-              : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
-            }
-          `}
-          aria-label={`${voiceEnabled ? 'Disable' : 'Enable'} voice responses`}
+          onClick={handleClick}
+          disabled={isProcessing || permissionDenied}
+          className={`relative rounded-full ${sizeClasses[size]} ${colorClasses} flex items-center justify-center transition-all duration-300 ${
+            isProcessing ? 'opacity-70 cursor-not-allowed' : ''
+          } ${isListening ? 'animate-pulse' : ''}`}
+          title={isListening ? 'Stop listening' : 'Start listening'}
         >
-          {voiceEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
-          <span className="text-sm font-medium">
-            Voice {voiceEnabled ? 'On' : 'Off'}
-          </span>
+          {isProcessing ? (
+            <Loader2 className="animate-spin" />
+          ) : isListening ? (
+            <MicOff />
+          ) : (
+            <Mic />
+          )}
+          <div
+            className={confidenceClasses}
+            style={{ width: confidenceWidth }}
+          ></div>
         </button>
+
+        {/* Text input toggle button */}
+        <button
+          onClick={toggleTextInput}
+          className={`rounded-full w-8 h-8 bg-gray-200 hover:bg-gray-300 flex items-center justify-center transition-all duration-300`}
+          title="Toggle text input"
+        >
+          <Type size={16} />
+        </button>
+
+        {/* Voice output toggle button */}
+        {showToggle && (
+          <button
+            onClick={toggleVoice}
+            className={`rounded-full w-8 h-8 ${
+              voiceEnabled ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-400 hover:bg-gray-500'
+            } text-white flex items-center justify-center transition-all duration-300`}
+            title={voiceEnabled ? 'Disable voice output' : 'Enable voice output'}
+          >
+            {voiceEnabled ? <Volume2 size={16} /> : <VolumeX size={16} />}
+          </button>
+        )}
+      </div>
+
+      {/* Text input fallback */}
+      {showTextInput && (
+        <form onSubmit={handleTextInputSubmit} className="flex w-full max-w-md mt-2">
+          <input
+            ref={textInputRef}
+            type="text"
+            value={textInputValue}
+            onChange={(e) => setTextInputValue(e.target.value)}
+            placeholder="Type your message..."
+            className="flex-1 px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button
+            type="submit"
+            disabled={!textInputValue.trim()}
+            className="px-4 py-2 bg-blue-500 text-white rounded-r-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Send
+          </button>
+        </form>
       )}
 
-      {/* Accessibility Instructions */}
-      <div className="sr-only">
-        <p>
-          Voice button for speech recognition. 
-          {buttonState === 'idle' && 'Press to start listening.'}
-          {buttonState === 'listening' && 'Press to stop listening.'}
-          {buttonState === 'processing' && 'Currently processing speech.'}
-          {buttonState === 'disabled' && 'Voice features are not available.'}
-        </p>
-      </div>
+      {/* Error message */}
+      {error && !showTextInput && (
+        <div className="text-red-500 text-sm mt-2">{error}</div>
+      )}
     </div>
   );
 };
 
 export default VoiceButton;
+
+// Add TypeScript declarations for Web Speech API
+declare global {
+  interface Window {
+    SpeechRecognition: any;
+    webkitSpeechRecognition: any;
+  }
+}

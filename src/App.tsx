@@ -1,4 +1,5 @@
-import { useState, useRef, useEffect } from 'react';
+
+import React, { useState, useEffect, useRef } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { ConversationEntry, Achievement } from './types';
 import { getPersonas, simulateConversation, saveSession } from './services/api';
@@ -7,11 +8,12 @@ import Simulation from './pages/Simulation';
 import Feedback from './pages/Feedback';
 import Progress from './pages/Progress';
 import Community from './pages/Community';
+import TrainingSession from './components/TrainingSession';
 import './styles/global.css';
 
 // Main App Component
 function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'simulation' | 'feedback' | 'progress' | 'community' | 'onboarding'>('onboarding');
+  const [currentPage, setCurrentPage] = useState<'home' | 'simulation' | 'feedback' | 'progress' | 'community' | 'training' | 'onboarding'>('home');
   const [conversation, setConversation] = useState<ConversationEntry[]>([]);
   const [selectedLanguage] = useState('en-US');
   const [achievements, setAchievements] = useState<Achievement[]>([]);
@@ -193,18 +195,7 @@ function App() {
     // Save session
     if (currentSessionId) {
       try {
-        await saveSession({
-          id: currentSessionId,
-          userId: 'demo_user',
-          personaId: currentScenario,
-          startTime: new Date(),
-          endTime: new Date(),
-          conversation,
-          skillScores: [],
-          totalScore: 85,
-          duration: 0,
-          status: 'completed'
-        });
+        await saveSession(currentSessionId, conversation, currentScenario);
       } catch (error) {
         console.error('Failed to save session:', error);
       }
@@ -299,6 +290,15 @@ function App() {
       {currentPage === 'community' && (
         <Community
           onNavigate={handleNavigate}
+        />
+      )}
+
+      {currentPage === 'training' && (
+        <TrainingSession
+          onSessionComplete={(session) => {
+            console.log('Training session completed:', session);
+            setCurrentPage('progress');
+          }}
         />
       )}
     </div>

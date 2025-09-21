@@ -1,0 +1,598 @@
+speaker,text,emotion,empathy_score,active_listening_score,clear_communication_score,patience_score,source,condition
+caregiver,"Hello Margaret, how are you feeling today?",neutral,3,3,4,4,conversation_text,dementia
+elder,"I'm doing okay, thank you for asking. Sometimes I get a bit confused though.",neutral,4,4,3,4,conversation_text,dementia
+caregiver,I understand that must be difficult for you. Can you tell me more about what confuses you?,empathy,4,4,4,4,conversation_text,mobility
+elder,"Well, I sometimes forget where I put things, and I get worried about my family.",worried,4,4,3,4,conversation_text,dementia
+caregiver,That sounds really challenging. I'm here to help you with that.,empathy,4,3,4,4,conversation_text,general
+elder,"Thank you, that means a lot to me. You're very kind.",grateful,4,4,3,4,conversation_text,general
+caregiver,Have you taken your medication today?,neutral,2,2,3,3,conversation_text,dementia
+elder,"I think so, but I'm not sure. I get confused about the timing.",confused,3,3,2,3,conversation_text,dementia
+caregiver,Let me help you check. Can you show me your pill organizer?,helpful,3,3,4,4,conversation_text,general
+elder,"Oh yes, here it is. I think I took the morning ones.",neutral,3,3,3,3,conversation_text,general
+caregiver,Great! I can see you did take them. You're doing well.,encouraging,4,3,4,4,conversation_text,general
+elder,Thank you for helping me remember. I feel better when someone helps me.,grateful,4,4,3,4,conversation_text,dementia
+caregiver,I'm here to support you. Is there anything else you'd like to talk about?,supportive,4,4,4,4,conversation_text,general
+elder,I'm worried about my daughter. I haven't heard from her in a while.,worried,3,4,3,4,conversation_text,general
+caregiver,I understand your concern. Would you like me to help you call her?,helpful,4,4,4,4,conversation_text,mobility
+elder,That would be wonderful! I miss her so much.,happy,4,4,3,4,conversation_text,general
+caregiver,Let's take your time and call her together. There's no rush.,patient,4,4,4,4,conversation_text,general
+elder,You're so patient with me. I really appreciate that.,grateful,4,4,3,4,conversation_text,general
+caregiver,It's my pleasure to help you. You're doing great.,encouraging,4,3,4,4,conversation_text,general
+elder,Thank you. You make me feel safe and cared for.,grateful,4,4,3,4,conversation_text,general
+caregiver,That's exactly what I want for you. You deserve to feel safe and cared for.,empathy,4,4,4,4,conversation_text,general
+elder,You're such a kind person. I'm lucky to have you helping me.,grateful,4,4,3,4,conversation_text,general
+elder,"I'm doing okay, thank you for asking.",neutral,3,3,3,3,conversation_audio,general
+elder,Sometimes I feel confused about things.,sad,3,3,3,3,conversation_audio,dementia
+elder,I appreciate your help and patience.,sad,3,3,3,3,conversation_audio,general
+elder,That makes me feel better.,neutral,3,3,3,3,conversation_audio,general
+elder,I'm worried about my family.,neutral,3,3,3,3,conversation_audio,general
+caregiver,How are you feeling today?,neutral,3,3,3,3,conversation_audio,general
+caregiver,Can you tell me about your concerns?,sad,3,3,3,3,conversation_audio,general
+caregiver,I'm here to help you with that.,neutral,3,3,3,3,conversation_audio,general
+caregiver,Let's work through this together.,neutral,3,3,3,3,conversation_audio,general
+caregiver,You're doing really well.,neutral,3,3,3,3,conversation_audio,general
+caregiver,"hi, how are you doing?",neutral,2,3,4,3,dialogs_txt,general
+elder,i'm fine. how about yourself?,neutral,3,3,3,3,dialogs_txt,general
+elder,i'm pretty good. thanks for asking.,grateful,3,3,3,3,dialogs_txt,general
+elder,no problem. so how have you been?,neutral,3,3,3,3,dialogs_txt,general
+elder,i've been great. what about you?,happy,3,3,3,3,dialogs_txt,general
+elder,i've been good. i'm in school right now.,happy,3,3,3,3,dialogs_txt,general
+elder,what school do you go to?,neutral,3,3,3,3,dialogs_txt,general
+elder,i go to pcc.,neutral,3,3,3,3,dialogs_txt,general
+elder,do you like it there?,neutral,3,3,3,3,dialogs_txt,general
+elder,it's okay. it's a really big campus.,neutral,3,3,3,3,dialogs_txt,general
+elder,good luck with school.,happy,3,3,3,3,dialogs_txt,general
+elder,thank you very much.,grateful,3,3,3,3,dialogs_txt,general
+caregiver,how's it going?,neutral,2,3,4,3,dialogs_txt,general
+elder,i'm doing well. how about you?,neutral,3,3,3,3,dialogs_txt,general
+elder,"never better, thanks.",grateful,3,3,3,3,dialogs_txt,general
+elder,so how have you been lately?,neutral,3,3,3,3,dialogs_txt,general
+elder,i've actually been pretty good. you?,happy,3,3,3,3,dialogs_txt,general
+elder,i'm actually in school right now.,neutral,3,3,3,3,dialogs_txt,general
+elder,which school do you attend?,neutral,3,3,3,3,dialogs_txt,general
+elder,i'm attending pcc right now.,neutral,3,3,3,3,dialogs_txt,general
+elder,are you enjoying it there?,neutral,3,3,3,3,dialogs_txt,general
+elder,it's not bad. there are a lot of people there.,neutral,3,3,3,3,dialogs_txt,general
+elder,good luck with that.,happy,3,3,3,3,dialogs_txt,general
+caregiver,how are you doing today?,neutral,2,3,4,3,dialogs_txt,general
+elder,i'm doing great. what about you?,happy,3,3,3,3,dialogs_txt,general
+elder,"i'm absolutely lovely, thank you.",grateful,3,3,3,3,dialogs_txt,general
+elder,everything's been good with you?,happy,3,3,3,3,dialogs_txt,general
+elder,i haven't been better. how about yourself?,neutral,3,3,3,3,dialogs_txt,general
+elder,i started school recently.,neutral,3,3,3,3,dialogs_txt,general
+elder,where are you going to school?,neutral,3,3,3,3,dialogs_txt,general
+elder,i'm going to pcc.,neutral,3,3,3,3,dialogs_txt,general
+elder,how do you like it so far?,neutral,3,3,3,3,dialogs_txt,general
+elder,i like it so far. my classes are pretty good right now.,happy,3,3,3,3,dialogs_txt,general
+elder,i wish you luck.,neutral,3,3,3,3,dialogs_txt,general
+caregiver,it's an ugly day today.,neutral,2,3,4,3,dialogs_txt,general
+elder,i know. i think it may rain.,neutral,3,3,3,3,dialogs_txt,general
+elder,"it's the middle of summer, it shouldn't rain today.",neutral,3,3,3,3,dialogs_txt,general
+elder,that would be weird.,neutral,3,3,3,3,dialogs_txt,general
+elder,"yeah, especially since it's ninety degrees outside.",neutral,3,3,3,3,dialogs_txt,general
+elder,"i know, it would be horrible if it rained and it was hot outside.",neutral,3,3,3,3,dialogs_txt,general
+elder,"yes, it would be.",neutral,3,3,3,3,dialogs_txt,general
+elder,i really wish it wasn't so hot every day.,neutral,3,3,3,3,dialogs_txt,general
+elder,me too. i can't wait until winter.,neutral,3,3,3,3,dialogs_txt,general
+elder,"i like winter too, but sometimes it gets too cold.",neutral,3,3,3,3,dialogs_txt,general
+elder,i'd rather be cold than hot.,neutral,3,3,3,3,dialogs_txt,general
+caregiver,it doesn't look very nice outside today.,neutral,2,3,4,3,dialogs_txt,general
+elder,you're right. i think it's going to rain later.,neutral,3,3,3,3,dialogs_txt,general
+elder,"in the middle of the summer, it shouldn't be raining.",neutral,3,3,3,3,dialogs_txt,general
+elder,that wouldn't seem right.,neutral,3,3,3,3,dialogs_txt,general
+elder,"considering that it's over ninety degrees outside, that would be weird.",neutral,3,3,3,3,dialogs_txt,general
+elder,"exactly, it wouldn't be nice if it started raining. it's too hot.",neutral,3,3,3,3,dialogs_txt,general
+elder,"i know, you're absolutely right.",neutral,3,3,3,3,dialogs_txt,general
+elder,i wish it would cool off one day.,neutral,3,3,3,3,dialogs_txt,general
+elder,"that's how i feel, i want winter to come soon.",neutral,3,3,3,3,dialogs_txt,general
+elder,"i enjoy the winter, but it gets really cold sometimes.",neutral,3,3,3,3,dialogs_txt,general
+elder,"i know what you mean, but i'd rather be cold than hot.",neutral,3,3,3,3,dialogs_txt,general
+elder,that's exactly how i feel.,neutral,3,3,3,3,dialogs_txt,general
+caregiver,i wish it was a nicer day today.,neutral,2,3,4,3,dialogs_txt,general
+elder,that is true. i hope it doesn't rain.,neutral,3,3,3,3,dialogs_txt,general
+elder,it wouldn't rain in the middle of the summer.,neutral,3,3,3,3,dialogs_txt,general
+elder,it wouldn't seem right if it started raining right now.,neutral,3,3,3,3,dialogs_txt,general
+elder,it would be weird if it started raining in ninety degree weather.,neutral,3,3,3,3,dialogs_txt,general
+elder,any rain right now would be pointless.,neutral,3,3,3,3,dialogs_txt,general
+elder,"that's right, it really would be.",neutral,3,3,3,3,dialogs_txt,general
+elder,i want it to cool down some.,neutral,3,3,3,3,dialogs_txt,general
+elder,"i know what you mean, i can't wait until it's winter.",neutral,3,3,3,3,dialogs_txt,general
+elder,winter is great. i wish it didn't get so cold sometimes though.,happy,3,3,3,3,dialogs_txt,general
+elder,i would rather deal with the winter than the summer.,neutral,3,3,3,3,dialogs_txt,general
+caregiver,it's such a nice day.,neutral,2,3,4,3,dialogs_txt,general
+elder,"yes, it is.",neutral,3,3,3,3,dialogs_txt,general
+elder,it looks like it may rain soon.,neutral,3,3,3,3,dialogs_txt,general
+elder,"yes, and i hope that it does.",neutral,3,3,3,3,dialogs_txt,general
+elder,why is that?,neutral,3,3,3,3,dialogs_txt,general
+elder,i really love how rain clears the air.,neutral,3,3,3,3,dialogs_txt,general
+elder,me too. it always smells so fresh after it rains.,neutral,3,3,3,3,dialogs_txt,general
+elder,"yes, but i love the night air after it rains.",neutral,3,3,3,3,dialogs_txt,general
+elder,really? why is it?,neutral,3,3,3,3,dialogs_txt,general
+elder,because you can see the stars perfectly.,neutral,3,3,3,3,dialogs_txt,general
+elder,i really hope it rains today.,neutral,3,3,3,3,dialogs_txt,general
+elder,"yeah, me too.",neutral,3,3,3,3,dialogs_txt,general
+caregiver,isn't it a nice day?,neutral,2,3,4,3,dialogs_txt,general
+elder,it really is.,neutral,3,3,3,3,dialogs_txt,general
+elder,it seems that it may rain today.,neutral,3,3,3,3,dialogs_txt,general
+elder,hopefully it will.,neutral,3,3,3,3,dialogs_txt,general
+elder,i like how clear the sky gets after it rains.,neutral,3,3,3,3,dialogs_txt,general
+elder,i feel the same way. it smells so good after it rains.,happy,3,3,3,3,dialogs_txt,general
+elder,i especially love the night air when it rains.,neutral,3,3,3,3,dialogs_txt,general
+elder,really? why?,neutral,3,3,3,3,dialogs_txt,general
+elder,the stars look so much closer after it rains.,neutral,3,3,3,3,dialogs_txt,general
+elder,i really want it to rain today.,neutral,3,3,3,3,dialogs_txt,general
+elder,"yeah, so do i.",neutral,3,3,3,3,dialogs_txt,general
+caregiver,don't you think it's nice out?,neutral,2,3,4,3,dialogs_txt,general
+elder,"yes, i think so too.",neutral,3,3,3,3,dialogs_txt,general
+elder,i think that it's going to rain.,neutral,3,3,3,3,dialogs_txt,general
+elder,i hope that it does rain.,neutral,3,3,3,3,dialogs_txt,general
+elder,you like the rain?,neutral,3,3,3,3,dialogs_txt,general
+elder,the sky looks so clean after it rains. i love it.,neutral,3,3,3,3,dialogs_txt,general
+elder,i understand. rain does make it smell cleaner.,neutral,3,3,3,3,dialogs_txt,mobility
+elder,i love most how it is at night after it rains.,neutral,3,3,3,3,dialogs_txt,general
+elder,you can see the stars so much more clearly after it rains.,neutral,3,3,3,3,dialogs_txt,general
+elder,i would love for it to rain today.,neutral,3,3,3,3,dialogs_txt,general
+caregiver,i really want to go to the beach this weekend.,neutral,2,3,4,3,dialogs_txt,general
+elder,that sounds like fun. what's the weather going to be like?,neutral,3,3,3,3,dialogs_txt,general
+elder,i heard that it's going to be warm this weekend.,neutral,3,3,3,3,dialogs_txt,general
+elder,is it going to be perfect beach weather?,neutral,3,3,3,3,dialogs_txt,general
+elder,i believe so.,neutral,3,3,3,3,dialogs_txt,general
+caregiver,Help me learn about who is at risk for lymphocytic choriomeningitis (lcm)?,neutral,3,3,4,3,train_csv,general
+elder,"LCMV infections can occur after exposure to fresh urine, droppings, saliva, or nesting materials from infected rodents.   Transmission may also occur when these materials are directly introduced into ...",neutral,3,3,3,3,train_csv,general
+caregiver,Could you explain what are the treatments for lymphocytic choriomeningitis (lcm)?,neutral,3,3,4,3,train_csv,general
+elder,"Aseptic meningitis, encephalitis, or meningoencephalitis requires hospitalization and supportive treatment based on severity.  Anti-inflammatory drugs, such as corticosteroids, may be considered under...",neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about what is (are) parasites - cysticercosis?,neutral,3,3,4,3,train_csv,general
+elder,Cysticercosis is an infection caused by the larvae of the parasite Taenia solium.   This infection occurs after a person swallows tapeworm eggs,neutral,3,3,3,3,train_csv,general
+caregiver,Could you explain what are the treatments for parasites - cysticercosis?,neutral,3,3,4,3,train_csv,general
+elder,Some people with cysticercosis do not need to be treated.  There are medications available to treat cysticercosis for those who do need treatment,neutral,3,3,3,3,train_csv,dementia
+caregiver,Could you explain what is (are) parasites - trichuriasis (also known as whipworm infection)?,neutral,3,3,4,3,train_csv,general
+elder,Whipworm (Trichuris trichiura) is an intestinal parasite of humans.  The larvae and adult worms live in the intestine of humans and can cause intestinal disease,neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about how to diagnose parasites - trichuriasis (also known as whipworm infection)?,neutral,3,3,4,3,train_csv,general
+elder,"The standard method for diagnosing the presence of whipworm is by microscopically identifying whipworm eggs in a stool sample.  Because eggs may be difficult to find in light infections, a concentrati...",neutral,3,3,3,3,train_csv,mobility
+caregiver,I'd like to understand what are the treatments for parasites - trichuriasis (also known as whipworm infection)?,neutral,3,3,4,3,train_csv,general
+elder,"Anthelminthic medications (drugs that rid the body of parasitic worms), such as albendazole and mebendazole, are the drugs of choice for treatment.  Infections are generally treated for 3 days",neutral,3,3,3,3,train_csv,dementia
+caregiver,Help me learn about what are marine toxins?,neutral,3,3,4,3,train_csv,general
+elder,"Marine toxins are naturally occurring chemicals that can contaminate certain seafood.  The seafood contaminated with these chemicals frequently looks, smells, and tastes normal",neutral,3,3,3,3,train_csv,general
+caregiver,Could you explain how can these diseases be treated for marine toxins?,neutral,3,3,4,3,train_csv,general
+elder,"Other than supportive care there are few specific treatments for ciguatera poisoning, paralytic shellfish poisoning, neurotoxic shellfish poisoning, or amnesic shellfish poisoning.  Antihistamines and...",neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about what can i do to prevent poisoning by marine toxins?,neutral,3,3,4,3,train_csv,general
+elder,General guidelines for safe seafood consumption:,neutral,3,3,3,3,train_csv,general
+caregiver,Could you explain what else can be done to prevent these diseases for marine toxins?,neutral,3,3,4,3,train_csv,general
+elder,"It is important to notify public health departments about even one person with marine toxin poisoning.  Public health departments can then investigate to determine if a restaurant, oyster bed, or fish...",neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about what is (are) yellow fever vaccination?,neutral,3,3,4,3,train_csv,general
+elder,"If you continue to live or travel in yellow fever-endemic areas, you should receive a booster dose of yellow fever vaccine after 10 years. 
+                
+After receiving the vaccine, you should rec...",neutral,3,3,3,3,train_csv,general
+caregiver,Could you explain what is (are) parasites - schistosomiasis?,neutral,3,3,4,3,train_csv,general
+elder,"Schistosomiasis, also known as bilharzia, is a disease caused by parasitic worms.  Infection with Schistosoma mansoni, S",neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about how to diagnose parasites - schistosomiasis?,neutral,3,3,4,3,train_csv,general
+elder,Stool or urine samples can be examined microscopically for parasite eggs (stool for S.  mansoni or S,neutral,3,3,3,3,train_csv,diabetes
+caregiver,I'd like to understand what are the treatments for parasites - schistosomiasis?,neutral,3,3,4,3,train_csv,general
+elder,"Safe and effective medication is available for treatment of both urinary and intestinal schistosomiasis.  Praziquantel, a prescription medication, is taken for 1-2 days to treat infections caused by a...",neutral,3,3,3,3,train_csv,dementia
+caregiver,Help me learn about what is (are) parasites - lice - head lice?,neutral,3,3,4,3,train_csv,general
+elder,"The head louse, or Pediculus humanus capitis, is a parasitic insect that can be found on the head, eyebrows, and eyelashes of people.  Head lice feed on human blood several times a day and live close ...",neutral,3,3,3,3,train_csv,diabetes
+caregiver,Can you tell me about how to diagnose parasites - lice - body lice?,neutral,3,3,4,3,train_csv,general
+elder,Body lice infestation is diagnosed by finding eggs and crawling lice in the seams of clothing.  Sometimes a body louse can be seen crawling or feeding on the skin,neutral,3,3,3,3,train_csv,general
+caregiver,I'd like to understand what is (are) parasites - toxocariasis (also known as roundworm infection)?,neutral,3,3,4,3,train_csv,general
+elder,"Frequently Asked Questions (FAQs)
+    
+    
+                
+    Fact Sheets",neutral,3,3,3,3,train_csv,general
+caregiver,Could you explain what are the treatments for parasites - toxocariasis (also known as roundworm infection)?,neutral,3,3,4,3,train_csv,general
+elder,Visceral toxocariasis can be treated with antiparasitic drugs such as albendazole or mebendazole.  Treatment of ocular toxocariasis is more difficult and usually consists of measures to prevent progre...,neutral,3,3,3,3,train_csv,general
+caregiver,Could you explain what is (are) acanthamoeba - granulomatous amebic encephalitis (gae); keratitis?,neutral,3,3,4,3,train_csv,general
+elder,"Acanthamoeba is a microscopic, free-living ameba (single-celled living organism) commonly found in the environment that can cause rare, but severe, illness.  Acanthamoeba causes three main types of il...",neutral,3,3,3,3,train_csv,general
+caregiver,Could you explain how to prevent acanthamoeba - granulomatous amebic encephalitis (gae); keratitis?,neutral,3,3,4,3,train_csv,general
+caregiver,I'd like to understand who is at risk for alkhurma hemorrhagic fever (ahf)?,neutral,3,3,4,3,train_csv,general
+elder,"Contact with  livestock with tick exposure are risk factors for humans, as is contact with infected ticks, whether through crushing the infected tick with unprotected fingers or by a bite from an infe...",neutral,3,3,3,3,train_csv,general
+caregiver,I'd like to understand how to diagnose alkhurma hemorrhagic fever (ahf)?,neutral,3,3,4,3,train_csv,general
+elder,"Clinical diagnosis could be difficult due to similarities between AVHF, Crimean-Congo Hemorrhagic fever (CCHF), and Rift Valley fever (RVF), which occur in similar geographic areas.  Laboratory diagno...",neutral,3,3,3,3,train_csv,diabetes
+caregiver,Could you explain what are the treatments for alkhurma hemorrhagic fever (ahf)?,neutral,3,3,4,3,train_csv,general
+elder,"There is no standard specific treatment for the disease.  Patients receive supportive therapy, which consists of balancing the patient’s fluid and electrolytes, maintaining oxygen status and blood pre...",neutral,3,3,3,3,train_csv,diabetes
+caregiver,I'd like to understand what are the treatments for parasites - taeniasis?,neutral,3,3,4,3,train_csv,general
+elder,"Treatment is available after accurate diagnosis.  Your doctor will provide prescription medication, either praziquantel or niclosamide, which is taken by mouth",neutral,3,3,3,3,train_csv,dementia
+caregiver,Could you explain what are the treatments for parasites - baylisascaris infection?,neutral,3,3,4,3,train_csv,general
+elder,"No drugs have been shown to be totally effective for the treatment of Baylisascaris infection.  Albendazole, a broad spectrum anthelmintic, has been recommended for specific cases",neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about how to diagnose parasites - babesiosis?,neutral,3,3,4,3,train_csv,general
+elder,"In symptomatic people, babesiosis usually is diagnosed by examining blood specimens under a microscope and seeing Babesia parasites inside red blood cells. 
+    
+To be sure the diagnosis is correct, y...",neutral,3,3,3,3,train_csv,diabetes
+caregiver,Can you tell me about what are the treatments for parasites - babesiosis?,neutral,3,3,4,3,train_csv,general
+elder,Effective treatments are available.  People who do not have any symptoms or signs of babesiosis usually do not need to be treated,neutral,3,3,3,3,train_csv,general
+caregiver,I'd like to understand how common is botulism?,neutral,3,3,4,3,train_csv,general
+elder,"In the United States, an average of 145 cases are reported each year. Of these, approximately 15% are foodborne, 65% are infant botulism, and 20% are wound",neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about what are the treatments for marburg hemorrhagic fever (marburg hf)?,neutral,3,3,4,3,train_csv,general
+elder,"There is no specific treatment for Marburg hemorrhagic fever.  Supportive hospital therapy should be utilized, which includes balancing the patient's fluids and electrolytes, maintaining oxygen status...",neutral,3,3,3,3,train_csv,dementia
+caregiver,Help me learn about what is (are) parasites - leishmaniasis?,neutral,3,3,4,3,train_csv,general
+elder,"Leishmaniasis is a parasitic disease that is found in parts of the tropics, subtropics, and southern Europe.  Leishmaniasis is caused by infection with Leishmania parasites, which are spread by the bi...",neutral,3,3,3,3,train_csv,general
+caregiver,I'd like to understand what is (are) parasites - hookworm?,neutral,3,3,4,3,train_csv,general
+elder,Hookworm is an intestinal parasite of humans.  The larvae and adult worms live in the small intestine can cause intestinal disease,neutral,3,3,3,3,train_csv,dementia
+caregiver,Help me learn about how to diagnose parasites - hookworm?,neutral,3,3,4,3,train_csv,general
+elder,"The standard method for diagnosing the presence of hookworm is by identifying hookworm eggs in a stool sample using a microscope.  Because eggs may be difficult to find in light infections, a concentr...",neutral,3,3,3,3,train_csv,mobility
+caregiver,I'd like to understand what are the treatments for parasites - hookworm?,neutral,3,3,4,3,train_csv,general
+elder,"Anthelminthic medications (drugs that rid the body of parasitic worms), such as albendazole and mebendazole, are the drugs of choice for treatment of hookworm infections.  Infections are generally tre...",neutral,3,3,3,3,train_csv,dementia
+caregiver,Could you explain how to prevent parasites - hookworm?,neutral,3,3,4,3,train_csv,general
+elder,"The best way to avoid hookworm infection is not to walk barefoot in areas where hookworm is common and where there may be human fecal contamination of the soil.  Also, avoid other skin contact with su...",neutral,3,3,3,3,train_csv,mobility
+caregiver,Can you tell me about who is at risk for nocardiosis?,neutral,3,3,4,3,train_csv,general
+elder,"The bacteria that cause nocardiosis are commonly found in soil and water. 
+    
+You could become sick with nocardiosis if:
+    
+     - You inhale (breathe in) the bacteria
+     - Bacteria gets into an...",neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about what are the treatments for nocardiosis?,neutral,3,3,4,3,train_csv,general
+elder,"If you think you might be sick with nocardiosis, talk to your doctor. 
+    
+He or she can help find out if you have the disease by performing tests that can identify the bacteria that causes nocardios...",neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about who is at risk for chapare hemorrhagic fever (chhf)?,neutral,3,3,4,3,train_csv,general
+elder,"CHHF occurs in the Cochabamba region of Bolivia.  
+Field workers 
+                
+Field workers are at greatest risk because of increased human contact with the reservoir rodent population",neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about how to prevent chapare hemorrhagic fever (chhf)?,neutral,3,3,4,3,train_csv,general
+elder,"Although rodent control would be desirable, it will not be a successful strategy for preventing Chapare hemorrhagic fever cases caused by exposures outdoors.  
+   
+As for other hemorrhagic fevers, ful...",neutral,3,3,3,3,train_csv,general
+caregiver,I'd like to understand how common is infection with y. enterocolitica for yersinia?,neutral,3,3,4,3,train_csv,general
+elder,Y.  enterocolitica is a relatively infrequent cause of diarrhea and abdominal pain,neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about how can y. enterocolitica infections be diagnosed for yersinia?,neutral,3,3,4,3,train_csv,general
+elder,Y.  enterocolitica infections are generally diagnosed by detecting the organism in the stools,neutral,3,3,3,3,train_csv,diabetes
+caregiver,Could you explain how can y. enterocolitica infections be treated for yersinia?,neutral,3,3,4,3,train_csv,general
+elder,Uncomplicated cases of diarrhea due to Y.  enterocolitica usually resolve on their own without antibiotic treatment,neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about what is (are) parasites - lymphatic filariasis?,neutral,3,3,4,3,train_csv,general
+elder,"Frequently Asked Questions (FAQs)
+    
+    Vector Information",neutral,3,3,3,3,train_csv,general
+caregiver,Could you explain what is (are) parasites - loiasis?,neutral,3,3,4,3,train_csv,general
+elder,Loiasis is an infection caused by the parasitic worm Loa loa. ,neutral,3,3,3,3,train_csv,general
+caregiver,I'd like to understand who is at risk for omsk hemorrhagic fever (ohf)?,neutral,3,3,4,3,train_csv,general
+elder,"In areas where rodent reservoirs and tick species are prevalent, people with recreational or occupational exposure to rural or outdoor settings (e. g",neutral,3,3,3,3,train_csv,general
+caregiver,Could you explain how to diagnose omsk hemorrhagic fever (ohf)?,neutral,3,3,4,3,train_csv,general
+elder,OHF virus may be detected in blood samples by virus isolation in cell culture or using molecular techniques such as PCR.  Blood samples can also be tested for antibody presence using enzyme-linked imm...,neutral,3,3,3,3,train_csv,diabetes
+caregiver,Help me learn about what are the treatments for omsk hemorrhagic fever (ohf)?,neutral,3,3,4,3,train_csv,general
+elder,"There is no specific treatment for OHF, but supportive therapy is important.  Supportive therapy includes the maintenance of hydration and the usual precautions for patients with bleeding disorders",neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about how to prevent omsk hemorrhagic fever (ohf)?,neutral,3,3,4,3,train_csv,general
+elder,"There is no vaccine currently available for OHF, but vaccines for tick-borne encephalitis disease (TBE) have been shown to confer some immunity and may be used for high-risk groups.  
+                ...",neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about what is (are) parasites - enterobiasis (also known as pinworm infection)?,neutral,3,3,4,3,train_csv,general
+elder,"A pinworm (""threadworm"") is a small, thin, white roundworm (nematode) called Enterobius vermicularis that sometimes lives in the colon and rectum of humans.  Pinworms are about the length of a staple",neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about who is at risk for hendra virus disease (hev)?,neutral,3,3,4,3,train_csv,general
+elder,"Transmission of Hendra virus to humans can occur after exposure to body fluids and tissues or excretions of horses infected with Hendra virus.  
+ 
+Horses may be infected after exposure to virus in the...",neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about what are the symptoms of hendra virus disease (hev)?,neutral,3,3,4,3,train_csv,general
+elder,"After an incubation of 9-16 days, infection with Hendra virus can lead to respiratory illness with severe flu-like signs and symptoms.  In some cases, illness may progress to encephalitis",neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about what are the treatments for hendra virus disease (hev)?,neutral,3,3,4,3,train_csv,general
+elder,"The drug ribavirin has been shown to be effective against the viruses in vitro, but the clinical usefulness of this drug is uncertain.  
+                
+A post-exposure therapy with a Nipah/Hendra ne...",neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about what is (are) parasites - zoonotic hookworm?,neutral,3,3,4,3,train_csv,general
+elder,"There are many different species of hookworms, some are human parasites and some are animal parasites.  People can be infected by larvae of animal hookworms, usually dog and cat hookworms",neutral,3,3,3,3,train_csv,general
+caregiver,Could you explain what are the treatments for parasites - zoonotic hookworm?,neutral,3,3,4,3,train_csv,general
+elder,"The zoonotic hookworm larvae that cause cutaneous larva migrans (CLM) usually do not survive more than 5 – 6 weeks in the human host.  In most patients with CLM, the signs and symptoms resolve without...",neutral,3,3,3,3,train_csv,general
+caregiver,Could you explain what is (are) parasites - african trypanosomiasis (also known as sleeping sickness)?,neutral,3,3,4,3,train_csv,general
+elder,Frequently Asked Queestions (FAQs),neutral,3,3,3,3,train_csv,general
+caregiver,I'd like to understand what is (are) parasites - angiostrongyliasis (also known as angiostrongylus infection)?,neutral,3,3,4,3,train_csv,general
+elder,Angiostrongylus cantonensis is a parasitic worm of rats.  It is also called the rat lungworm,neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about what is (are) parasites - ascariasis?,neutral,3,3,4,3,train_csv,general
+elder,Ascaris is an intestinal parasite of humans.  It is the most common human worm infection,neutral,3,3,3,3,train_csv,general
+caregiver,I'd like to understand who is at risk for parasites - ascariasis?,neutral,3,3,4,3,train_csv,general
+elder,"Ascaris infection is one of the most common intestinal worm infections.  It is found in association with poor personal hygiene, poor sanitation, and in places where human feces are used as fertilizer",neutral,3,3,3,3,train_csv,general
+caregiver,Could you explain how to diagnose parasites - ascariasis?,neutral,3,3,4,3,train_csv,general
+elder,"The standard method for diagnosing ascariasis is by identifying Ascaris eggs in a stool sample using a microscope.  Because eggs may be difficult to find in light infections, a concentration procedure...",neutral,3,3,3,3,train_csv,mobility
+caregiver,Can you tell me about what are the treatments for parasites - ascariasis?,neutral,3,3,4,3,train_csv,general
+elder,"Anthelminthic medications (drugs that rid the body of parasitic worms), such as albendazole and mebendazole, are the drugs of choice for treatment of Ascaris infections.  Infections are generally trea...",neutral,3,3,3,3,train_csv,dementia
+caregiver,Help me learn about how to diagnose 2009 h1n1 flu?,neutral,3,3,4,3,train_csv,general
+elder,"Content on this page was developed during the 2009-2010 H1N1 pandemic and has not been updated.  
+    
+    - The H1N1 virus that caused that pandemic is now a regular human flu virus and continues to ...",neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about who is at risk for crimean-congo hemorrhagic fever (cchf)?,neutral,3,3,4,3,train_csv,general
+elder,"Animal herders, livestock workers, and slaughterhouse workers in endemic areas are at risk of CCHF.  Healthcare workers in endemic areas are at risk of infection through unprotected contact with infec...",neutral,3,3,3,3,train_csv,diabetes
+caregiver,Could you explain how to prevent lujo hemorrhagic fever (luhf)?,neutral,3,3,4,3,train_csv,general
+elder,"Although rodent control would be desirable, it will not be a successful strategy for preventing Lujo hemorrhagic fever cases caused by exposures outdoors.  
+   
+As for other hemorrhagic fevers, full b...",neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about what are the symptoms of acinetobacter in healthcare settings?,neutral,3,3,4,3,train_csv,general
+elder,"Acinetobacter causes a variety of diseases, ranging from pneumonia to serious blood or wound infections, and the symptoms vary depending on the disease.  Acinetobacter may also “colonize” or live in a...",neutral,3,3,3,3,train_csv,diabetes
+caregiver,Can you tell me about how to prevent acinetobacter in healthcare settings?,neutral,3,3,4,3,train_csv,general
+elder,"Acinetobacter can live on the skin and may survive in the environment for several days.  Careful attention to infection control procedures, such as hand hygiene and environmental cleaning, can reduce ...",neutral,3,3,3,3,train_csv,general
+caregiver,I'd like to understand what are the treatments for acinetobacter in healthcare settings?,neutral,3,3,4,3,train_csv,general
+elder,Acinetobacter is often resistant to many commonly prescribed antibiotics.  Decisions on treatment of infections with Acinetobacter should be made on a case-by-case basis by a healthcare provider,neutral,3,3,3,3,train_csv,general
+caregiver,"Could you explain what is (are) parasites - lice - pubic ""crab"" lice?",neutral,3,3,4,3,train_csv,general
+elder,"Also called crab lice or ""crabs,"" pubic lice are parasitic insects found primarily in the pubic or genital area of humans.  Pubic lice infestation is found worldwide and occurs in all races, ethnic gr...",neutral,3,3,3,3,train_csv,general
+caregiver,"Can you tell me about how to diagnose parasites - lice - pubic ""crab"" lice?",neutral,3,3,4,3,train_csv,general
+elder,"Pubic lice are short and crab-like and appear very different from head and body lice.  Pubic lice infestation is diagnosed by finding a “crab” louse or eggs on hair in the pubic region or, less common...",neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about what is (are) parasites - paragonimiasis (also known as paragonimus infection)?,neutral,3,3,4,3,train_csv,general
+caregiver,Help me learn about what are the treatments for parasites - paragonimiasis (also known as paragonimus infection)?,neutral,3,3,4,3,train_csv,general
+elder,Paragonimus infections are treatable by your health care provider.  Prescription medications are available,neutral,3,3,3,3,train_csv,dementia
+caregiver,I'd like to understand how to prevent parasites - paragonimiasis (also known as paragonimus infection)?,neutral,3,3,4,3,train_csv,general
+elder,Never eat raw freshwater crabs or crayfish.  Cook crabs and crayfish for to at least 145°F (~63°C),neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about how to diagnose kyasanur forest disease (kfd)?,neutral,3,3,4,3,train_csv,general
+elder,"Diagnosis can be made in the early stage of illness by molecular detection by PCR or virus isolation from blood.  Later, serologic testing using enzyme-linked immunosorbent serologic assay (ELISA) can...",neutral,3,3,3,3,train_csv,diabetes
+caregiver,Could you explain what are the treatments for kyasanur forest disease (kfd)?,neutral,3,3,4,3,train_csv,general
+elder,"There is no specific treatment for KFD, but early hospitalization and supportive therapy is important.  Supportive therapy includes the maintenance of hydration and the usual precautions for patients ...",neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about how to prevent kyasanur forest disease (kfd)?,neutral,3,3,4,3,train_csv,general
+elder,A vaccine does exist for KFD and is used in endemic areas of India.  Additional preventative measures include insect repellents and wearing protective clothing in areas where ticks are endemic,neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about what is (are) parasites - cyclosporiasis (cyclospora infection)?,neutral,3,3,4,3,train_csv,general
+elder,"Cyclospora cayetanensis is a parasite composed of one cell, too small to be seen without a microscope.  This parasite causes an intestinal infection called cyclosporiasis",neutral,3,3,3,3,train_csv,general
+caregiver,Could you explain what is (are) parasites - trichinellosis (also known as trichinosis)?,neutral,3,3,4,3,train_csv,general
+elder,"Trichinellosis, also called trichinosis, is caused by eating raw or undercooked meat of animals infected with the larvae of a species of worm called Trichinella.  Infection occurs commonly in certain ...",neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about how to diagnose parasites - trichinellosis (also known as trichinosis)?,neutral,3,3,4,3,train_csv,general
+elder,"A diagnosis of trichinellosis is made in patients whose signs and symptoms are compatible with trichinellosis, have a positive laboratory test for Trichinella, and who can recall eating raw or underco...",neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about what are the treatments for parasites - trichinellosis (also known as trichinosis)?,neutral,3,3,4,3,train_csv,general
+elder,Safe and effective prescription drugs are available to treat both Trichinella infection and the symptoms that occur as a result of infection.  Treatment should begin as soon as possible; a doctor will...,neutral,3,3,3,3,train_csv,general
+caregiver,I'd like to understand what is (are) striatonigral degeneration?,neutral,3,3,4,3,train_csv,general
+elder,Striatonigral degeneration is a neurological disorder caused by a disruption in the connection between two areas of the brain-the striatum and the substantia nigra.  These two areas work together to e...,neutral,3,3,3,3,train_csv,mobility
+caregiver,Can you tell me about what are the treatments for striatonigral degeneration?,neutral,3,3,4,3,train_csv,general
+elder,"There is no cure for striatonigral degeneration, and treatments for the disorder have variable success.  Treatments used for Parkinson's disease are recommended",neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about what is the outlook for striatonigral degeneration?,neutral,3,3,4,3,train_csv,general
+elder,Striatonigral degeneration progresses slowly.  Some patients have normal life expectancy,neutral,3,3,3,3,train_csv,general
+caregiver,I'd like to understand what research (or clinical trials) is being done for striatonigral degeneration?,neutral,3,3,4,3,train_csv,general
+elder,The NINDS supports and conducts research on disorders of the brain and nervous system such as striatonigral degeneration.  This research focuses on finding ways to prevent and treat these disorders,neutral,3,3,3,3,train_csv,general
+caregiver,Could you explain what are the treatments for empty sella syndrome?,neutral,3,3,4,3,train_csv,general
+elder,"Unless the syndrome results in other medical problems, treatment for endocrine dysfunction associated with pituitary malfunction is symptomatic and supportive.  Individuals with primary ESS who have h...",neutral,3,3,3,3,train_csv,general
+caregiver,Could you explain what is the outlook for empty sella syndrome?,neutral,3,3,4,3,train_csv,general
+elder,"ESS is not a life-threatening condition.  Most often, and particularly among those with primary ESS, the disorder does not cause health problems and does not affect life expectancy",neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about what is the outlook for primary lateral sclerosis?,neutral,3,3,4,3,train_csv,general
+elder,PLS is not fatal.  There is no cure and the progression of symptoms varies,neutral,3,3,3,3,train_csv,mobility
+caregiver,Can you tell me about what research (or clinical trials) is being done for primary lateral sclerosis?,neutral,3,3,4,3,train_csv,general
+elder,"The NINDS conducts a broad range of research on neuromuscular disorders such as PLS.  This research is aimed at developing techniques to diagnose, treat, prevent, and ultimately cure these devastating...",neutral,3,3,3,3,train_csv,general
+caregiver,I'd like to understand what are the treatments for dystonias?,neutral,3,3,4,3,train_csv,general
+elder,"No one treatment has been found to be universally effective.  Instead, doctors use a variety of therapies (medications, surgery, and other treatments such as physical therapy, splinting, stress manage...",neutral,3,3,3,3,train_csv,dementia
+caregiver,Help me learn about what is the outlook for dystonias?,neutral,3,3,4,3,train_csv,general
+elder,"The initial symptoms can be very mild and may be noticeable only after prolonged exertion, stress, or fatigue.  Dystonias often progress through various stages",neutral,3,3,3,3,train_csv,mobility
+caregiver,Could you explain what are the treatments for farber's disease?,neutral,3,3,4,3,train_csv,general
+elder,Currently there is no specific treatment for Farbers disease.  Corticosteroids may help relieve pain,neutral,3,3,3,3,train_csv,mobility
+caregiver,Could you explain what is the outlook for farber's disease?,neutral,3,3,4,3,train_csv,general
+elder,"Most children with the classic form of Farbers disease die by age 2, usually from lung disease.  Children born with the most severe form of the disease usually die within 6 months, while individuals h...",neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about what are the treatments for familial periodic paralyses?,neutral,3,3,4,3,train_csv,general
+elder,"Treatment of the periodic paralyses focuses on preventing further attacks and relieving acute symptoms.  Avoiding carbohydrate-rich meals and strenuous exercise, and taking acetazolamide daily may pre...",neutral,3,3,3,3,train_csv,diabetes
+caregiver,Could you explain what is the outlook for familial periodic paralyses?,neutral,3,3,4,3,train_csv,general
+elder,The prognosis for the familial periodic paralyses varies.  Chronic attacks may result in progressive weakness that persists between attacks,neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about what research (or clinical trials) is being done for familial periodic paralyses?,neutral,3,3,4,3,train_csv,general
+elder,The NINDS conducts and supports research on neuromuscular disorders such as the familial periodic paralyses.  These studies are aimed at increasing knowledge about these disorders and finding ways to ...,neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about what are the treatments for todd's paralysis?,neutral,3,3,4,3,train_csv,general
+elder,There is no treatment for Todd's paralysis.  Individuals must rest as comfortably as possible until the paralysis disappears,neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about what is the outlook for todd's paralysis?,neutral,3,3,4,3,train_csv,general
+elder,Todd's paralysis is an indication that an individual has had an epileptic seizure.  The outcome depends on the effects of the seizure and the subsequent treatment of the epilepsy,neutral,3,3,3,3,train_csv,general
+caregiver,Could you explain what research (or clinical trials) is being done for todd's paralysis?,neutral,3,3,4,3,train_csv,general
+elder,"The National Institute of Neurological Disorders and Stroke (NINDS) conducts research related to Todd's paralysis in its clinics and laboratories at The National Institutes of Health (NIH), and suppor...",neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about what is the outlook for syncope?,neutral,3,3,4,3,train_csv,general
+elder,"Syncope is a dramatic event and can be life-threatening if not treated properly.  Generally, however, people recover completely within minutes to hours",neutral,3,3,3,3,train_csv,general
+caregiver,I'd like to understand what research (or clinical trials) is being done for syncope?,neutral,3,3,4,3,train_csv,general
+elder,The National Institute of Neurological Disorders and Stroke (NINDS) and other institutes of the National Institutes of Health (NIH) conduct research related to syncope in laboratories at the NIH and s...,neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about what is the outlook for tuberous sclerosis?,neutral,3,3,4,3,train_csv,general
+elder,"The prognosis for individuals with TSC depends on the severity of symptoms.  Individuals with mild symptoms generally do well and live long productive lives, while individuals with the more severe for...",neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about what are the treatments for batten disease?,neutral,3,3,4,3,train_csv,general
+elder,"As yet, no specific treatment is known that can halt or reverse the symptoms of Batten disease.  However, seizures can sometimes be reduced or controlled with anticonvulsant drugs, and other medical p...",neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about what is the outlook for batten disease?,neutral,3,3,4,3,train_csv,general
+elder,"Over time, affected children suffer cognitive impairment, worsening seizures, and progressive loss of sight and motor skills.  Eventually, children with Batten disease become blind, bedridden, and dem...",neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about what are the treatments for holoprosencephaly?,neutral,3,3,4,3,train_csv,general
+elder,There is no standard course of treatment for holoprosencephaly.  Treatment is symptomatic and supportive,neutral,3,3,3,3,train_csv,mobility
+caregiver,I'd like to understand what is the outlook for holoprosencephaly?,neutral,3,3,4,3,train_csv,general
+elder,The prognosis for individuals with the disorder depends on the severity of the brain and facial deformities. ,neutral,3,3,3,3,train_csv,general
+caregiver,Could you explain what research (or clinical trials) is being done for holoprosencephaly?,neutral,3,3,4,3,train_csv,general
+elder,The NINDS supports and conducts a wide range of studies that focus on identifying and learning more about the factors involved in normal brain development.  Recent research has identified specific gen...,neutral,3,3,3,3,train_csv,mobility
+caregiver,Help me learn about what is the outlook for bell's palsy?,neutral,3,3,4,3,train_csv,general
+elder,The prognosis for individuals with Bell's palsy is generally very good.  The extent of nerve damage determines the extent of recovery,neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about what are the treatments for multiple system atrophy?,neutral,3,3,4,3,train_csv,general
+elder,"There is no cure for MSA.  Currently, there are no treatments to delay the progress of neurodegeneration in the brain",neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about what is the outlook for multiple system atrophy?,neutral,3,3,4,3,train_csv,general
+elder,"The disease tends to advance rapidly over the course of 5 to 10 years, with progressive loss of motor skills, eventual confinement to bed, and death.  There is no remission from the disease",neutral,3,3,3,3,train_csv,general
+caregiver,I'd like to understand what research (or clinical trials) is being done for multiple system atrophy?,neutral,3,3,4,3,train_csv,general
+elder,"The NINDS supports research about MSA through grants to major medical institutions across the country.  Researchers hope to learn why alpha-synuclein buildup occurs in MSA and Parkinsons disease, and ...",neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about what research (or clinical trials) is being done for giant axonal neuropathy?,neutral,3,3,4,3,train_csv,general
+elder,The National Institute of Neurological Disorders and Stroke (NINDS) supports research related to GAN through grants to major medical institutions across the country.  Much of this research focuses on ...,neutral,3,3,3,3,train_csv,general
+caregiver,Could you explain what is the outlook for thoracic outlet syndrome?,neutral,3,3,4,3,train_csv,general
+elder,The outcome for individuals with TOS varies according to type.  The majority of individuals with TOS will improve with exercise and physical therapy,neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about what research (or clinical trials) is being done for thoracic outlet syndrome?,neutral,3,3,4,3,train_csv,general
+elder,The National Institute of Neurological Disorders and Stroke (NINDS) and other institutes at the National Institutes of Health support research in TOS through grants to major medical research instituti...,neutral,3,3,3,3,train_csv,general
+caregiver,I'd like to understand what are the treatments for angelman syndrome?,neutral,3,3,4,3,train_csv,general
+elder,There is no specific therapy for Angelman syndrome.  Medical therapy for seizures is usually necessary,neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about what is the outlook for angelman syndrome?,neutral,3,3,4,3,train_csv,general
+elder,"Most individuals with Angelman syndrome will have severe developmental delays, speech limitations, and motor difficulties.  However, individuals with Angelman syndrome can have normal life spans and g...",neutral,3,3,3,3,train_csv,general
+caregiver,Could you explain what research (or clinical trials) is being done for angelman syndrome?,neutral,3,3,4,3,train_csv,general
+elder,"The NINDS supports and conducts research on neurogenetic disorders such as Angelman syndrome, to develop techniques to diagnose, treat, prevent, and ultimately cure them. ",neutral,3,3,3,3,train_csv,general
+caregiver,Could you explain what are the treatments for inclusion body myositis?,neutral,3,3,4,3,train_csv,general
+elder,"There is no cure for IBM, nor is there a standard course of treatment.  The disease is generally unresponsive to corticosteroids and immunosuppressive drugs",neutral,3,3,3,3,train_csv,mobility
+caregiver,I'd like to understand what is the outlook for inclusion body myositis?,neutral,3,3,4,3,train_csv,general
+elder,IBM is generally resistant to all therapies and its rate of progression appears to be unaffected by currently available treatments. ,neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about what are the treatments for subacute sclerosing panencephalitis?,neutral,3,3,4,3,train_csv,general
+elder,"Currently, there is no cure for SSPE.  Clinical trials of antiviral (isoprinosine and ribavirin) and immunomodulatory (interferon alpha) drugs have suggested that these types of therapies given alone ...",neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about what research (or clinical trials) is being done for subacute sclerosing panencephalitis?,neutral,3,3,4,3,train_csv,general
+elder,The National Institute of Neurological Disorders and Stroke (NINDS) and other institutes at the National Institutes of Health conduct research related to SSPE in their clinics and laboratories and sup...,neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about what are the treatments for hemifacial spasm?,neutral,3,3,4,3,train_csv,general
+elder,"Surgical treatment in the form of microvascular decompression, which relieves pressure on the facial nerve, will relieve hemifacial spasm in many cases.  This intervention has significant potential si...",neutral,3,3,3,3,train_csv,mobility
+caregiver,I'd like to understand what is the outlook for hemifacial spasm?,neutral,3,3,4,3,train_csv,general
+elder,The prognosis for an individual with hemifacial spasm depends on the treatment and their response.  Some individuals will become relatively free from symptoms with injection therapy,neutral,3,3,3,3,train_csv,mobility
+caregiver,Can you tell me about what research (or clinical trials) is being done for hemifacial spasm?,neutral,3,3,4,3,train_csv,general
+elder,The National Institute of Neurological Disorders and Stroke (NINDS) conducts and supports research related to hemifacial spams through grants to major research institutions across the country.  Much o...,neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about what are the treatments for olivopontocerebellar atrophy?,neutral,3,3,4,3,train_csv,general
+elder,"There is no specific treatmentfor OPCA.  Physicians may try different medications to treat the ataxia, tremor, and rigidity that are associated with the disorder",neutral,3,3,3,3,train_csv,dementia
+caregiver,Help me learn about what is the outlook for olivopontocerebellar atrophy?,neutral,3,3,4,3,train_csv,general
+elder,There is no cure for OPCA.  The disorder is slowly progressive with death usually occurring approximately 20 years after onset,neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about what research (or clinical trials) is being done for olivopontocerebellar atrophy?,neutral,3,3,4,3,train_csv,general
+elder,"The NINDS supports and conducts a broad range of basic and clinical research on cerebellar degeneration, including work aimed at finding the cause(s) of OPCA and ways to treat, cure, and, ultimately, ...",neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about what are the treatments for multifocal motor neuropathy?,neutral,3,3,4,3,train_csv,general
+elder,"Treatment for multifocal motor neuropathy varies.  Some individuals experience only mild, modest symptoms and require no treatment",neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about what is the outlook for multifocal motor neuropathy?,neutral,3,3,4,3,train_csv,general
+elder,"Improvement in muscle strength usually begins within 3 to 6 weeks after treatment is started.  Most patients who receive treatment early experience little, if any, disability",neutral,3,3,3,3,train_csv,general
+caregiver,Could you explain what research (or clinical trials) is being done for multifocal motor neuropathy?,neutral,3,3,4,3,train_csv,general
+elder,"The NINDS supports a broad range of research on neuromuscular disorders with the goal of finding ways to prevent, treat, and, ultimately, cure them. ",neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about what are the treatments for occipital neuralgia?,neutral,3,3,4,3,train_csv,general
+elder,"Treatment is generally symptomatic and includes massage and rest.  In some cases, antidepressants may be used when the pain is particularly severe",neutral,3,3,3,3,train_csv,general
+caregiver,Could you explain what is the outlook for occipital neuralgia?,neutral,3,3,4,3,train_csv,general
+elder,"Occipital neuralgia is not a life-threatening condition.  Many individuals will improve with therapy involving heat, rest, anti-inflammatory medications, and muscle relaxants",neutral,3,3,3,3,train_csv,dementia
+caregiver,I'd like to understand what research (or clinical trials) is being done for occipital neuralgia?,neutral,3,3,4,3,train_csv,general
+elder,The National Institute of Neurological Disorders and Stroke (NINDS) and other institutes at the National Institutes of Health conduct research related to pain and occipital neuralgia in their clinics ...,neutral,3,3,3,3,train_csv,mobility
+caregiver,Could you explain what are the treatments for arachnoiditis?,neutral,3,3,4,3,train_csv,general
+elder,"Arachnoiditis remains a difficult condition to treat, and long-term outcomes are unpredictable.  Most treatments for arachnoiditis are focused on pain relief and the improvement of symptoms that impai...",neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about what is the outlook for arachnoiditis?,neutral,3,3,4,3,train_csv,general
+elder,Arachnoiditis is adisorder that causes chronic pain and neurological deficits and does not improve significantly with treatment. Surgery may only provide temporary relief,neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about what research (or clinical trials) is being done for arachnoiditis?,neutral,3,3,4,3,train_csv,general
+elder,"Within the NINDS research programs, arachnoiditis is addressed primarily through studies associated with pain research.  NINDS vigorously pursues a research program seeking new treatments for pain and...",neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about what are the treatments for craniosynostosis?,neutral,3,3,4,3,train_csv,general
+elder,Treatment for craniosynostosis generally consists of surgery to improve the symmetry and appearance of the head and to relieve pressure on the brain and the cranial nerves.  For some children with les...,neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about what is the outlook for craniosynostosis?,neutral,3,3,4,3,train_csv,general
+elder,The prognosis for craniosynostosis varies depending on whether single or multiple cranial sutures are involved or other abnormalities are present.  The prognosis is better for those with single suture...,neutral,3,3,3,3,train_csv,general
+caregiver,I'd like to understand what is the outlook for cavernous malformation?,neutral,3,3,4,3,train_csv,general
+elder,"Rebleeding from a cavernous angioma is common, it is not predictable, and individuals frequently have multiple CCMs found via magnetic resonance imaging.  Individuals with CCM are faced with a diagnos...",neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about what are the treatments for locked-in syndrome?,neutral,3,3,4,3,train_csv,general
+elder,"There is no cure for locked-in syndrome, nor is there a standard course of treatment.  A therapy called functional neuromuscular stimulation, which uses electrodes to stimulate muscle reflexes, may he...",neutral,3,3,3,3,train_csv,mobility
+caregiver,I'd like to understand what is the outlook for locked-in syndrome?,neutral,3,3,4,3,train_csv,general
+elder,"While in rare cases some patients may regain certain functions, the chances for motor recovery are very limited. ",neutral,3,3,3,3,train_csv,general
+caregiver,Could you explain what research (or clinical trials) is being done for locked-in syndrome?,neutral,3,3,4,3,train_csv,general
+elder,"The NINDS supports research on neurological disorders that can cause locked-in syndrome.  The goals of this research are to find ways to prevent, treat, and cure these disorders",neutral,3,3,3,3,train_csv,general
+caregiver,I'd like to understand what are the treatments for machado-joseph disease?,neutral,3,3,4,3,train_csv,general
+elder,Lyme disease is treated with antibiotics under the supervision of a physician. ,neutral,3,3,3,3,train_csv,general
+caregiver,I'd like to understand what is the outlook for machado-joseph disease?,neutral,3,3,4,3,train_csv,general
+elder,"Most individuals with Lyme disease respond well to antibiotics and have full recovery.  In a small percentage of individuals, symptoms may continue or recur, requiring additional antibiotic treatment",neutral,3,3,3,3,train_csv,general
+caregiver,I'd like to understand what research (or clinical trials) is being done for machado-joseph disease?,neutral,3,3,4,3,train_csv,general
+elder,The NINDS supports research on Lyme disease.  Current areas of interest include improving diagnostic tests and developing more effective treatments,neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about what are the treatments for acid lipase disease?,neutral,3,3,4,3,train_csv,general
+elder,"Enzyme replacement therapy for both Wolman's and cholesteryl ester storage disease is currently under investigation.  Certain drugs may be given to help with adrenal gland production, and children may...",neutral,3,3,3,3,train_csv,diabetes
+caregiver,Can you tell me about what is the outlook for acid lipase disease?,neutral,3,3,4,3,train_csv,general
+elder,"Wolmans disease is usually fatal by age 1.  The onset and course of cholesteryl ester storage disease varies, and individuals may live into adulthood",neutral,3,3,3,3,train_csv,general
+caregiver,I'd like to understand what are the treatments for agenesis of the corpus callosum?,neutral,3,3,4,3,train_csv,general
+elder,There is no standard course of treatment for ACC.  Treatment usually involves management of symptoms and seizures if they occur,neutral,3,3,3,3,train_csv,mobility
+caregiver,I'd like to understand what is the outlook for trigeminal neuralgia?,neutral,3,3,4,3,train_csv,general
+elder,"The disorder is characterized by recurrences and remissions, and successive recurrences may incapacitate the patient.  Due to the intensity of the pain, even the fear of an impending attack may preven...",neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about what research (or clinical trials) is being done for trigeminal neuralgia?,neutral,3,3,4,3,train_csv,general
+elder,"Within the NINDS research programs, trigeminal neuralgia is addressed primarily through studies associated with pain research.  NINDS vigorously pursues a research program seeking new treatments for p...",neutral,3,3,3,3,train_csv,general
+caregiver,Could you explain what are the treatments for neuronal migration disorders?,neutral,3,3,4,3,train_csv,general
+elder,"Treatment is symptomatic, and may include anti-seizure medication and special or supplemental education consisting of physical, occupational, and speech therapies. ",neutral,3,3,3,3,train_csv,dementia
+caregiver,I'd like to understand what is the outlook for neuronal migration disorders?,neutral,3,3,4,3,train_csv,general
+elder,The prognosis for children with NMDs varies depending on the specific disorder and the degree of brain abnormality and subsequent neurological signs and symptoms. ,neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about what are the treatments for autism?,neutral,3,3,4,3,train_csv,general
+elder,There is no cure for autism.  Therapies and behavioral interventions are designed to remedy specific symptoms and can bring about substantial improvement,neutral,3,3,3,3,train_csv,dementia
+caregiver,Help me learn about what are the treatments for sunct headache?,neutral,3,3,4,3,train_csv,general
+elder,"These headaches are generally non-responsive to usual treatment for other short-lasting headaches.  Corticosteroids and the anti-epileptic drugs gabapentin, lamotrigine, and carbamazepine may help rel...",neutral,3,3,3,3,train_csv,diabetes
+caregiver,Could you explain what is the outlook for sunct headache?,neutral,3,3,4,3,train_csv,general
+elder,There is no cure for these headaches.  The disorder is not fatal but can cause considerable discomfort,neutral,3,3,3,3,train_csv,general
+caregiver,I'd like to understand what research (or clinical trials) is being done for sunct headache?,neutral,3,3,4,3,train_csv,general
+elder,"The NINDS conducts a wide range of research on headache disorders.  This research aims to discover ways to better diagnose, treat, and ultimately, prevent these disorders",neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about what are the treatments for dyslexia?,neutral,3,3,4,3,train_csv,general
+elder,The main focus of treatment should be on the specific learning problems of affected individuals.  The usual course is to modify teaching methods and the educational environment to meet the specific ne...,neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about what is the outlook for dyslexia?,neutral,3,3,4,3,train_csv,general
+elder,"For those with dyslexia, the prognosis is mixed.  The disability affects such a wide range of people and produces such different symptoms and varying degrees of severity that predictions are hard to m...",neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about what are the treatments for aphasia?,neutral,3,3,4,3,train_csv,general
+elder,"In some instances, an individual will completely recover from aphasia without treatment.  In most cases, however, language therapy should begin as soon as possible and be tailored to the individual ne...",neutral,3,3,3,3,train_csv,mobility
+caregiver,Help me learn about what is the outlook for aphasia?,neutral,3,3,4,3,train_csv,general
+elder,"The outcome of aphasia is difficult to predict given the wide range of variability of the condition.  Generally, people who are younger or have less extensive brain damage fare better",neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about what research (or clinical trials) is being done for aphasia?,neutral,3,3,4,3,train_csv,general
+elder,The National Institute of Neurological Disorders and Stroke and the National Institute on Deafness and Other Communication Disorders conduct and support a broad range of scientific investigations to i...,neutral,3,3,3,3,train_csv,dementia
+caregiver,Could you explain what are the treatments for colpocephaly?,neutral,3,3,4,3,train_csv,general
+elder,"There is no definitive treatment for colpocephaly.  Anticonvulsant medications are often prescribed to prevent seizures, and doctors rely on exercise therapies and orthopedic appliances to reduce shri...",neutral,3,3,3,3,train_csv,dementia
+caregiver,Could you explain what is the outlook for colpocephaly?,neutral,3,3,4,3,train_csv,general
+elder,The prognosis for individuals with colpocephaly depends on the severity of the associated conditions and the degree of abnormal brain development.  Some children benefit from special education,neutral,3,3,3,3,train_csv,general
+caregiver,I'd like to understand what research (or clinical trials) is being done for colpocephaly?,neutral,3,3,4,3,train_csv,general
+elder,"The National Institute of Neurological Disorders and Stroke (NINDS), and other institutes of the National Institutes of Health (NIH), conduct research related to colpocephaly and other cephalic disord...",neutral,3,3,3,3,train_csv,general
+caregiver,I'd like to understand what are the treatments for benign essential blepharospasm?,neutral,3,3,4,3,train_csv,general
+elder,In most cases of BEB the treatment of choice is botulinum toxin injections which relax the muscles and stop the spasms.  Other treatment options include medications (drug therapy) or surgery--either l...,neutral,3,3,3,3,train_csv,dementia
+caregiver,Could you explain what is the outlook for benign essential blepharospasm?,neutral,3,3,4,3,train_csv,general
+elder,"With botulinum toxin treatment most individuals with BEB have substantial relief of symptoms.  Although some may experience side effects such as drooping eyelids, blurred or double vision, and eye dry...",neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about what research (or clinical trials) is being done for benign essential blepharospasm?,neutral,3,3,4,3,train_csv,general
+elder,"The NINDS supports a broad program of research on disorders of the nervous system, including BEB.  Much of this research is aimed at increasing understanding of these disorders and finding ways to pre...",neutral,3,3,3,3,train_csv,mobility
+caregiver,I'd like to understand what is the outlook for polymyositis?,neutral,3,3,4,3,train_csv,general
+elder,"The prognosis for polymyositis varies.  Most people respond fairly well to therapy, but some have a more severe disease that does not respond adequately to therapies and are left with significant disa...",neutral,3,3,3,3,train_csv,general
+caregiver,Could you explain what are the treatments for wallenberg's syndrome?,neutral,3,3,4,3,train_csv,general
+elder,Treatment for Wallenberg's syndrome is symptomatic.  A feeding tube may be necessary if swallowing is very difficult,neutral,3,3,3,3,train_csv,dementia
+caregiver,Could you explain what is the outlook for wallenberg's syndrome?,neutral,3,3,4,3,train_csv,general
+elder,The outlook for someone with Wallenbergs syndrome depends upon the size and location of the area of the brain stem damaged by the stroke.  Some individuals may see a decrease in their symptoms within ...,neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about what research (or clinical trials) is being done for wallenberg's syndrome?,neutral,3,3,4,3,train_csv,general
+elder,"The National Institute of Neurological Disorders and Stroke (NINDS) conducts research related to Wallenbergs syndrome in its laboratories at the National Institutes of Health (NIH), and also supports ...",neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about what are the treatments for monomelic amyotrophy?,neutral,3,3,4,3,train_csv,general
+elder,There is no cure for MMA.  Treatment consists of muscle strengthening exercises and training in hand coordination,neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about what is the outlook for monomelic amyotrophy?,neutral,3,3,4,3,train_csv,general
+elder,"The symptoms of MMA usually progress slowly for one to two years before reaching a plateau, and then remain stable for many years.  Disability is generally slight",neutral,3,3,3,3,train_csv,general
+caregiver,I'd like to understand what research (or clinical trials) is being done for monomelic amyotrophy?,neutral,3,3,4,3,train_csv,general
+elder,"The NINDS conducts and supports a broad range of research on motor neuron diseases.  The goals of these studies are to increase understanding of these disorders and to find ways to treat, prevent, and...",neutral,3,3,3,3,train_csv,mobility
+caregiver,Can you tell me about what are the treatments for gerstmann's syndrome?,neutral,3,3,4,3,train_csv,general
+elder,There is no cure for Gerstmann's syndrome.  Treatment is symptomatic and supportive,neutral,3,3,3,3,train_csv,general
+caregiver,Could you explain what is the outlook for gerstmann's syndrome?,neutral,3,3,4,3,train_csv,general
+elder,"In adults, many of the symptoms diminish over time.  Although it has been suggested that in children symptoms may diminish over time, it appears likely that most children probably do not overcome thei...",neutral,3,3,3,3,train_csv,general
+caregiver,Could you explain what research (or clinical trials) is being done for gerstmann's syndrome?,neutral,3,3,4,3,train_csv,general
+elder,The NINDS supports research on disorders that result from damage to the brain such as dysgraphia.  The NINDS and other components of the National Institutes of Health also support research on learning...,neutral,3,3,3,3,train_csv,mobility
+caregiver,Could you explain what are the treatments for whiplash?,neutral,3,3,4,3,train_csv,general
+elder,"Treatment for individuals with whiplash may include pain medications, nonsteroidal anti-inflammatory drugs, antidepressants, muscle relaxants, and a cervical collar (usually worn for 2 to 3 weeks).  R...",neutral,3,3,3,3,train_csv,dementia
+caregiver,I'd like to understand what is the outlook for whiplash?,neutral,3,3,4,3,train_csv,general
+elder,"Generally, prognosis for individuals with whiplash is good.  The neck and head pain clears within a few days or weeks",neutral,3,3,3,3,train_csv,general
+caregiver,I'd like to understand what research (or clinical trials) is being done for whiplash?,neutral,3,3,4,3,train_csv,general
+elder,The NINDS conducts and supports research on trauma-related disorders such as whiplash.  Much of this research focuses on increasing scientific understanding of these disorders and finding ways to prev...,neutral,3,3,3,3,train_csv,mobility
+caregiver,Help me learn about what is the outlook for tardive dyskinesia?,neutral,3,3,4,3,train_csv,general
+elder,"Symptoms of tardive dyskinesia may remain long after discontinuation of neuroleptic drugs.  In many cases, the symptoms stop spontaneously, but in some cases they may persist indefinitely",neutral,3,3,3,3,train_csv,general
+caregiver,I'd like to understand what research (or clinical trials) is being done for tardive dyskinesia?,neutral,3,3,4,3,train_csv,general
+elder,The NINDS conducts and supports a broad range of research on movement disorders including tardive dyskinesia.  The goals of this research are to improve understanding of these disorders and to discove...,neutral,3,3,3,3,train_csv,mobility
+caregiver,Can you tell me about what are the treatments for isaacs' syndrome?,neutral,3,3,4,3,train_csv,general
+elder,"Anticonvulsants, including phenytoin and carbamazepine, usually provide significant relief from the stiffness, muscle spasms, and pain associated with Isaacs' syndrome.  Plasma exchange may provide sh...",neutral,3,3,3,3,train_csv,diabetes
+caregiver,Can you tell me about what is the outlook for isaacs' syndrome?,neutral,3,3,4,3,train_csv,general
+elder,There is no cure for Isaacs' syndrome.  The long-term prognosis for individuals with the disorder is uncertain,neutral,3,3,3,3,train_csv,general
+caregiver,I'd like to understand what research (or clinical trials) is being done for isaacs' syndrome?,neutral,3,3,4,3,train_csv,general
+elder,"The NINDS supports an extensive research program of basic studies to increase understanding of diseases that affect the brain, spinal cord, muscles, and nerves.  This research examines the genetics, s...",neutral,3,3,3,3,train_csv,mobility
+caregiver,Could you explain what is (are) learning disabilities?,neutral,3,3,4,3,train_csv,general
+elder,"Learning disabilities are disorders that affect the ability to understand or use spoken or written language, do mathematical calculations, coordinate movements, or direct attention.  Although learning...",neutral,3,3,3,3,train_csv,mobility
+caregiver,I'd like to understand what is the outlook for learning disabilities?,neutral,3,3,4,3,train_csv,general
+elder,"Learning disabilities can be lifelong conditions.  In some people, several overlapping learning disabilities may be apparent",neutral,3,3,3,3,train_csv,general
+caregiver,I'd like to understand what research (or clinical trials) is being done for learning disabilities?,neutral,3,3,4,3,train_csv,general
+elder,The National Institute of Neurological Disorders and Stroke (NINDS) and other Institutes of the National Institutes of Health (NIH) support research learning disabilities through grants to major resea...,neutral,3,3,3,3,train_csv,mobility
+caregiver,Can you tell me about what is the outlook for spasticity?,neutral,3,3,4,3,train_csv,general
+elder,The prognosis for those with spasticity depends on the severity of the spasticity and the associated disorder(s). ,neutral,3,3,3,3,train_csv,general
+caregiver,Could you explain what research (or clinical trials) is being done for spasticity?,neutral,3,3,4,3,train_csv,general
+elder,The NINDS supports research on brain and spinal cord disorders that can cause spasticity.  The goals of this research are to increase scientific understanding about these disorders and to find ways to...,neutral,3,3,3,3,train_csv,mobility
+caregiver,Help me learn about what are the treatments for prosopagnosia?,neutral,3,3,4,3,train_csv,general
+elder,The focus of any treatment should be to help the individual with prosopagnosia develop compensatory strategies.  Adults who have the condition as a result of stroke or brain trauma can be retrained to...,neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about what research (or clinical trials) is being done for prosopagnosia?,neutral,3,3,4,3,train_csv,general
+elder,"The National Institute of Neurological Disorders and Stroke (NINDS) conducts research related to prosopagnosia in its laboratories at the National Institutes of Health (NIH), and also supports additio...",neutral,3,3,3,3,train_csv,general
+caregiver,I'd like to understand what are the treatments for lesch-nyhan syndrome?,neutral,3,3,4,3,train_csv,general
+elder,Treatment for LNS is symptomatic.  Gout can be treated with allopurinol to control excessive amounts of uric acid,neutral,3,3,3,3,train_csv,diabetes
+caregiver,Can you tell me about what is the outlook for lesch-nyhan syndrome?,neutral,3,3,4,3,train_csv,general
+elder,The prognosis for individuals with LNS is poor.  Death is usually due to renal failure in the first or second decade of life,neutral,3,3,3,3,train_csv,general
+caregiver,Could you explain what research (or clinical trials) is being done for lesch-nyhan syndrome?,neutral,3,3,4,3,train_csv,general
+elder,The gene associated with LNS is known.  The NINDS supports and conducts research on genetic disorders such as LNS in an effort to find ways to prevent and treat these disorders,neutral,3,3,3,3,train_csv,general
+caregiver,Help me learn about what are the treatments for lambert-eaton myasthenic syndrome?,neutral,3,3,4,3,train_csv,general
+elder,"There is no cure for LEMS.  Treatment is directed at decreasing the autoimmune response (through the use of steroids, plasmapheresis, or high-dose intravenous immunoglobulin) or improving the transmis...",neutral,3,3,3,3,train_csv,general
+caregiver,Could you explain what is the outlook for lambert-eaton myasthenic syndrome?,neutral,3,3,4,3,train_csv,general
+elder,The prognosis for individuals with LEMS varies.  Those with LEMS not associated with malignancy have a benign overall prognosis,neutral,3,3,3,3,train_csv,general
+caregiver,Could you explain what research (or clinical trials) is being done for lambert-eaton myasthenic syndrome?,neutral,3,3,4,3,train_csv,general
+elder,"The NINDS supports research on neuromuscular disorders such as LEMS with the ultimate goal of finding ways to treat, prevent, and cure them. ",neutral,3,3,3,3,train_csv,general
+caregiver,Could you explain what are the treatments for swallowing disorders?,neutral,3,3,4,3,train_csv,general
+elder,"Changing a person's diet by adding thickeners helps many people, as does learning different ways to eat and chew that reduce the risk for aspiration.  Occasionally drug therapy that helps the neurolog...",neutral,3,3,3,3,train_csv,diabetes
+caregiver,I'd like to understand what research (or clinical trials) is being done for swallowing disorders?,neutral,3,3,4,3,train_csv,general
+elder,The National Institute of Neurological Disorders and Stroke (NINDS) and other institutes at the National Institutes of Health conduct research related to dysphagia in their clinics and laboratories an...,neutral,3,3,3,3,train_csv,general
+caregiver,I'd like to understand what research (or clinical trials) is being done for post-polio syndrome?,neutral,3,3,4,3,train_csv,general
+elder,"The National Institute of Neurological Disorders and Stroke (NINDS) and other institutes of the National Institutes of Health (NIH) conduct research related to PPS in laboratories at the NIH, and also...",neutral,3,3,3,3,train_csv,general
+caregiver,I'd like to understand what are the treatments for absence of the septum pellucidum?,neutral,3,3,4,3,train_csv,general
+elder,Absence of the SP alone is not a disorder but is instead a characteristic noted in children with septo-optic dysplasia or other developmental anomalies. ,neutral,3,3,3,3,train_csv,general
+caregiver,Can you tell me about what is the outlook for absence of the septum pellucidum?,neutral,3,3,4,3,train_csv,general
+elder,"When the absence of the septum pellucidum is part of septo-optic dysplasia, the prognosis varies according to the presence and severity of associated symptoms.  By itself, absence of the septum pelluc...",neutral,3,3,3,3,train_csv,general
+caregiver,"How are you feeling today, Margaret?",neutral,3,4,4,3,synthetic_elder_care,general
+elder,I'm a bit confused today. Where did I put my glasses?,confused,2,3,4,3,synthetic_elder_care,dementia
+caregiver,Let me help you find them. They're right here on the table.,helpful,3,4,4,3,synthetic_elder_care,general
+elder,Oh thank you! I get so worried when I can't find things.,grateful,2,3,4,3,synthetic_elder_care,dementia
+caregiver,It's completely normal to feel that way. You're doing just fine.,empathy,3,4,4,3,synthetic_elder_care,general
+caregiver,Have you taken your medication this morning?,neutral,2,4,4,3,synthetic_elder_care,general
+elder,I think so... or was that yesterday? I can't remember.,confused,2,3,4,3,synthetic_elder_care,dementia
+caregiver,That's okay. Let's check your pill organizer together.,patient,2,4,4,4,synthetic_elder_care,general
+elder,You're so kind to help me. I feel lost sometimes.,grateful,4,3,4,3,synthetic_elder_care,dementia
+caregiver,You're not lost. I'm here to help you every step of the way.,supportive,3,4,4,3,synthetic_elder_care,general
+caregiver,"Robert, how have your blood sugar levels been?",neutral,2,4,4,3,synthetic_elder_care,general
+elder,They've been running high lately. I checked and it was 190 this morning.,worried,2,3,4,3,synthetic_elder_care,diabetes
+caregiver,That is concerning. Have you been following your meal plan?,empathy,2,4,4,3,synthetic_elder_care,general
+elder,"I try to, but I sometimes forget to count the carbs.",frustrated,2,3,4,3,synthetic_elder_care,diabetes
+caregiver,Let's work together to make a simpler tracking system.,helpful,2,4,4,3,synthetic_elder_care,general
+caregiver,Did you remember to check your feet today?,neutral,2,4,4,3,synthetic_elder_care,general
+elder,"Yes, but I found a small cut. Should I be worried?",concerned,2,3,4,3,synthetic_elder_care,diabetes
+caregiver,Let's take a look and clean it properly together.,supportive,2,4,4,3,synthetic_elder_care,general
+elder,I appreciate you taking care of me like this.,grateful,3,3,4,3,synthetic_elder_care,diabetes
+caregiver,Your health is important to me. We'll monitor it closely.,caring,2,4,4,3,synthetic_elder_care,general
+caregiver,"Eleanor, how has walking been for you today?",neutral,2,4,4,3,synthetic_elder_care,general
+elder,I'm using my walker more. I'm so afraid of falling.,worried,2,3,4,3,synthetic_elder_care,mobility
+caregiver,Using your walker is smart. It keeps you safe and independent.,encouraging,2,4,4,3,synthetic_elder_care,general
+elder,I feel like such a burden. I used to be so active.,sad,3,3,4,3,synthetic_elder_care,mobility
+caregiver,You're not a burden. You're adapting and that takes strength.,empathy,2,4,4,3,synthetic_elder_care,general
+caregiver,Would you like to try some gentle exercises today?,neutral,2,4,4,3,synthetic_elder_care,general
+elder,"I'd like to, but I worry about losing my balance.",worried,2,3,4,3,synthetic_elder_care,mobility
+caregiver,We'll go very slowly and I'll be right beside you.,patient,2,4,4,4,synthetic_elder_care,general
+elder,Thank you for being so understanding about my limitations.,grateful,3,3,4,3,synthetic_elder_care,mobility
+caregiver,"They're not limitations, they're just adaptations.",supportive,2,4,4,3,synthetic_elder_care,general

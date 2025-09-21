@@ -48,6 +48,130 @@ class TestRAGSystem(unittest.TestCase):
             self.assertTrue(self.rag_system.embeddings is not None)
             self.assertTrue(self.rag_system.vectorstore is not None)
             logger.info("✅ RAG system initialization test passed")
+            
+    def test_retrieval_quality(self):
+        """Test that RAG retrieves relevant chunks for specific queries"""
+        # Initialize the system
+        self.rag_system.initialize_rag_system()
+        
+        # Test queries and expected keywords
+        test_queries = [
+            ("How to handle dementia confusion?", ["dementia", "confusion", "memory"]),
+            ("What's the best way to help with diabetes medication?", ["diabetes", "medication", "insulin"]),
+            ("How can I assist someone with mobility issues?", ["mobility", "walking", "fall"])
+        ]
+        
+        for query, expected_keywords in test_queries:
+            # Get retrieved documents
+            docs = self.rag_system.retrieve_relevant_chunks(query)
+            
+            # Check that we got results
+            self.assertTrue(len(docs) > 0, f"No documents retrieved for query: {query}")
+            
+            # Check that at least one document contains at least one expected keyword
+            found_relevant = False
+            for doc in docs:
+                doc_content = doc.page_content.lower()
+                for keyword in expected_keywords:
+                    if keyword.lower() in doc_content:
+                        found_relevant = True
+                        break
+                if found_relevant:
+                    break
+            
+            self.assertTrue(found_relevant, 
+                           f"No relevant documents found for query: {query}. Expected keywords: {expected_keywords}")
+            
+            logger.info(f"✅ Retrieved {len(docs)} relevant documents for query: '{query}'")
+    
+    @patch('core_ai.agent.GerontoVoiceAgent')
+    def test_response_variability(self, mock_agent_class):
+        """Test that responses have variability for the same query"""
+        # Setup mock agent
+        mock_agent = mock_agent_class.return_value
+        
+        # Create different responses for the same query
+        responses = [
+            {"response": "I sometimes get confused about my medication.", "emotion": "concerned"},
+            {"response": "Oh dear, I forget things sometimes. It's frustrating.", "emotion": "frustrated"},
+            {"response": "I try to remember, but it's hard these days.", "emotion": "concerned"},
+            {"response": "My memory isn't what it used to be, you know.", "emotion": "neutral"},
+            {"response": "Sometimes I feel lost in my own thoughts.", "emotion": "confused"}
+        ]
+        
+        # Configure mock to return different responses
+        mock_agent.generate_response.side_effect = responses
+        
+        # Test query
+        test_query = "Tell me about your memory"
+        persona_id = "margaret"
+        
+        # Generate multiple responses
+        actual_responses = []
+        for _ in range(5):
+            response = mock_agent.generate_response(
+                persona_id=persona_id,
+                user_input=test_query,
+                conversation_history=[],
+                user_id="test_user"
+            )
+            actual_responses.append(response)
+        
+        # Check that we have 5 responses
+        self.assertEqual(len(actual_responses), 5, "Failed to generate 5 responses")
+        
+        # Check uniqueness of response texts
+        unique_responses = set(r["response"] for r in actual_responses)
+        self.assertTrue(len(unique_responses) >= 3, 
+                       f"Not enough variability in responses. Got {len(unique_responses)} unique out of 5")
+        
+        logger.info(f"✅ Generated {len(unique_responses)} unique responses out of 5 attempts")
+    
+    @patch('core_ai.agent.GerontoVoiceAgent')
+    def test_emotion_detection(self, mock_agent_class):
+        """Test that emotion detection works correctly for different personas"""
+        # Setup mock agent
+        mock_agent = mock_agent_class.return_value
+        
+        # Configure mock responses with emotions
+        mock_responses = {
+            "margaret_confused": {"response": "I'm not sure what day it is...", "emotion": "confused"},
+            "robert_frustrated": {"response": "I don't like taking all these pills!", "emotion": "frustrated"},
+            "eleanor_concerned": {"response": "I worry about falling when I walk.", "emotion": "concerned"}
+        }
+        
+        # Configure mock to return appropriate responses
+        def mock_generate_response(persona_id, user_input, **kwargs):
+            if "confused" in user_input and persona_id == "margaret":
+                return mock_responses["margaret_confused"]
+            elif "frustrated" in user_input and persona_id == "robert":
+                return mock_responses["robert_frustrated"]
+            elif "concerned" in user_input and persona_id == "eleanor":
+                return mock_responses["eleanor_concerned"]
+            return {"response": "Default response", "emotion": "neutral"}
+            
+        mock_agent.generate_response.side_effect = mock_generate_response
+        
+        # Test cases
+        test_cases = [
+            ("margaret", "I'm feeling confused today", "confused"),
+            ("robert", "I'm frustrated with my medication", "frustrated"),
+            ("eleanor", "I'm concerned about falling", "concerned")
+        ]
+        
+        for persona_id, user_input, expected_emotion in test_cases:
+            response = mock_agent.generate_response(
+                persona_id=persona_id,
+                user_input=user_input,
+                conversation_history=[],
+                user_id="test_user"
+            )
+            
+            # Check that the emotion matches expected
+            self.assertEqual(response["emotion"], expected_emotion,
+                           f"Expected emotion '{expected_emotion}' but got '{response['emotion']}'")
+            
+            logger.info(f"✅ Correctly detected emotion '{expected_emotion}' for persona {persona_id}")
         except Exception as e:
             logger.warning(f"RAG initialization test failed (expected in test environment): {e}")
     

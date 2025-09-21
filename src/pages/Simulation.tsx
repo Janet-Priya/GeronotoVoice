@@ -17,7 +17,8 @@ import {
 } from 'lucide-react';
 import { ConversationEntry, Persona } from '../types';
 import { simulateConversation, getPersonas } from '../services/api';
-import VoiceButton from '../components/VoiceButton';
+import EnhancedVoiceInput from '../components/EnhancedVoiceInput';
+import toast from 'react-hot-toast';
 
 interface SimulationProps {
   onNavigate: (page: string) => void;
@@ -116,6 +117,15 @@ const Simulation: React.FC<SimulationProps> = ({
       );
       
       setConversation(prev => [...prev, response]);
+      
+      // Voice output if enabled
+      if (voiceEnabled && 'speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(response.text);
+        utterance.rate = 0.8;
+        utterance.pitch = 1.1;
+        utterance.volume = 0.8;
+        window.speechSynthesis.speak(utterance);
+      }
     } catch (error) {
       console.error('Failed to get AI response:', error);
       
@@ -132,6 +142,24 @@ const Simulation: React.FC<SimulationProps> = ({
     } finally {
       setIsProcessing(false);
     }
+  };
+
+  const handleVoiceInput = async (text: string) => {
+    console.log('Voice input received:', text);
+    
+    // Add user message immediately
+    const userMessage: ConversationEntry = {
+      speaker: 'user',
+      text: text,
+      timestamp: new Date(),
+      confidence: 0.8
+    };
+    
+    setConversation(prev => [...prev, userMessage]);
+    setIsProcessing(true);
+    
+    // Get AI response
+    await handleAIResponse(text);
   };
 
   const handlePersonaChange = (personaId: string) => {
@@ -448,16 +476,13 @@ const Simulation: React.FC<SimulationProps> = ({
                 </button>
 
                 {/* Main Voice Button */}
-                <VoiceButton
-                  isListening={isListening}
+                <EnhancedVoiceInput
+                  onVoiceInput={handleVoiceInput}
                   isProcessing={isProcessing}
-                  onStartListening={handleStartListening}
-                  onStopListening={handleStopListening}
-                  onVoiceToggle={onVoiceToggle}
                   voiceEnabled={voiceEnabled}
-                  confidence={confidence}
-                  size="lg"
-                  showToggle={false}
+                  onVoiceToggle={onVoiceToggle}
+                  className=""
+                  showQualityIndicator={true}
                 />
 
                 {/* Settings Button */}

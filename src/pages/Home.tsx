@@ -432,6 +432,13 @@ const Home: React.FC<HomeProps> = ({
                       Start Training Now
                     </button>
                     <button
+                      onClick={() => onNavigate('training')}
+                      className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center"
+                    >
+                      <Brain className="h-5 w-5 mr-2" />
+                      Advanced Training
+                    </button>
+                    <button
                       onClick={() => onNavigate('community')}
                       className="border-2 border-white text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-white/10 transition-all duration-300 flex items-center justify-center"
                     >

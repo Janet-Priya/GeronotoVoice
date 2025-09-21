@@ -5,6 +5,10 @@ export interface ConversationEntry {
   timestamp: Date;
   emotion?: 'neutral' | 'empathetic' | 'concerned' | 'encouraging' | 'frustrated' | 'calm';
   confidence?: number;
+  ragInfo?: {
+    chunksUsed: number;
+    chunksRetrieved?: string[];
+  };
 }
 
 // AI Personas
@@ -28,6 +32,8 @@ export interface SkillScore {
   improvement: number;
   icon: string;
   trend: 'up' | 'down' | 'stable';
+  skill?: string;
+  progress?: number;
 }
 
 // Achievements and badges
@@ -74,6 +80,7 @@ export interface ApiResponse<T> {
   data?: T;
   error?: string;
   message?: string;
+  offline?: boolean;
 }
 
 // Voice settings
@@ -125,15 +132,18 @@ export interface CommunityPost {
 export interface CommunityMessage {
   id: string;
   author: string;
-  avatar: string;
-  content: string;
+  avatar?: string;
+  content?: string;
+  message?: string;
   timestamp: Date;
-  reactions: {
+  reactions?: {
     emoji: string;
     count: number;
     users: string[];
   }[];
   isOwnMessage?: boolean;
+  role?: string;
+  likes?: number;
 }
 
 export interface CommunityReaction {
@@ -164,4 +174,9 @@ export interface OfflineData {
   progress: UserProgress;
   settings: VoiceSettings;
   lastSync: Date;
+  pendingRequests?: {
+    endpoint: string;
+    options: RequestInit;
+    timestamp: Date;
+  }[];
 }

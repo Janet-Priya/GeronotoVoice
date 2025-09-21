@@ -371,6 +371,40 @@ class RasaDialogueManager:
         
         return "general_greeting", 0.5
     
+    def process_intent(self, user_input: str, persona_id: str) -> IntentResult:
+        """
+        Process user input to recognize intent - compatible with backend API
+        
+        Args:
+            user_input: User's speech input
+            persona_id: ID of the persona being interacted with
+            
+        Returns:
+            IntentResult with recognized intent and confidence
+        """
+        try:
+            # Use simple keyword matching for intent recognition
+            intent, confidence = self._simple_intent_matching(user_input)
+            
+            return IntentResult(
+                intent=intent,
+                confidence=confidence,
+                entities=[],
+                text=user_input,
+                timestamp=datetime.now()
+            )
+            
+        except Exception as e:
+            logger.error(f"Error processing intent: {e}")
+            # Return a default intent if processing fails
+            return IntentResult(
+                intent="general_greeting",
+                confidence=0.5,
+                entities=[],
+                text=user_input,
+                timestamp=datetime.now()
+            )
+    
     def generate_empathetic_response(self, 
                                    intent: str, 
                                    emotion_context: str = "neutral",
